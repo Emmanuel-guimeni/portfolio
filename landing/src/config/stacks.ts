@@ -1,8 +1,9 @@
 import { TOOLS, type TierId, type Tool } from './tools';
 
 /**
- * Three reference stacks. Each one lists the EXACT tool + plan rows from
- * tools.ts, so a price change in one place flows through to every total.
+ * Trois stacks de référence. Chacune liste les lignes outil + offre EXACTES de
+ * tools.ts : un changement de prix à un seul endroit se répercute sur tous les
+ * totaux.
  */
 
 export interface Stack {
@@ -11,11 +12,11 @@ export interface Stack {
   tagline: string;
   audience: string[];
   featured?: boolean;
-  /** Tool ids from tools.ts, in display order. */
+  /** Identifiants d'outils issus de tools.ts, dans l'ordre d'affichage. */
   toolIds: string[];
-  /** One-off build cost, quoted separately from software. */
+  /** Coût de mise en place ponctuel, chiffré séparément du logiciel. */
   implementationNote: string;
-  /** Suggested monthly media budget floor — media, not software. */
+  /** Budget média mensuel plancher suggéré — du média, pas du logiciel. */
   mediaBudgetNote: string;
 }
 
@@ -23,8 +24,8 @@ export const STACKS: Stack[] = [
   {
     id: 'starter',
     name: 'Starter',
-    tagline: 'Prove the system works before you pay for it.',
-    audience: ['Freelancers', 'Independent consultants', 'Small businesses', 'First automation'],
+    tagline: 'Prouvez que le système fonctionne avant de payer pour lui.',
+    audience: ['Freelances', 'Consultants indépendants', 'Petites entreprises', 'Première automatisation'],
     toolIds: [
       'chatgpt-plus',
       'make-free',
@@ -37,14 +38,14 @@ export const STACKS: Stack[] = [
       'looker-studio',
     ],
     implementationNote:
-      'One-off setup: forms, CRM pipeline, 2–3 automations, tracking plan.',
-    mediaBudgetNote: 'Ad spend is optional at this stage — organic + email first.',
+      'Mise en place ponctuelle : formulaires, pipeline CRM, 2 à 3 automatisations, plan de tracking.',
+    mediaBudgetNote: 'La publicité est optionnelle à ce stade — organique et email d’abord.',
   },
   {
     id: 'professional',
     name: 'Professional',
-    tagline: 'A real acquisition engine: content, leads, CRM, nurturing, reporting.',
-    audience: ['SMEs', 'In-house marketing teams', 'Lead generation', 'CRM + automation'],
+    tagline: 'Un vrai moteur d’acquisition : contenu, leads, CRM, nurturing, reporting.',
+    audience: ['PME', 'Équipes marketing internes', 'Génération de leads', 'CRM + automatisation'],
     featured: true,
     toolIds: [
       'chatgpt-plus',
@@ -61,14 +62,14 @@ export const STACKS: Stack[] = [
       'looker-studio',
     ],
     implementationNote:
-      'Full system build: lead capture, scoring, nurturing sequences, dashboards.',
-    mediaBudgetNote: 'Plan a separate Meta/Google media budget — never inside the software line.',
+      'Construction complète : capture de leads, scoring, séquences de nurturing, dashboards.',
+    mediaBudgetNote: 'Prévoyez un budget média Meta/Google distinct — jamais dans la ligne logiciel.',
   },
   {
     id: 'advanced',
     name: 'Advanced',
-    tagline: 'Multi-tool orchestration, governed data, agency-grade reporting.',
-    audience: ['Structured companies', 'Marketing teams', 'Multi-tool systems', 'Data & reporting'],
+    tagline: 'Orchestration multi-outils, données gouvernées, reporting niveau agence.',
+    audience: ['Entreprises structurées', 'Équipes marketing', 'Systèmes multi-outils', 'Data & reporting'],
     toolIds: [
       'chatgpt-business',
       'claude-team',
@@ -85,14 +86,14 @@ export const STACKS: Stack[] = [
       'gsc',
     ],
     implementationNote:
-      'Architecture, migration, governance, multi-workflow orchestration, training.',
-    mediaBudgetNote: 'Media budget is typically the largest line — track it on its own P&L row.',
+      'Architecture, migration, gouvernance, orchestration multi-workflows, formation.',
+    mediaBudgetNote: 'Le budget média est en général la plus grosse ligne — suivez-le sur sa propre ligne de compte de résultat.',
   },
 ];
 
 export interface StackLine {
   tool: Tool;
-  /** Monthly price in the tool's own currency, or null when not published. */
+  /** Prix mensuel dans la devise de l'outil, ou null s'il n'est pas publié. */
   monthly: number | null;
   annualMonthly: number | null;
 }

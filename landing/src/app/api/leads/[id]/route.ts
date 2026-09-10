@@ -12,11 +12,11 @@ type Ctx = { params: Promise<{ id: string }> };
 /** GET /api/leads/:id — protected. */
 export async function GET(req: Request, { params }: Ctx) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
   const { id } = await params;
   const lead = await getLead(id);
-  if (!lead) return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 });
+  if (!lead) return NextResponse.json({ ok: false, error: 'Introuvable' }, { status: 404 });
   return NextResponse.json({ ok: true, lead });
 }
 
@@ -27,7 +27,7 @@ export async function GET(req: Request, { params }: Ctx) {
  */
 export async function PATCH(req: Request, { params }: Ctx) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
 
   const { id } = await params;
@@ -35,7 +35,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
   try {
     body = (await req.json()) as Record<string, unknown>;
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Corps de requête JSON invalide.' }, { status: 400 });
   }
 
   const patch: LeadPatch = {};
@@ -44,7 +44,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     const status = clean(body.status, 20);
     if (!(LEAD_STATUSES as readonly string[]).includes(status)) {
       return NextResponse.json(
-        { ok: false, error: `status must be one of: ${LEAD_STATUSES.join(', ')}` },
+        { ok: false, error: `Le statut doit être l’un de : ${LEAD_STATUSES.join(', ')}` },
         { status: 422 },
       );
     }
@@ -61,7 +61,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     const score = Number(body.lead_score);
     if (!Number.isFinite(score) || score < 0 || score > 100) {
       return NextResponse.json(
-        { ok: false, error: 'lead_score must be a number between 0 and 100.' },
+        { ok: false, error: 'lead_score doit être un nombre entre 0 et 100.' },
         { status: 422 },
       );
     }
@@ -69,31 +69,31 @@ export async function PATCH(req: Request, { params }: Ctx) {
   }
 
   if (Object.keys(patch).length === 0) {
-    return NextResponse.json({ ok: false, error: 'No editable field supplied.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Aucun champ modifiable fourni.' }, { status: 400 });
   }
 
   try {
     const lead = await updateLead(id, patch);
-    if (!lead) return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 });
+    if (!lead) return NextResponse.json({ ok: false, error: 'Introuvable' }, { status: 404 });
     return NextResponse.json({ ok: true, lead });
   } catch (error) {
     console.error('[PATCH /api/leads/:id]', error);
-    return NextResponse.json({ ok: false, error: 'Could not update the lead.' }, { status: 500 });
+    return NextResponse.json({ ok: false, error: 'Mise à jour du lead impossible.' }, { status: 500 });
   }
 }
 
 /** DELETE /api/leads/:id — protected. */
 export async function DELETE(req: Request, { params }: Ctx) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
   const { id } = await params;
   try {
     const deleted = await deleteLead(id);
-    if (!deleted) return NextResponse.json({ ok: false, error: 'Not found' }, { status: 404 });
+    if (!deleted) return NextResponse.json({ ok: false, error: 'Introuvable' }, { status: 404 });
     return NextResponse.json({ ok: true, id });
   } catch (error) {
     console.error('[DELETE /api/leads/:id]', error);
-    return NextResponse.json({ ok: false, error: 'Could not delete the lead.' }, { status: 500 });
+    return NextResponse.json({ ok: false, error: 'Suppression du lead impossible.' }, { status: 500 });
   }
 }

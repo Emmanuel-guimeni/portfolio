@@ -81,26 +81,26 @@ export function validateLead(body: unknown): ValidationResult {
   const consent =
     raw.consent === true || raw.consent === 'true' || raw.consent === 'on';
 
-  if (first_name.length < 2) errors.first_name = 'Please enter your first name.';
-  if (last_name.length < 2) errors.last_name = 'Please enter your last name.';
+  if (first_name.length < 2) errors.first_name = 'Merci d’indiquer votre prénom.';
+  if (last_name.length < 2) errors.last_name = 'Merci d’indiquer votre nom.';
   if (!EMAIL_RE.test(email)) {
-    errors.email = 'Please enter a valid professional email address.';
+    errors.email = 'Merci d’indiquer une adresse email professionnelle valide.';
   }
   if (phone && !PHONE_RE.test(phone)) {
-    errors.phone = 'Please enter a valid phone number.';
+    errors.phone = 'Merci d’indiquer un numéro de téléphone valide.';
   }
   if (!(SERVICE_OPTIONS as readonly string[]).includes(service_requested)) {
-    errors.service_requested = 'Please select what you are looking for.';
+    errors.service_requested = 'Merci de sélectionner ce que vous recherchez.';
   }
   if (budget && !(BUDGET_OPTIONS as readonly string[]).includes(budget)) {
-    errors.budget = 'Please select a valid budget range.';
+    errors.budget = 'Merci de sélectionner une tranche de budget valide.';
   }
   if (message && message.length < 10) {
-    errors.message = 'Please give a little more detail (10 characters minimum).';
+    errors.message = 'Merci de préciser un peu plus (10 caractères minimum).';
   }
   if (!consent) {
     errors.consent =
-      'Your consent is required before I can store and use your details.';
+      'Votre consentement est requis avant que je puisse enregistrer et utiliser vos informations.';
   }
 
   if (Object.keys(errors).length > 0) return { ok: false, errors };

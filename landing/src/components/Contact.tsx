@@ -11,13 +11,13 @@ export default function Contact() {
     <section className="section section--bordered" id="contact">
       <div className="container">
         <SectionHead
-          eyebrow="Let&rsquo;s talk"
-          title="Let&rsquo;s Build Your Intelligent Marketing System"
-          intro="Tell me about your business, your challenges and what you want to automate. The more concrete you are, the more useful my first reply will be."
+          eyebrow="Parlons-en"
+          title="Construisons votre système marketing intelligent"
+          intro="Parlez-moi de votre activité, de vos difficultés et de ce que vous voulez automatiser. Plus vous serez concret, plus ma première réponse vous sera utile."
         />
 
         <div className="contact-grid">
-          {/* ── Direct contact — every button is live ──────────────────── */}
+          {/* ── Contact direct — chaque bouton est fonctionnel ─────────── */}
           <aside className="contact-aside">
             <a
               className="contact-card"
@@ -29,7 +29,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>{site.email}</b>
-                <small>Email me</small>
+                <small>M’écrire</small>
               </span>
             </a>
 
@@ -43,7 +43,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>{site.phone.display}</b>
-                <small>Call me</small>
+                <small>M’appeler</small>
               </span>
             </a>
 
@@ -59,7 +59,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>WhatsApp</b>
-                <small>Message me directly — fastest reply</small>
+                <small>Message direct — la réponse la plus rapide</small>
               </span>
             </a>
 
@@ -69,7 +69,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>{site.location.label}</b>
-                <small>Working with clients across Africa and Europe</small>
+                <small>J’accompagne des clients en Afrique et en Europe</small>
               </span>
             </div>
 
@@ -78,7 +78,7 @@ export default function Contact() {
               style={{ padding: '18px 20px', marginTop: 6 }}
             >
               <h3 style={{ fontSize: 'var(--fs-base)', marginBottom: 8 }}>
-                What happens after you submit
+                Ce qui se passe après l’envoi
               </h3>
               <ol
                 style={{
@@ -89,12 +89,12 @@ export default function Contact() {
                   counterReset: 'x',
                 }}
               >
-                <li>1 — Your data is validated server-side.</li>
-                <li>2 — The lead is written to the database.</li>
-                <li>3 — A lead score is computed and stored.</li>
-                <li>4 — You see an immediate confirmation.</li>
-                <li>5 — I am notified, with your full context.</li>
-                <li>6 — I reply personally, usually within one business day.</li>
+                <li>1 — Vos données sont validées côté serveur.</li>
+                <li>2 — Le lead est enregistré en base de données.</li>
+                <li>3 — Un score de qualification est calculé et stocké.</li>
+                <li>4 — Vous voyez une confirmation immédiate.</li>
+                <li>5 — Je suis notifié, avec tout votre contexte.</li>
+                <li>6 — Je réponds personnellement, en général sous un jour ouvré.</li>
               </ol>
             </div>
           </aside>

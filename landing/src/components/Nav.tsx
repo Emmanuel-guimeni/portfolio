@@ -16,7 +16,7 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock the page behind the mobile drawer and allow Escape to close it.
+  // Verrouille la page derrière le menu mobile et permet de fermer avec Échap.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
@@ -31,17 +31,17 @@ export default function Nav() {
   return (
     <header className={`nav${scrolled ? ' is-scrolled' : ''}`}>
       <div className="container nav__inner">
-        <a className="nav__brand" href="#top" aria-label={`${site.name} — home`}>
+        <a className="nav__brand" href="#top" aria-label={`${site.name} — accueil`}>
           <span className="nav__mark" aria-hidden="true">
             {site.initials}
           </span>
           <span>
             <span className="nav__name">{site.shortName}</span>
-            <span className="nav__role">Digital Marketing &amp; AI Automation</span>
+            <span className="nav__role">Marketing Digital &amp; Automatisation IA</span>
           </span>
         </a>
 
-        <nav className="nav__links" aria-label="Main">
+        <nav className="nav__links" aria-label="Navigation principale">
           {primaryNav.map((item) => (
             <a key={item.href} href={item.href}>
               {item.label}
@@ -53,16 +53,16 @@ export default function Nav() {
           <a
             className="btn btn--primary btn--sm nav__cta"
             href="#contact"
-            onClick={() => track('cta_click', { location: 'nav', label: 'Request an Audit' })}
+            onClick={() => track('cta_click', { location: 'nav', label: 'Demander un audit' })}
           >
-            Request an Audit
+            Demander un audit
           </a>
           <button
             type="button"
             className="nav__burger"
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <IconClose /> : <IconMenu />}
@@ -71,7 +71,7 @@ export default function Nav() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="nav__drawer" aria-label="Mobile">
+        <nav id="mobile-nav" className="nav__drawer" aria-label="Navigation mobile">
           {primaryNav.map((item) => (
             <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
               {item.label}
@@ -82,10 +82,10 @@ export default function Nav() {
             href="#contact"
             onClick={() => {
               setOpen(false);
-              track('cta_click', { location: 'nav-mobile', label: 'Request an Audit' });
+              track('cta_click', { location: 'nav-mobile', label: 'Demander un audit' });
             }}
           >
-            Request an Audit
+            Demander un audit
           </a>
         </nav>
       )}

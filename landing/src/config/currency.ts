@@ -1,13 +1,15 @@
 /**
- * Currencies & FX.
+ * Devises et taux de change.
  *
- * Every price in `tools.ts` is stored ONCE, in its official billing currency.
- * All other currencies are DERIVED with the rates below, never hard-coded, so
- * updating a rate updates every figure on the page at once.
+ * Chaque prix de `tools.ts` est stocké UNE SEULE FOIS, dans sa devise de
+ * facturation officielle. Toutes les autres devises sont DÉRIVÉES des taux
+ * ci-dessous, jamais codées en dur : mettre un taux à jour met à jour tous les
+ * montants de la page d'un coup.
  *
- * XAF = Central African CFA franc (CEMAC zone). Not to be confused with XOF
- * (West African CFA franc). Both are pegged to the euro, but they are distinct
- * currencies issued by different central banks (BEAC vs BCEAO).
+ * XAF = franc CFA d'Afrique centrale (zone CEMAC). À ne pas confondre avec le
+ * XOF (franc CFA d'Afrique de l'Ouest). Les deux sont arrimés à l'euro, mais ce
+ * sont deux devises distinctes émises par des banques centrales différentes
+ * (BEAC et BCEAO).
  */
 
 export const CURRENCIES = ['USD', 'EUR', 'MAD', 'XAF'] as const;
@@ -17,12 +19,12 @@ export const CURRENCY_META: Record<
   Currency,
   { code: Currency; name: string; symbol: string; locale: string; decimals: number }
 > = {
-  USD: { code: 'USD', name: 'US Dollar', symbol: '$', locale: 'en-US', decimals: 2 },
+  USD: { code: 'USD', name: 'Dollar américain', symbol: '$', locale: 'en-US', decimals: 2 },
   EUR: { code: 'EUR', name: 'Euro', symbol: '€', locale: 'fr-FR', decimals: 2 },
-  MAD: { code: 'MAD', name: 'Moroccan Dirham', symbol: 'DH', locale: 'fr-MA', decimals: 0 },
+  MAD: { code: 'MAD', name: 'Dirham marocain', symbol: 'DH', locale: 'fr-MA', decimals: 0 },
   XAF: {
     code: 'XAF',
-    name: 'Central African CFA Franc (CEMAC)',
+    name: 'Franc CFA d’Afrique centrale (CEMAC)',
     symbol: 'FCFA',
     locale: 'fr-CM',
     decimals: 0,
@@ -30,12 +32,12 @@ export const CURRENCY_META: Record<
 };
 
 /**
- * Rates expressed as: 1 USD = N <currency>.
- * ⚠️ These are INDICATIVE and must be refreshed. The FX panel on the pricing
- * section lets any visitor override them live in the browser.
+ * Taux exprimés ainsi : 1 USD = N <devise>.
+ * ⚠️ Ils sont INDICATIFS et doivent être rafraîchis. Le panneau de taux de la
+ * section tarifs permet à n'importe quel visiteur de les modifier en direct.
  *
- * EUR→XAF is a fixed statutory peg: 1 EUR = 655.957 XAF. The USD→XAF default
- * below is therefore derived from the USD→EUR rate (0.86 × 655.957 ≈ 564.1).
+ * EUR→XAF est une parité fixe réglementaire : 1 EUR = 655,957 XAF. Le taux
+ * USD→XAF par défaut en découle (0,86 × 655,957 ≈ 564,1).
  */
 export const FX_DEFAULT: Record<Currency, number> = {
   USD: 1,
@@ -45,14 +47,14 @@ export const FX_DEFAULT: Record<Currency, number> = {
 };
 
 export const FX_META = {
-  /** Date the default rates above were last set. */
+  /** Date de la dernière mise à jour des taux par défaut ci-dessus. */
   date: '2026-09-09',
-  source: 'Indicative mid-market rates — refresh before quoting a client',
+  source: 'Taux interbancaires indicatifs — à rafraîchir avant tout chiffrage client',
   sourceUrl: 'https://www.xe.com/currencyconverter/',
-  pegNote: '1 EUR = 655.957 XAF (fixed CEMAC peg)',
+  pegNote: '1 EUR = 655,957 XAF (parité fixe CEMAC)',
 } as const;
 
-/** Fixed statutory peg between the euro and the Central African CFA franc. */
+/** Parité fixe réglementaire entre l'euro et le franc CFA d'Afrique centrale. */
 export const EUR_XAF_PEG = 655.957;
 
 export function convert(
@@ -79,7 +81,7 @@ export function formatMoney(
     notation: opts.compact && amount >= 100000 ? 'compact' : 'standard',
   }).format(amount);
 
-  // Symbol before for USD/EUR, after for MAD/XAF — matches local convention.
+  // Symbole avant pour USD/EUR, après pour MAD/XAF — convention locale.
   return currency === 'USD' || currency === 'EUR'
     ? `${meta.symbol}${value}`
     : `${value} ${meta.symbol}`;

@@ -22,12 +22,12 @@ const EMPTY = {
   message: '',
 };
 
-/** A short, honest country list — Emmanuel's main markets first, then "Other". */
+/** Liste de pays courte et honnête — marchés principaux d'abord, puis « Autre ». */
 const COUNTRIES = [
-  'Morocco', 'Cameroon', 'Congo', 'Gabon', 'Chad',
-  'Central African Republic', 'Equatorial Guinea', 'Ivory Coast', 'Senegal',
-  'France', 'Belgium', 'Switzerland', 'Canada', 'United States',
-  'United Kingdom', 'Other',
+  'Maroc', 'Cameroun', 'Congo', 'Gabon', 'Tchad',
+  'République centrafricaine', 'Guinée équatoriale', "Côte d'Ivoire", 'Sénégal',
+  'France', 'Belgique', 'Suisse', 'Canada', 'États-Unis',
+  'Royaume-Uni', 'Autre',
 ];
 
 export default function LeadForm() {
@@ -43,7 +43,7 @@ export default function LeadForm() {
     loadedAtRef.current = Date.now();
   }, []);
 
-  // "Request this service" on a service card pre-selects the right option.
+  // « Demander ce service » sur une carte présélectionne la bonne option.
   useEffect(() => {
     const onSelect = (e: Event) => {
       const value = (e as CustomEvent<string>).detail;
@@ -70,17 +70,17 @@ export default function LeadForm() {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: '' } : prev));
   };
 
-  /** Mirrors src/lib/validation.ts. The server is still the authority. */
+  /** Miroir de src/lib/validation.ts. Le serveur reste l'autorité. */
   function validate(): Record<string, string> {
     const next: Record<string, string> = {};
-    if (values.first_name.trim().length < 2) next.first_name = 'Please enter your first name.';
-    if (values.last_name.trim().length < 2) next.last_name = 'Please enter your last name.';
+    if (values.first_name.trim().length < 2) next.first_name = 'Merci d’indiquer votre prénom.';
+    if (values.last_name.trim().length < 2) next.last_name = 'Merci d’indiquer votre nom.';
     if (!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(values.email.trim())) {
-      next.email = 'Please enter a valid email address.';
+      next.email = 'Merci d’indiquer une adresse email valide.';
     }
-    if (!values.service_requested) next.service_requested = 'Please tell me what you are looking for.';
+    if (!values.service_requested) next.service_requested = 'Merci d’indiquer ce que vous recherchez.';
     const consent = formRef.current?.querySelector<HTMLInputElement>('#consent');
-    if (!consent?.checked) next.consent = 'Your consent is required.';
+    if (!consent?.checked) next.consent = 'Votre consentement est obligatoire.';
     return next;
   }
 
@@ -127,12 +127,12 @@ export default function LeadForm() {
       if (!res.ok || !data.ok) {
         setStatus('error');
         setErrors(data.errors ?? {});
-        setFeedback(data.error ?? 'Something went wrong. Please try again.');
+        setFeedback(data.error ?? 'Une erreur est survenue. Merci de réessayer.');
         return;
       }
 
       setStatus('success');
-      setFeedback(data.message ?? 'Thank you — your request has been received.');
+      setFeedback(data.message ?? 'Merci — votre demande a bien été reçue.');
       track('form_submit', { form: 'lead', service: values.service_requested });
       track(
         values.service_requested.includes('Audit') ? 'audit_request' : 'consulting_request',
@@ -143,7 +143,7 @@ export default function LeadForm() {
     } catch {
       setStatus('error');
       setFeedback(
-        'Network error. Please check your connection, or email me at christguimeni@gmail.com.',
+        'Erreur réseau. Vérifiez votre connexion, ou écrivez-moi à christguimeni@gmail.com.',
       );
     }
   }
@@ -156,9 +156,9 @@ export default function LeadForm() {
         <div className="form__status form__status--ok">
           <IconCheck size={20} />
           <span>
-            <b>Request received.</b>
-            {feedback} I read every submission personally and normally reply within one
-            business day. If it is urgent, WhatsApp is the fastest route.
+            <b>Demande reçue.</b>
+            {feedback} Je lis personnellement chaque demande et je réponds en général sous
+            un jour ouvré. Si c’est urgent, WhatsApp est le canal le plus rapide.
           </span>
         </div>
         <button
@@ -169,7 +169,7 @@ export default function LeadForm() {
             setFeedback('');
           }}
         >
-          Send another request
+          Envoyer une autre demande
         </button>
       </div>
     );
@@ -177,9 +177,9 @@ export default function LeadForm() {
 
   return (
     <form className="form" ref={formRef} onSubmit={onSubmit} noValidate>
-      {/* Honeypot — hidden from humans, irresistible to naive bots */}
+      {/* Pot de miel — invisible aux humains, irrésistible aux bots naïfs */}
       <div className="hp" aria-hidden="true">
-        <label htmlFor={HONEYPOT_FIELD}>Leave this field empty</label>
+        <label htmlFor={HONEYPOT_FIELD}>Laissez ce champ vide</label>
         <input
           id={HONEYPOT_FIELD}
           name={HONEYPOT_FIELD}
@@ -190,7 +190,7 @@ export default function LeadForm() {
       </div>
 
       <div className="form__row">
-        <Field id="first_name" label="First name" required error={errors.first_name}>
+        <Field id="first_name" label="Prénom" required error={errors.first_name}>
           <input
             id="first_name"
             name="first_name"
@@ -204,7 +204,7 @@ export default function LeadForm() {
           />
         </Field>
 
-        <Field id="last_name" label="Last name" required error={errors.last_name}>
+        <Field id="last_name" label="Nom" required error={errors.last_name}>
           <input
             id="last_name"
             name="last_name"
@@ -222,10 +222,10 @@ export default function LeadForm() {
       <div className="form__row">
         <Field
           id="email"
-          label="Professional email"
+          label="Email professionnel"
           required
           error={errors.email}
-          hint="A company domain scores higher than a free mailbox."
+          hint="Un domaine d’entreprise obtient un meilleur score qu’une boîte gratuite."
         >
           <input
             id="email"
@@ -241,7 +241,7 @@ export default function LeadForm() {
           />
         </Field>
 
-        <Field id="phone" label="Phone / WhatsApp" error={errors.phone}>
+        <Field id="phone" label="Téléphone / WhatsApp" error={errors.phone}>
           <input
             id="phone"
             name="phone"
@@ -257,9 +257,9 @@ export default function LeadForm() {
       </div>
 
       <div className="form__row">
-        <Field id="country" label="Country" error={errors.country}>
+        <Field id="country" label="Pays" error={errors.country}>
           <select id="country" name="country" value={values.country} onChange={set('country')}>
-            <option value="">Select a country</option>
+            <option value="">Choisir un pays</option>
             {COUNTRIES.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -268,7 +268,7 @@ export default function LeadForm() {
           </select>
         </Field>
 
-        <Field id="company" label="Company" error={errors.company}>
+        <Field id="company" label="Entreprise" error={errors.company}>
           <input
             id="company"
             name="company"
@@ -276,11 +276,11 @@ export default function LeadForm() {
             autoComplete="organization"
             value={values.company}
             onChange={set('company')}
-            placeholder="Company name"
+            placeholder="Nom de l’entreprise"
           />
         </Field>
 
-        <Field id="job_title" label="Job title" error={errors.job_title}>
+        <Field id="job_title" label="Fonction" error={errors.job_title}>
           <input
             id="job_title"
             name="job_title"
@@ -288,7 +288,7 @@ export default function LeadForm() {
             autoComplete="organization-title"
             value={values.job_title}
             onChange={set('job_title')}
-            placeholder="Marketing Manager"
+            placeholder="Responsable marketing"
           />
         </Field>
       </div>
@@ -296,7 +296,7 @@ export default function LeadForm() {
       <div className="form__row">
         <Field
           id="service_requested"
-          label="What are you looking for?"
+          label="Que recherchez-vous ?"
           required
           error={errors.service_requested}
         >
@@ -308,7 +308,7 @@ export default function LeadForm() {
             aria-invalid={Boolean(errors.service_requested)}
             required
           >
-            <option value="">Select a service</option>
+            <option value="">Choisir un service</option>
             {SERVICE_OPTIONS.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -319,7 +319,7 @@ export default function LeadForm() {
 
         <Field id="budget" label="Budget" error={errors.budget}>
           <select id="budget" name="budget" value={values.budget} onChange={set('budget')}>
-            <option value="">Select a range</option>
+            <option value="">Choisir une tranche</option>
             {BUDGET_OPTIONS.map((b) => (
               <option key={b} value={b}>
                 {b}
@@ -331,9 +331,9 @@ export default function LeadForm() {
 
       <Field
         id="message"
-        label="Tell me about your project or challenge"
+        label="Parlez-moi de votre projet ou de votre problème"
         error={errors.message}
-        hint="What you are trying to automate, what is slowing you down, what you have already tried."
+        hint="Ce que vous cherchez à automatiser, ce qui vous ralentit, ce que vous avez déjà essayé."
       >
         <textarea
           id="message"
@@ -341,7 +341,7 @@ export default function LeadForm() {
           value={values.message}
           onChange={set('message')}
           aria-invalid={Boolean(errors.message)}
-          placeholder="We publish content manually, our leads land in a spreadsheet and nobody follows up. We would like…"
+          placeholder="Nous publions notre contenu à la main, nos leads finissent dans un tableur et personne ne relance. Nous aimerions…"
           rows={5}
         />
       </Field>
@@ -351,15 +351,16 @@ export default function LeadForm() {
           className="cf-turnstile"
           data-sitekey={siteKey}
           data-theme="dark"
-          aria-label="Anti-spam verification"
+          aria-label="Vérification anti-spam"
         />
       )}
 
       <div className="consent">
         <input id="consent" name="consent" type="checkbox" required />
         <label htmlFor="consent">
-          I agree that my information may be used to contact me regarding my request.{' '}
-          <a href="/privacy">Privacy Policy</a>
+          J’accepte que mes informations soient utilisées pour me recontacter au sujet de
+          ma demande.{' '}
+          <a href="/privacy">Politique de confidentialité</a>
         </label>
       </div>
       {errors.consent && <p className="field__error">{errors.consent}</p>}
@@ -368,7 +369,7 @@ export default function LeadForm() {
         <div className="form__status form__status--err" role="alert">
           <IconAlert size={20} />
           <span>
-            <b>Your request was not sent.</b>
+            <b>Votre demande n’a pas été envoyée.</b>
             {feedback}
           </span>
         </div>
@@ -382,19 +383,19 @@ export default function LeadForm() {
         {status === 'submitting' ? (
           <>
             <span className="spinner" aria-hidden="true" />
-            Sending…
+            Envoi en cours…
           </>
         ) : (
           <>
-            Request My Consultation
+            Demander ma consultation
             <IconArrowRight size={17} />
           </>
         )}
       </button>
 
       <p className="field__hint" style={{ textAlign: 'center' }}>
-        Validated, stored, scored and notified automatically — the exact lead pipeline
-        described further up this page.
+        Validée, enregistrée, scorée et notifiée automatiquement — exactement le pipeline
+        de leads décrit plus haut sur cette page.
       </p>
     </form>
   );
@@ -424,7 +425,7 @@ function Field({
             *
           </span>
         )}
-        {required && <span className="sr-only"> (required)</span>}
+        {required && <span className="sr-only"> (obligatoire)</span>}
       </label>
       {children}
       {hint && !error && <span className="field__hint">{hint}</span>}

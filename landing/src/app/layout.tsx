@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: SEO.title,
     description: SEO.description,
-    locale: 'en_US',
+    locale: 'fr_FR',
     images: [
       {
         url: SEO.ogImage,
@@ -74,12 +74,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         {/*
-          Fonts are loaded at runtime rather than bundled, so the build never
-          depends on an external network call. The system stack in tokens.css
-          renders immediately while they arrive.
+          Les polices sont chargées à l'exécution plutôt qu'empaquetées : le build
+          ne dépend donc jamais d'un appel réseau externe. La pile système définie
+          dans tokens.css s'affiche immédiatement en attendant.
         */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -89,7 +89,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          // Static, developer-authored JSON built from config — no user input.
+          // JSON statique écrit par le développeur depuis la config — aucune entrée utilisateur.
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData([...FAQS])),
           }}
@@ -97,7 +97,7 @@ export default function RootLayout({
       </head>
       <body>
         <a className="skip-link" href="#main">
-          Skip to main content
+          Aller au contenu principal
         </a>
         {children}
         <Reveal />

@@ -20,12 +20,12 @@ import { SectionHead } from './Sections';
 type Billing = 'monthly' | 'annual';
 
 const MODEL_LABEL: Record<PricingModel, { text: string; cls: string }> = {
-  free: { text: 'Free', cls: 'pill--free' },
-  flat: { text: 'Flat', cls: 'pill--flat' },
-  'per-user': { text: 'Per user', cls: 'pill--seat' },
-  usage: { text: 'Usage-based', cls: 'pill--usage' },
-  'contact-sales': { text: 'Contact sales', cls: 'pill--sales' },
-  'media-spend': { text: 'Media spend', cls: 'pill--media' },
+  free: { text: 'Gratuit', cls: 'pill--free' },
+  flat: { text: 'Forfait', cls: 'pill--flat' },
+  'per-user': { text: 'Par utilisateur', cls: 'pill--seat' },
+  usage: { text: 'À la consommation', cls: 'pill--usage' },
+  'contact-sales': { text: 'Sur devis', cls: 'pill--sales' },
+  'media-spend': { text: 'Budget média', cls: 'pill--media' },
 };
 
 export default function Pricing() {
@@ -34,14 +34,14 @@ export default function Pricing() {
   const [fx, setFx] = useState<Record<Currency, number>>({ ...FX_DEFAULT });
   const [fxOpen, setFxOpen] = useState(false);
 
-  /** Extra TCO lines the visitor controls — all in the DISPLAY currency. */
+  /** Lignes de TCO pilotées par le visiteur — toutes dans la devise AFFICHÉE. */
   const [apiBudget, setApiBudget] = useState(30);
   const [mediaBudget, setMediaBudget] = useState(500);
   const [implementation, setImplementation] = useState(0);
   const [maintenance, setMaintenance] = useState(0);
   const [tcoStack, setTcoStack] = useState('professional');
 
-  /** Convert a price expressed in `from` into the selected display currency. */
+  /** Convertit un prix exprimé en `from` vers la devise d'affichage choisie. */
   const show = useMemo(
     () =>
       (amount: number | null, from: Currency = 'USD'): string =>
@@ -96,15 +96,15 @@ export default function Pricing() {
     <section className="section section--panel" id="pricing">
       <div className="container container--wide">
         <SectionHead
-          eyebrow="Pricing &amp; real cost"
-          title="How much does an AI-powered marketing system actually cost?"
-          intro="Real, sourced, official prices — converted live into USD, EUR, MAD and XAF. Change the currency, change the billing cycle, or override the exchange rates yourself."
+          eyebrow="Tarifs &amp; coût réel"
+          title="Combien coûte réellement un système marketing piloté par l’IA ?"
+          intro="Des prix officiels, réels et sourcés — convertis en direct en USD, EUR, MAD et XAF. Changez de devise, de cycle de facturation, ou modifiez vous-même les taux de change."
           center
         />
 
-        {/* ── Toolbar: currency + billing ───────────────────────────────── */}
+        {/* ── Barre d'outils : devise + facturation ─────────────────────── */}
         <div className="pricing-toolbar">
-          <div className="seg" role="group" aria-label="Display currency">
+          <div className="seg" role="group" aria-label="Devise d’affichage">
             {CURRENCIES.map((code) => (
               <button
                 key={code}
@@ -121,25 +121,25 @@ export default function Pricing() {
             ))}
           </div>
 
-          <div className="seg" role="group" aria-label="Billing cycle">
+          <div className="seg" role="group" aria-label="Cycle de facturation">
             <button
               type="button"
               aria-pressed={billing === 'monthly'}
               onClick={() => setBilling('monthly')}
             >
-              Monthly
+              Mensuel
             </button>
             <button
               type="button"
               aria-pressed={billing === 'annual'}
               onClick={() => setBilling('annual')}
             >
-              Annual
+              Annuel
             </button>
           </div>
         </div>
 
-        {/* ── FX panel ──────────────────────────────────────────────────── */}
+        {/* ── Panneau des taux de change ────────────────────────────────── */}
         <div className="fx-panel">
           <button
             type="button"
@@ -148,12 +148,12 @@ export default function Pricing() {
             onClick={() => setFxOpen((v) => !v)}
           >
             <span>
-              <b>Exchange rates</b>
+              <b>Taux de change</b>
               <small>
-                Base USD · updated {FX_META.date} · {FX_META.source} · {FX_META.pegNote}
+                Base USD · mis à jour le {FX_META.date} · {FX_META.source} · {FX_META.pegNote}
               </small>
             </span>
-            <span className="tag">{fxOpen ? 'Hide rates' : 'Edit rates'}</span>
+            <span className="tag">{fxOpen ? 'Masquer les taux' : 'Modifier les taux'}</span>
           </button>
 
           {fxOpen && (
@@ -180,20 +180,20 @@ export default function Pricing() {
                 </div>
               ))}
               <p className="fx-note">
-                Every figure on this page is computed from these rates — nothing is
-                hard-coded. XAF is the Central African CFA franc (CEMAC zone), pegged at
-                1&nbsp;EUR&nbsp;=&nbsp;{EUR_XAF_PEG}&nbsp;XAF; it is a different currency
-                from XOF (West Africa). Source:{' '}
+                Tous les montants de cette page sont calculés à partir de ces taux — rien
+                n’est codé en dur. Le XAF est le franc CFA d’Afrique centrale (zone CEMAC),
+                arrimé à 1&nbsp;EUR&nbsp;=&nbsp;{EUR_XAF_PEG}&nbsp;XAF ; c’est une devise
+                différente du XOF (Afrique de l’Ouest). Source&nbsp;:{' '}
                 <a href={FX_META.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  live mid-market rates
+                  taux interbancaires en direct
                 </a>
-                . Re-check before quoting a client.
+                . À revérifier avant tout chiffrage client.
               </p>
             </div>
           )}
         </div>
 
-        {/* ── Three stacks ──────────────────────────────────────────────── */}
+        {/* ── Les trois stacks ──────────────────────────────────────────── */}
         <div className="grid grid--3" style={{ alignItems: 'stretch' }}>
           {STACKS.map((stack) => {
             const lines = stackLines(stack);
@@ -205,7 +205,7 @@ export default function Pricing() {
                 className={`tier${stack.featured ? ' tier--featured' : ''}`}
                 key={stack.id}
               >
-                {stack.featured && <span className="tier__flag">Most common</span>}
+                {stack.featured && <span className="tier__flag">Le plus courant</span>}
 
                 <div>
                   <span className="tier__name">{stack.name}</span>
@@ -217,18 +217,18 @@ export default function Pricing() {
                 <div>
                   <div className="tier__price">
                     {formatMoney(perMonth, currency)}
-                    <small>/ month</small>
+                    <small>/ mois</small>
                   </div>
                   <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 6 }}>
                     {billing === 'annual'
-                      ? `Billed annually — ${formatMoney(t.annualTotal, currency)}/year${
+                      ? `Facturé annuellement — ${formatMoney(t.annualTotal, currency)}/an${
                           t.savings > 0.5
-                            ? `, saving ${formatMoney(t.savings, currency)}`
-                            : ' — no annual discount on these plans'
+                            ? `, soit ${formatMoney(t.savings, currency)} d’économie`
+                            : ' — pas de remise annuelle sur ces offres'
                         }`
-                      : `${formatMoney(t.monthly * 12, currency)}/year at the monthly rate`}
+                      : `${formatMoney(t.monthly * 12, currency)}/an au tarif mensuel`}
                     {t.unpriced > 0
-                      ? ` · +${t.unpriced} usage-based or media line${t.unpriced > 1 ? 's' : ''} on top`
+                      ? ` · +${t.unpriced} ligne${t.unpriced > 1 ? 's' : ''} à la consommation ou média en sus`
                       : ''}
                   </p>
                 </div>
@@ -236,7 +236,7 @@ export default function Pricing() {
                 <div className="tier__alt">
                   {CURRENCIES.filter((c) => c !== currency).map((c) => (
                     <span key={c}>
-                      {c} {formatMoney(convert(perMonth, currency, c, fx), c)} / month
+                      {c} {formatMoney(convert(perMonth, currency, c, fx), c)} / mois
                     </span>
                   ))}
                 </div>
@@ -271,11 +271,11 @@ export default function Pricing() {
 
                 <div className="tier__totals">
                   <div>
-                    <span>Monthly cost</span>
+                    <span>Coût mensuel</span>
                     <b>{formatMoney(perMonth, currency)}</b>
                   </div>
                   <div>
-                    <span>Annual cost</span>
+                    <span>Coût annuel</span>
                     <b>
                       {formatMoney(
                         billing === 'monthly' ? t.monthly * 12 : t.annualTotal,
@@ -287,7 +287,7 @@ export default function Pricing() {
 
                 <p className="muted" style={{ fontSize: 'var(--fs-xs)' }}>
                   <strong style={{ color: 'var(--text-secondary)' }}>
-                    Not included:
+                    Non inclus :
                   </strong>{' '}
                   {stack.implementationNote} {stack.mediaBudgetNote}
                 </p>
@@ -299,7 +299,7 @@ export default function Pricing() {
                     track('cta_click', { location: 'pricing', label: stack.name })
                   }
                 >
-                  Build this stack with me
+                  Construire cette stack avec moi
                   <IconArrowRight size={16} />
                 </a>
               </article>
@@ -307,15 +307,16 @@ export default function Pricing() {
           })}
         </div>
 
-        {/* ── Total Cost of Ownership simulator ─────────────────────────── */}
+        {/* ── Simulateur de coût total de possession ────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '0.6rem' }}>
-            Total Cost of Ownership
+            Coût total de possession (TCO)
           </h3>
           <p className="lede" style={{ marginBottom: '1.75rem', maxWidth: '68ch' }}>
-            A software line alone is not a budget. Eight cost types make up the real
-            number — and the four most often forgotten are API usage, advertising media,
-            implementation and maintenance. Adjust them below.
+            Une ligne logiciel ne fait pas un budget. Huit postes de coût composent le
+            chiffre réel — et les quatre les plus souvent oubliés sont la consommation API,
+            le budget publicitaire, la mise en place et la maintenance. Ajustez-les
+            ci-dessous.
           </p>
 
           <div className="cost-types" style={{ marginBottom: '1.75rem' }}>
@@ -331,7 +332,7 @@ export default function Pricing() {
             <div className="fx-panel">
               <div className="fx-panel__body" style={{ borderTop: 'none', paddingTop: 18 }}>
                 <div className="fx-field" style={{ gridColumn: '1 / -1' }}>
-                  <label htmlFor="tco-stack">Reference stack</label>
+                  <label htmlFor="tco-stack">Stack de référence</label>
                   <select
                     id="tco-stack"
                     value={tcoStack}
@@ -352,10 +353,10 @@ export default function Pricing() {
                   </select>
                 </div>
                 {[
-                  { id: 'api', label: `API / usage (${currency}/mo)`, value: apiBudget, set: setApiBudget },
-                  { id: 'media', label: `Advertising media (${currency}/mo)`, value: mediaBudget, set: setMediaBudget },
-                  { id: 'impl', label: `Implementation (${currency}, one-off)`, value: implementation, set: setImplementation },
-                  { id: 'maint', label: `Maintenance (${currency}/mo)`, value: maintenance, set: setMaintenance },
+                  { id: 'api', label: `API / consommation (${currency}/mois)`, value: apiBudget, set: setApiBudget },
+                  { id: 'media', label: `Budget média (${currency}/mois)`, value: mediaBudget, set: setMediaBudget },
+                  { id: 'impl', label: `Mise en place (${currency}, ponctuel)`, value: implementation, set: setImplementation },
+                  { id: 'maint', label: `Maintenance (${currency}/mois)`, value: maintenance, set: setMaintenance },
                 ].map((f) => (
                   <div className="fx-field" key={f.id}>
                     <label htmlFor={`tco-${f.id}`}>{f.label}</label>
@@ -374,19 +375,19 @@ export default function Pricing() {
 
             <div className="tco">
               <div className="tco__row">
-                <span>Software + AI subscriptions ({billing})</span>
+                <span>Logiciels + abonnements IA ({billing === 'monthly' ? 'mensuel' : 'annuel'})</span>
                 <b>{formatMoney(softwareMonthly, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>API / usage cost</span>
+                <span>Coût API / consommation</span>
                 <b>{formatMoney(apiBudget, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Advertising media spend</span>
+                <span>Budget média publicitaire</span>
                 <b>{formatMoney(mediaBudget, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Implementation (spread over 12 months)</span>
+                <span>Mise en place (lissée sur 12 mois)</span>
                 <b>{formatMoney(implementation / 12, currency)}</b>
               </div>
               <div className="tco__row">
@@ -394,32 +395,32 @@ export default function Pricing() {
                 <b>{formatMoney(maintenance, currency)}</b>
               </div>
               <div className="tco__row tco__row--total">
-                <span>Total per month</span>
+                <span>Total par mois</span>
                 <b>{formatMoney(tcoMonthly, currency)}</b>
               </div>
               <div className="tco__row tco__row--total">
-                <span>Total year one</span>
+                <span>Total première année</span>
                 <b>{formatMoney(tcoMonthly * 12, currency)}</b>
               </div>
               <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 6 }}>
                 {CURRENCIES.filter((c) => c !== currency)
-                  .map((c) => `${c} ${formatMoney(convert(tcoMonthly, currency, c, fx), c)}/mo`)
+                  .map((c) => `${c} ${formatMoney(convert(tcoMonthly, currency, c, fx), c)}/mois`)
                   .join('  ·  ')}
               </p>
             </div>
           </div>
         </div>
 
-        {/* ── Anti tool-bloat ───────────────────────────────────────────── */}
+        {/* ── Contre l'accumulation d'outils ───────────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <div className="transition-bar" style={{ marginTop: 0, marginBottom: '1.75rem' }}>
-            <b>You don&rsquo;t need every tool. You need the right system.</b>
+            <b>Vous n’avez pas besoin de tous les outils. Vous avez besoin du bon système.</b>
           </div>
           <p className="lede" style={{ marginBottom: '1.75rem', maxWidth: '68ch' }}>
-            Minimum necessary stack → maximum operational efficiency. Below is the
-            redundancy score: how much each pair of tools overlaps, and what can safely be
-            collapsed. Every removed tool is one less subscription, one less integration
-            and one less thing that breaks at 2am.
+            Stack minimale nécessaire → efficacité opérationnelle maximale. Ci-dessous, le
+            score de redondance : à quel point chaque paire d’outils se recouvre, et ce qui
+            peut être fusionné sans risque. Chaque outil supprimé, c’est un abonnement en
+            moins, une intégration en moins, et une chose de moins qui casse à 2h du matin.
           </p>
 
           <div className="redundancy">
@@ -438,43 +439,44 @@ export default function Pricing() {
                   <p style={{ marginTop: 7 }}>{r.verdict}</p>
                 </div>
                 <span className="num" style={{ fontWeight: 700 }}>
-                  {r.score}% overlap
+                  {r.score}% de recouvrement
                 </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── Full tool pricing table ───────────────────────────────────── */}
+        {/* ── Tableau tarifaire complet ─────────────────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '0.6rem' }}>
-            Every tool, every plan, four currencies
+            Chaque outil, chaque offre, quatre devises
           </h3>
           <p className="lede" style={{ marginBottom: '1.5rem', maxWidth: '68ch' }}>
-            Prices are the vendor&rsquo;s official published rates in their own billing
-            currency; the other three columns are converted with the rates above. Where a
-            price is not published, the row says so rather than guessing.
+            Les prix sont les tarifs officiels publiés par l’éditeur, dans sa propre devise
+            de facturation ; les trois autres colonnes sont converties avec les taux
+            ci-dessus. Lorsqu’un prix n’est pas publié, la ligne le dit plutôt que de
+            deviner.
           </p>
 
           <div className="table-wrap">
             <table className="price-table">
               <caption className="sr-only">
-                Official pricing for every tool in the stack, with monthly and annual
-                billing in USD, EUR, MAD and XAF.
+                Tarifs officiels de chaque outil de la stack, en facturation mensuelle et
+                annuelle, en USD, EUR, MAD et XAF.
               </caption>
               <thead>
                 <tr>
-                  <th scope="col">Tool</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Plan</th>
-                  <th scope="col">Model</th>
-                  <th scope="col" className="num">Monthly</th>
-                  <th scope="col" className="num">Annual / mo</th>
-                  <th scope="col" className="num">Annual total</th>
-                  <th scope="col" className="num">Saving / yr</th>
-                  <th scope="col">Users</th>
-                  <th scope="col">Limits &amp; variable cost</th>
-                  <th scope="col">Verified</th>
+                  <th scope="col">Outil</th>
+                  <th scope="col">Catégorie</th>
+                  <th scope="col">Offre</th>
+                  <th scope="col">Modèle</th>
+                  <th scope="col" className="num">Mensuel</th>
+                  <th scope="col" className="num">Annuel / mois</th>
+                  <th scope="col" className="num">Total annuel</th>
+                  <th scope="col" className="num">Économie / an</th>
+                  <th scope="col">Utilisateurs</th>
+                  <th scope="col">Limites &amp; coûts variables</th>
+                  <th scope="col">Vérifié le</th>
                 </tr>
               </thead>
               <tbody>
@@ -493,7 +495,7 @@ export default function Pricing() {
                         {tool.name}
                         <small>{tool.functionality}</small>
                         <a href={tool.source} target="_blank" rel="noopener noreferrer">
-                          Official pricing ↗
+                          Tarif officiel ↗
                         </a>
                       </th>
                       <td>{tool.category}</td>
@@ -504,14 +506,14 @@ export default function Pricing() {
                           <>
                             <br />
                             <span className="pill pill--sales" style={{ marginTop: 5 }}>
-                              Verify
+                              À vérifier
                             </span>
                           </>
                         )}
                       </td>
                       <td className="num">
                         {tool.monthly === null ? (
-                          <span className="muted">Not published</span>
+                          <span className="muted">Non publié</span>
                         ) : (
                           show(tool.monthly, tool.currency)
                         )}
@@ -537,7 +539,7 @@ export default function Pricing() {
                       <td style={{ minWidth: 260, color: 'var(--text-muted)' }}>
                         {tool.limits}
                         {tool.variableCost ? ` · ${tool.variableCost}` : ''}
-                        {tool.apiCost ? ` · API: ${tool.apiCost}` : ''}
+                        {tool.apiCost ? ` · API : ${tool.apiCost}` : ''}
                         {tool.extraCost ? ` · ${tool.extraCost}` : ''}
                         {tool.note ? ` · ${tool.note}` : ''}
                       </td>
@@ -551,10 +553,11 @@ export default function Pricing() {
 
           <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 14 }}>
             <IconCheck size={13} style={{ display: 'inline', verticalAlign: '-2px' }} />{' '}
-            Original billing currency is USD for every row above; MAD, EUR and XAF are
-            conversions. Rows tagged <em>Verify</em> vary by region, contact volume or
-            negotiation — always confirm on the vendor&rsquo;s own pricing page before
-            quoting. Vendors change prices without notice.
+            La devise de facturation d’origine est le USD pour toutes les lignes ci-dessus ;
+            MAD, EUR et XAF sont des conversions. Les lignes marquées <em>À vérifier</em>
+            varient selon la région, le volume de contacts ou la négociation — confirmez
+            toujours sur la page tarifaire de l’éditeur avant de chiffrer. Les éditeurs
+            changent leurs prix sans préavis.
           </p>
         </div>
       </div>

@@ -24,7 +24,7 @@ export function Faq() {
       <div className="container">
         <SectionHead
           eyebrow="FAQ"
-          title="Questions I get asked before every project"
+          title="Les questions qu’on me pose avant chaque projet"
           center
         />
         <div className="faq">
@@ -44,7 +44,7 @@ export function Faq() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   21 · FINAL CTA
+   21 · CTA FINAL
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export function FinalCta() {
@@ -53,10 +53,10 @@ export function FinalCta() {
       <div className="container">
         <div className="cta-banner">
           <div>
-            <h2>Ready to Build a Smarter Marketing System?</h2>
+            <h2>Prêt à construire un système marketing plus intelligent ?</h2>
             <p>
-              Let&rsquo;s identify what can be automated, what should remain human, and
-              where AI can create the most value.
+              Identifions ensemble ce qui peut être automatisé, ce qui doit rester humain,
+              et là où l’IA crée le plus de valeur.
             </p>
             <div className="cta-banner__contacts">
               <a
@@ -80,20 +80,20 @@ export function FinalCta() {
               className="btn btn--primary btn--lg btn--block"
               href="#contact"
               onClick={() =>
-                track('cta_click', { location: 'final-cta', label: 'Request an Audit' })
+                track('cta_click', { location: 'final-cta', label: 'Demander un audit' })
               }
             >
-              Request an Audit
+              Demander un audit
               <IconArrowRight size={17} />
             </a>
             <a
               className="btn btn--ghost btn--lg btn--block"
               href="#contact"
               onClick={() =>
-                track('cta_click', { location: 'final-cta', label: 'Book a Consultation' })
+                track('cta_click', { location: 'final-cta', label: 'Réserver une consultation' })
               }
             >
-              Book a Consultation
+              Réserver une consultation
             </a>
             <a
               className="btn btn--ghost btn--lg btn--block"
@@ -113,7 +113,7 @@ export function FinalCta() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   22 · FOOTER
+   22 · PIED DE PAGE
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export function Footer() {
@@ -154,8 +154,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Navigate</h4>
-            <nav className="footer__links" aria-label="Footer">
+            <h4>Navigation</h4>
+            <nav className="footer__links" aria-label="Pied de page">
               {footerNav.slice(0, 5).map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
@@ -165,14 +165,14 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Legal</h4>
-            <nav className="footer__links" aria-label="Legal">
+            <h4>Mentions légales</h4>
+            <nav className="footer__links" aria-label="Mentions légales">
               {footerNav.slice(5).map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
                 </a>
               ))}
-              <a href="/admin">Lead dashboard</a>
+              <a href="/admin">Tableau de bord des leads</a>
             </nav>
           </div>
 
@@ -224,7 +224,7 @@ export function Footer() {
 
         <div className="footer__bottom">
           <span>
-            © {new Date().getFullYear()} {site.name}. All rights reserved.
+            © {new Date().getFullYear()} {site.name}. Tous droits réservés.
           </span>
           <span>{site.signature.join(' ')}</span>
         </div>

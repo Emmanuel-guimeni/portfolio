@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: 'Too many requests. Please try again in a few minutes.',
+        error: 'Trop de demandes. Merci de réessayer dans quelques minutes.',
       },
       { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } },
     );
@@ -48,19 +48,19 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as Record<string, unknown>;
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Corps de requête JSON invalide.' }, { status: 400 });
   }
 
   // ── 1. Anti-spam ────────────────────────────────────────────────────────
   const honeypot = checkHoneypot(body);
   const timing = checkTiming(body);
   if (honeypot.spam || timing.spam) {
-    // Answer 200 so bots cannot use the response to tune themselves.
+    // On répond 200 pour que les bots ne puissent pas se calibrer sur la réponse.
     return NextResponse.json({ ok: true, id: null, discarded: true });
   }
   if (!(await verifyTurnstile(body.turnstile_token, ip))) {
     return NextResponse.json(
-      { ok: false, error: 'Anti-spam verification failed. Please reload the page.' },
+      { ok: false, error: 'La vérification anti-spam a échoué. Merci de recharger la page.' },
       { status: 400 },
     );
   }
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
   const validation = validateLead(body);
   if (!validation.ok || !validation.data) {
     return NextResponse.json(
-      { ok: false, error: 'Please check the highlighted fields.', errors: validation.errors },
+      { ok: false, error: 'Merci de vérifier les champs signalés.', errors: validation.errors },
       { status: 422 },
     );
   }
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
         duplicate: true,
         score: duplicate.lead_score,
         temperature: temperature(duplicate.lead_score),
-        message: 'Your request has already been received. I will come back to you shortly.',
+        message: 'Votre demande a déjà été reçue. Je reviens vers vous très vite.',
       });
     }
 
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
         temperature: temperature(lead.lead_score),
         storage: storageMode(),
         notifications: notified,
-        message: 'Thank you — your request has been received.',
+        message: 'Merci — votre demande a bien été reçue.',
       },
       { status: 201 },
     );
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
       {
         ok: false,
         error:
-          'Your request could not be saved. Please email me directly at christguimeni@gmail.com.',
+          'Votre demande n’a pas pu être enregistrée. Écrivez-moi directement à christguimeni@gmail.com.',
       },
       { status: 500 },
     );
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
  */
 export async function GET(req: Request) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
 
   const url = new URL(req.url);
@@ -150,6 +150,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ ok: true, count: leads.length, storage: storageMode(), leads });
   } catch (error) {
     console.error('[GET /api/leads]', error);
-    return NextResponse.json({ ok: false, error: 'Could not read leads.' }, { status: 500 });
+    return NextResponse.json({ ok: false, error: 'Lecture des leads impossible.' }, { status: 500 });
   }
 }

@@ -5,7 +5,7 @@ import AdminLogin from './AdminLogin';
 import Dashboard from './Dashboard';
 
 export const metadata: Metadata = {
-  title: 'Lead dashboard',
+  title: 'Tableau de bord des leads',
   robots: { index: false, follow: false, nocache: true },
 };
 
@@ -22,14 +22,14 @@ export default async function AdminPage() {
     return (
       <div className="login-wrap">
         <div className="login-card">
-          <h1 style={{ fontSize: 'var(--fs-xl)' }}>Dashboard not configured</h1>
+          <h1 style={{ fontSize: 'var(--fs-xl)' }}>Tableau de bord non configuré</h1>
           <p className="muted">
-            Set <code className="mono">ADMIN_PASSWORD</code> and{' '}
-            <code className="mono">ADMIN_SESSION_SECRET</code> in your environment, then
-            reload. See README §4.
+            Renseignez <code className="mono">ADMIN_PASSWORD</code> et{' '}
+            <code className="mono">ADMIN_SESSION_SECRET</code> dans votre environnement,
+            puis rechargez. Voir le README §5.
           </p>
           <a className="btn btn--ghost" href="/">
-            ← Back to the site
+            ← Retour au site
           </a>
         </div>
       </div>

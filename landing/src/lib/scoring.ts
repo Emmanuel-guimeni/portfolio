@@ -5,15 +5,16 @@ import { temperature } from './leads';
  * ─────────────────────────────────────────────────────────────────────────────
  *  LEAD SCORING
  * ─────────────────────────────────────────────────────────────────────────────
- *  Deliberately transparent and easy to tune: every rule is a row in the table
- *  below. Change a weight here and the API, the dashboard and the stored score
- *  all follow. Re-score existing leads at any time with POST /api/score.
+ *  Volontairement transparent et facile à ajuster : chaque règle est une ligne
+ *  du tableau ci-dessous. Modifiez un poids ici et l'API, le tableau de bord et
+ *  le score stocké suivent. Recalculez les leads existants à tout moment avec
+ *  POST /api/score.
  *
- *  Bands:  0–30 Cold  ·  31–60 Warm  ·  61+ Hot
+ *  Paliers :  0–30 Froid  ·  31–60 Tiède  ·  61+ Chaud
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-/** Free / consumer mailbox domains — a lead on one of these is not "professional". */
+/** Messageries grand public — un lead sur l'une d'elles n'est pas « professionnel ». */
 const FREE_EMAIL_DOMAINS = new Set([
   'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.fr', 'ymail.com',
   'hotmail.com', 'hotmail.fr', 'outlook.com', 'outlook.fr', 'live.com',
@@ -23,37 +24,38 @@ const FREE_EMAIL_DOMAINS = new Set([
   'wanadoo.fr', 'sfr.fr', 'menara.ma',
 ]);
 
-/** Budget bands, mapped to the points they contribute. */
+/** Tranches de budget et points correspondants (clés = BUDGET_OPTIONS). */
 const BUDGET_POINTS: Record<string, number> = {
-  'Less than €500': 0,
-  '€500–€1,000': 5,
-  '€1,000–€3,000': 10,
-  '€3,000–€5,000': 15,
-  '€5,000+': 20,
-  'Not defined yet': 0,
+  'Moins de 500 €': 0,
+  '500 € – 1 000 €': 5,
+  '1 000 € – 3 000 €': 10,
+  '3 000 € – 5 000 €': 15,
+  '5 000 € et plus': 20,
+  'Pas encore défini': 0,
 };
 
-/** Services that signal an audit request. */
+/** Services qui signalent une demande d'audit (clés = SERVICE_OPTIONS). */
 const AUDIT_SERVICES = [
-  'Digital Marketing Audit',
-  'AI Marketing Audit',
-  'Marketing Automation Audit',
+  'Audit Marketing Digital',
+  'Audit Marketing IA',
+  'Audit Marketing Automation',
 ];
 
-/** Services that signal a consulting engagement. */
+/** Services qui signalent une mission de conseil (clés = SERVICE_OPTIONS). */
 const CONSULTING_SERVICES = [
-  'AI Automation Consulting',
-  'CRM Consulting',
-  'SEO Consulting',
-  'Digital Marketing Strategy',
+  'Conseil Automatisation IA',
+  'Conseil CRM',
+  'Conseil SEO',
+  'Stratégie Marketing Digital',
   'Data & Analytics',
 ];
 
-/** Words in the free-text message that indicate a genuine automation project. */
+/** Mots du message libre qui indiquent un vrai projet d'automatisation. */
 const AUTOMATION_KEYWORDS = [
   'automat', 'automatis', 'workflow', 'crm', 'lead', 'scoring', 'nurtur',
   'integration', 'intégration', 'api', 'zapier', 'make', 'n8n', 'hubspot',
-  'pipeline', 'système', 'system', 'ia ', ' ai ', 'agent', 'chatbot',
+  'pipeline', 'système', 'systeme', 'system', 'ia ', ' ai ', 'agent',
+  'chatbot', 'tunnel', 'prospection', 'relance', 'segmentation',
 ];
 
 export interface ScoreRule {
@@ -61,63 +63,63 @@ export interface ScoreRule {
   label: string;
   points: number;
   applies: (lead: LeadInput) => boolean;
-  /** Rules with a dynamic value (e.g. budget) override `points`. */
+  /** Les règles à valeur dynamique (ex. le budget) écrasent `points`. */
   value?: (lead: LeadInput) => number;
 }
 
 export const SCORE_RULES: ScoreRule[] = [
   {
     id: 'professional_email',
-    label: 'Professional email domain',
+    label: 'Email professionnel',
     points: 10,
     applies: (l) => isProfessionalEmail(l.email),
   },
   {
     id: 'company',
-    label: 'Company provided',
+    label: 'Entreprise renseignée',
     points: 10,
     applies: (l) => nonEmpty(l.company),
   },
   {
     id: 'phone',
-    label: 'Phone / WhatsApp provided',
+    label: 'Téléphone / WhatsApp renseigné',
     points: 10,
     applies: (l) => nonEmpty(l.phone),
   },
   {
     id: 'budget',
-    label: 'Declared budget',
+    label: 'Budget déclaré',
     points: 20,
     applies: (l) => (BUDGET_POINTS[l.budget ?? ''] ?? 0) > 0,
     value: (l) => BUDGET_POINTS[l.budget ?? ''] ?? 0,
   },
   {
     id: 'audit_request',
-    label: 'Audit requested',
+    label: 'Demande d’audit',
     points: 10,
     applies: (l) => AUDIT_SERVICES.includes(l.service_requested),
   },
   {
     id: 'consulting_request',
-    label: 'Consulting requested',
+    label: 'Demande de conseil',
     points: 15,
     applies: (l) => CONSULTING_SERVICES.includes(l.service_requested),
   },
   {
     id: 'automation_project',
-    label: 'Automation project described in the message',
+    label: 'Projet d’automatisation décrit dans le message',
     points: 20,
     applies: (l) => hasAutomationIntent(l.message),
   },
   {
     id: 'detailed_message',
-    label: 'Detailed message (120+ characters)',
+    label: 'Message détaillé (120 caractères ou plus)',
     points: 5,
     applies: (l) => (l.message?.trim().length ?? 0) >= 120,
   },
   {
     id: 'job_title',
-    label: 'Job title provided',
+    label: 'Fonction renseignée',
     points: 5,
     applies: (l) => nonEmpty(l.job_title),
   },
@@ -141,7 +143,7 @@ export function scoreLead(lead: LeadInput): ScoreBreakdown {
     matched.push({ id: rule.id, label: rule.label, points });
   }
 
-  // Clamp so a future rule change can never produce a nonsensical band.
+  // Borné, pour qu'un futur changement de règle ne produise jamais un palier absurde.
   score = Math.max(0, Math.min(100, score));
   return { score, temperature: temperature(score), matched };
 }

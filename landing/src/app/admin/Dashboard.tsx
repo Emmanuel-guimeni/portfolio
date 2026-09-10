@@ -5,17 +5,19 @@ import { useRouter } from 'next/navigation';
 import {
   LEAD_STATUSES,
   SERVICE_OPTIONS,
+  STATUS_LABELS,
   temperature,
+  temperatureClass,
   type Lead,
   type LeadStatus,
 } from '@/lib/leads';
 
 /**
- * Lead Management Dashboard.
+ * Tableau de bord de gestion des leads.
  *
- * KPIs · filters (date, service, country, status, score, source) · inline status
- * editing · CSV export. Every mutation goes through the protected API routes,
- * never directly to the database from the browser.
+ * KPI · filtres (date, service, pays, statut, score, source) · édition du statut
+ * en ligne · export CSV. Toute modification passe par les routes API protégées,
+ * jamais directement de la base au navigateur.
  */
 
 const EMPTY_FILTERS = {
@@ -79,13 +81,13 @@ export default function Dashboard({
     return {
       total: filtered.length,
       fresh: filtered.filter((l) => l.status === 'New').length,
-      warm: filtered.filter((l) => t(l) === 'Warm').length,
-      hot: filtered.filter((l) => t(l) === 'Hot').length,
+      warm: filtered.filter((l) => t(l) === 'Tiède').length,
+      hot: filtered.filter((l) => t(l) === 'Chaud').length,
       audits: filtered.filter((l) => l.service_requested.includes('Audit')).length,
       consulting: filtered.filter(
         (l) =>
-          l.service_requested.includes('Consulting') ||
-          l.service_requested.includes('Strategy') ||
+          l.service_requested.includes('Conseil') ||
+          l.service_requested.includes('Stratégie') ||
           l.service_requested.includes('Analytics'),
       ).length,
       conversion: filtered.length ? Math.round((won / filtered.length) * 100) : 0,
@@ -122,7 +124,7 @@ export default function Dashboard({
   }
 
   async function remove(id: string) {
-    if (!window.confirm('Delete this lead permanently? This cannot be undone.')) return;
+    if (!window.confirm('Supprimer définitivement ce lead ? Cette action est irréversible.')) return;
     setBusyId(id);
     try {
       const res = await fetch(`/api/leads/${id}`, { method: 'DELETE' });
@@ -140,7 +142,7 @@ export default function Dashboard({
     });
     const data = (await res.json()) as { ok: boolean; updated?: number };
     if (data.ok) {
-      window.alert(`${data.updated ?? 0} lead(s) re-scored.`);
+      window.alert(`${data.updated ?? 0} lead(s) re-scoré(s).`);
       router.refresh();
     }
   }
@@ -158,27 +160,27 @@ export default function Dashboard({
     <div className="container container--wide admin">
       <header className="admin__head">
         <div>
-          <h1 style={{ fontSize: 'var(--fs-2xl)' }}>Lead Management Dashboard</h1>
+          <h1 style={{ fontSize: 'var(--fs-2xl)' }}>Tableau de bord des leads</h1>
           <p className="muted" style={{ fontSize: 'var(--fs-sm)' }}>
-            Storage:{' '}
+            Stockage :{' '}
             <strong style={{ color: storage === 'supabase' ? '#6ee7b7' : '#fcd34d' }}>
-              {storage === 'supabase' ? 'Supabase / PostgreSQL' : 'local JSONL file (dev only)'}
+              {storage === 'supabase' ? 'Supabase / PostgreSQL' : 'fichier JSONL local (dev uniquement)'}
             </strong>{' '}
-            · {leads.length} lead(s) loaded
+            · {leads.length} lead(s) chargé(s)
           </p>
         </div>
         <div className="btn-row">
           <a className="btn btn--ghost btn--sm" href={exportUrl}>
-            Export CSV
+            Exporter en CSV
           </a>
           <button type="button" className="btn btn--ghost btn--sm" onClick={recalculate}>
-            Re-score all
+            Tout re-scorer
           </button>
           <button type="button" className="btn btn--ghost btn--sm" onClick={logout}>
-            Sign out
+            Se déconnecter
           </button>
           <a className="btn btn--quiet btn--sm" href="/">
-            View site
+            Voir le site
           </a>
         </div>
       </header>
@@ -186,12 +188,12 @@ export default function Dashboard({
       <div className="kpi-grid">
         {[
           { label: 'Total leads', value: kpi.total },
-          { label: 'New', value: kpi.fresh },
-          { label: 'Warm', value: kpi.warm },
-          { label: 'Hot', value: kpi.hot },
-          { label: 'Audit requests', value: kpi.audits },
-          { label: 'Consulting requests', value: kpi.consulting },
-          { label: 'Conversion rate', value: `${kpi.conversion}%` },
+          { label: 'Nouveaux', value: kpi.fresh },
+          { label: 'Tièdes', value: kpi.warm },
+          { label: 'Chauds', value: kpi.hot },
+          { label: 'Demandes d’audit', value: kpi.audits },
+          { label: 'Demandes de conseil', value: kpi.consulting },
+          { label: 'Taux de conversion', value: `${kpi.conversion}%` },
         ].map((item) => (
           <div className="kpi" key={item.label}>
             <b>{item.value}</b>
@@ -201,7 +203,7 @@ export default function Dashboard({
       </div>
 
       <div className="filters">
-        <Filter label="From" id="from">
+        <Filter label="Du" id="from">
           <input
             id="from"
             type="date"
@@ -209,7 +211,7 @@ export default function Dashboard({
             onChange={(e) => setFilters((f) => ({ ...f, from: e.target.value }))}
           />
         </Filter>
-        <Filter label="To" id="to">
+        <Filter label="Au" id="to">
           <input
             id="to"
             type="date"
@@ -223,7 +225,7 @@ export default function Dashboard({
             value={filters.service}
             onChange={(e) => setFilters((f) => ({ ...f, service: e.target.value }))}
           >
-            <option value="">All</option>
+            <option value="">Tous</option>
             {SERVICE_OPTIONS.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -231,30 +233,30 @@ export default function Dashboard({
             ))}
           </select>
         </Filter>
-        <Filter label="Status" id="status">
+        <Filter label="Statut" id="status">
           <select
             id="status"
             value={filters.status}
             onChange={(e) => setFilters((f) => ({ ...f, status: e.target.value }))}
           >
-            <option value="">All</option>
+            <option value="">Tous</option>
             {LEAD_STATUSES.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {STATUS_LABELS[s]}
               </option>
             ))}
           </select>
         </Filter>
-        <Filter label="Country" id="country">
+        <Filter label="Pays" id="country">
           <input
             id="country"
             type="text"
-            placeholder="Morocco"
+            placeholder="Maroc"
             value={filters.country}
             onChange={(e) => setFilters((f) => ({ ...f, country: e.target.value }))}
           />
         </Filter>
-        <Filter label="Min score" id="minScore">
+        <Filter label="Score min." id="minScore">
           <input
             id="minScore"
             type="number"
@@ -270,7 +272,7 @@ export default function Dashboard({
             value={filters.source}
             onChange={(e) => setFilters((f) => ({ ...f, source: e.target.value }))}
           >
-            <option value="">All</option>
+            <option value="">Tous</option>
             {sources.map(([s]) => (
               <option key={s} value={s}>
                 {s}
@@ -278,11 +280,11 @@ export default function Dashboard({
             ))}
           </select>
         </Filter>
-        <Filter label="Search" id="search">
+        <Filter label="Recherche" id="search">
           <input
             id="search"
             type="search"
-            placeholder="Name, email, company…"
+            placeholder="Nom, email, entreprise…"
             value={filters.search}
             onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
           />
@@ -291,23 +293,23 @@ export default function Dashboard({
 
       {sources.length > 0 && (
         <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginBottom: 16 }}>
-          <strong>Lead sources:</strong>{' '}
+          <strong>Sources des leads :</strong>{' '}
           {sources.map(([s, n]) => `${s} (${n})`).join(' · ')}
         </p>
       )}
 
       <div className="table-wrap">
         <table className="lead-table">
-          <caption className="sr-only">Recent leads</caption>
+          <caption className="sr-only">Leads récents</caption>
           <thead>
             <tr>
-              <th scope="col">Received</th>
+              <th scope="col">Reçu le</th>
               <th scope="col">Lead</th>
-              <th scope="col">Company</th>
+              <th scope="col">Entreprise</th>
               <th scope="col">Service</th>
               <th scope="col">Budget</th>
               <th scope="col">Score</th>
-              <th scope="col">Status</th>
+              <th scope="col">Statut</th>
               <th scope="col">Source</th>
               <th scope="col">Actions</th>
             </tr>
@@ -316,7 +318,7 @@ export default function Dashboard({
             {filtered.length === 0 && (
               <tr>
                 <td colSpan={9} style={{ textAlign: 'center', padding: 32 }} className="muted">
-                  No lead matches these filters.
+                  Aucun lead ne correspond à ces filtres.
                 </td>
               </tr>
             )}
@@ -390,7 +392,7 @@ export default function Dashboard({
                   </td>
                   <td>{lead.budget ?? '—'}</td>
                   <td>
-                    <span className={`score score--${temp.toLowerCase()}`}>
+                    <span className={`score score--${temperatureClass(lead.lead_score)}`}>
                       {lead.lead_score}
                     </span>
                     <br />
@@ -400,7 +402,7 @@ export default function Dashboard({
                   </td>
                   <td>
                     <select
-                      aria-label={`Status for ${lead.first_name} ${lead.last_name}`}
+                      aria-label={`Statut de ${lead.first_name} ${lead.last_name}`}
                       value={lead.status}
                       disabled={busyId === lead.id}
                       onChange={(e) => changeStatus(lead.id, e.target.value as LeadStatus)}
@@ -415,7 +417,7 @@ export default function Dashboard({
                     >
                       {LEAD_STATUSES.map((s) => (
                         <option key={s} value={s}>
-                          {s}
+                          {STATUS_LABELS[s]}
                         </option>
                       ))}
                     </select>
@@ -437,7 +439,7 @@ export default function Dashboard({
                       disabled={busyId === lead.id}
                       onClick={() => remove(lead.id)}
                     >
-                      Delete
+                      Supprimer
                     </button>
                   </td>
                 </tr>

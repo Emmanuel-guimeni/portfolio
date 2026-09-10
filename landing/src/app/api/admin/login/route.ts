@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       {
         ok: false,
         error:
-          'Admin access is not configured. Set ADMIN_PASSWORD and ADMIN_SESSION_SECRET.',
+          'L’accès administrateur n’est pas configuré. Renseignez ADMIN_PASSWORD et ADMIN_SESSION_SECRET.',
       },
       { status: 503 },
     );
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   const limited = rateLimit(`login:${clientIp(req.headers)}`, 8, 15 * 60 * 1000);
   if (!limited.allowed) {
     return NextResponse.json(
-      { ok: false, error: 'Too many attempts. Try again later.' },
+      { ok: false, error: 'Trop de tentatives. Réessayez plus tard.' },
       { status: 429, headers: { 'Retry-After': String(limited.retryAfterSeconds) } },
     );
   }
@@ -37,11 +37,11 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as { password?: string };
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Corps de requête JSON invalide.' }, { status: 400 });
   }
 
   if (!body.password || !verifyPassword(body.password)) {
-    return NextResponse.json({ ok: false, error: 'Incorrect password.' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Mot de passe incorrect.' }, { status: 401 });
   }
 
   const res = NextResponse.json({ ok: true });

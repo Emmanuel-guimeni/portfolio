@@ -3,31 +3,32 @@ import { ICONS, type IconKey } from './Icons';
 import { SectionHead } from './Sections';
 
 /**
- * Technology stack, grouped by category. Built from tools.ts so a tool added to
- * the pricing table automatically appears here — the two can never disagree.
+ * Stack technologique, groupée par catégorie. Construite depuis tools.ts : un
+ * outil ajouté au tableau tarifaire apparaît ici automatiquement — les deux ne
+ * peuvent jamais diverger.
  */
 
 const CATEGORY_ICON: Record<string, IconKey> = {
-  AI: 'ai',
-  Automation: 'automation',
+  IA: 'ai',
+  Automatisation: 'automation',
   CRM: 'crm',
   Email: 'content',
-  'Social Media': 'megaphone',
+  'Réseaux sociaux': 'megaphone',
   Design: 'creative',
-  Advertising: 'performance',
+  Publicité: 'performance',
   SEO: 'seo',
   Analytics: 'analytics',
   Infrastructure: 'database',
 };
 
 const ORDER = [
-  'AI',
-  'Automation',
+  'IA',
+  'Automatisation',
   'CRM',
   'Email',
-  'Social Media',
+  'Réseaux sociaux',
   'Design',
-  'Advertising',
+  'Publicité',
   'SEO',
   'Analytics',
   'Infrastructure',
@@ -36,7 +37,7 @@ const ORDER = [
 export default function TechStack() {
   const grouped = ORDER.map((category) => ({
     category,
-    // One entry per product name — plans are shown in the pricing table instead.
+    // Une entrée par produit — les offres sont détaillées dans le tableau tarifaire.
     tools: Array.from(
       new Set(TOOLS.filter((t) => t.category === category).map((t) => t.name)),
     ),
@@ -46,9 +47,9 @@ export default function TechStack() {
     <section className="section section--bordered" id="stack">
       <div className="container">
         <SectionHead
-          eyebrow="Technology stack"
-          title="The tools I actually work with"
-          intro="No tool is here because it is fashionable. Each one earns its place by doing a job nothing else in the stack already does."
+          eyebrow="Stack technologique"
+          title="Les outils avec lesquels je travaille vraiment"
+          intro="Aucun outil n’est ici par effet de mode. Chacun gagne sa place en faisant un travail qu’aucun autre de la stack ne fait déjà."
           center
         />
 

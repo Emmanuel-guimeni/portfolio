@@ -4,12 +4,12 @@ import Nav from '@/components/Nav';
 import { links, site } from '@/config/site';
 
 export const metadata: Metadata = {
-  title: 'Terms',
+  title: 'Conditions d’utilisation',
   description:
-    'Terms of use for the website of Mr GUEHEDI Emmanuel, Digital Marketing & AI Automation Specialist.',
+    'Conditions d’utilisation du site de Mr GUEHEDI Emmanuel, spécialiste marketing digital et automatisation IA.',
 };
 
-const UPDATED = '9 September 2026';
+const UPDATED = '10 septembre 2026';
 
 export default function TermsPage() {
   return (
@@ -17,81 +17,83 @@ export default function TermsPage() {
       <Nav />
       <main id="main" className="section" style={{ paddingTop: 'calc(var(--nav-h) + 4rem)' }}>
         <div className="container prose">
-          <h1>Terms of Use</h1>
-          <p className="muted">Last updated: {UPDATED}</p>
+          <h1>Conditions d’utilisation</h1>
+          <p className="muted">Dernière mise à jour : {UPDATED}</p>
 
-          <h2>1. Site owner</h2>
+          <h2>1. Éditeur du site</h2>
           <p>
-            This site is published by {site.name}, {site.role}, {site.location.label}.
-            Contact: <a href={links.mailto}>{site.email}</a> ·{' '}
+            Ce site est édité par {site.name}, {site.role}, {site.location.label}.
+            Contact : <a href={links.mailto}>{site.email}</a> ·{' '}
             <a href={links.tel}>{site.phone.display}</a>.
           </p>
 
-          <h2>2. Purpose of the site</h2>
+          <h2>2. Objet du site</h2>
           <p>
-            This site presents my professional expertise and services, and lets you
-            request an audit or a consultation. Submitting the form does not create a
-            contract; it opens a conversation. Any engagement is governed by a separate
-            written proposal.
+            Ce site présente mon expertise professionnelle et mes services, et vous permet
+            de demander un audit ou une consultation. L’envoi du formulaire ne crée aucun
+            contrat : il ouvre une conversation. Toute mission est encadrée par une
+            proposition écrite distincte.
           </p>
 
-          <h2>3. Pricing information</h2>
+          <h2>3. Informations tarifaires</h2>
           <p>
-            The pricing section lists third-party software prices published by their
-            respective vendors, together with the date each figure was checked and a link
-            to the vendor&rsquo;s own pricing page. These vendors change their prices
-            without notice, prices vary by region, contact volume, seat count and
-            negotiation, and currency conversions use indicative exchange rates that you
-            can override on the page.
+            La section tarifs répertorie les prix de logiciels tiers publiés par leurs
+            éditeurs respectifs, accompagnés de la date de vérification de chaque montant
+            et d’un lien vers la page tarifaire officielle correspondante. Ces éditeurs
+            modifient leurs prix sans préavis, les tarifs varient selon la région, le
+            volume de contacts, le nombre de sièges et la négociation, et les conversions
+            de devises utilisent des taux indicatifs que vous pouvez modifier sur la page.
           </p>
           <p>
-            Those figures are provided for orientation only. They are not an offer, not a
-            quotation, and not a guarantee of the price you will be charged by any
-            vendor. Always confirm on the vendor&rsquo;s official pricing page before
-            making a purchasing decision. Trademarks and product names belong to their
-            respective owners; their mention here does not imply any partnership or
-            endorsement.
-          </p>
-
-          <h2>4. Intellectual property</h2>
-          <p>
-            The structure, text, visual identity, diagrams and frameworks presented on
-            this site are my work and are protected. You may quote them with attribution;
-            you may not reproduce the site or substantial parts of it for commercial
-            purposes without written permission.
+            Ces chiffres sont fournis à titre d’orientation uniquement. Ils ne constituent
+            ni une offre, ni un devis, ni une garantie du prix qui vous sera facturé par
+            un éditeur. Confirmez toujours sur la page tarifaire officielle de l’éditeur
+            avant toute décision d’achat. Les marques et noms de produits appartiennent à
+            leurs détenteurs respectifs ; leur mention ici n’implique aucun partenariat ni
+            aucune approbation.
           </p>
 
-          <h2>5. Liability</h2>
+          <h2>4. Propriété intellectuelle</h2>
           <p>
-            The content of this site is provided for information. I take care to keep it
-            accurate and up to date, but I give no warranty that it is complete or
-            error-free, and I cannot be held liable for decisions taken on the basis of
-            it alone. Recommendations made during a paid engagement are governed by that
-            engagement&rsquo;s own terms.
+            La structure, les textes, l’identité visuelle, les schémas et les cadres
+            méthodologiques présentés sur ce site sont mon travail et sont protégés. Vous
+            pouvez les citer avec attribution ; vous ne pouvez pas reproduire le site ou
+            des parties substantielles de celui-ci à des fins commerciales sans
+            autorisation écrite.
           </p>
 
-          <h2>6. External links</h2>
+          <h2>5. Responsabilité</h2>
           <p>
-            This site links to third-party websites, chiefly vendor pricing pages. I have
-            no control over their content and accept no responsibility for it.
+            Le contenu de ce site est fourni à titre informatif. Je m’efforce de le
+            maintenir exact et à jour, mais je ne garantis ni son exhaustivité ni son
+            absence d’erreur, et je ne saurais être tenu responsable des décisions prises
+            sur cette seule base. Les recommandations formulées dans le cadre d’une
+            mission rémunérée sont régies par les conditions propres à cette mission.
           </p>
 
-          <h2>7. Personal data</h2>
+          <h2>6. Liens externes</h2>
           <p>
-            The handling of personal data is described in the{' '}
-            <a href="/privacy">Privacy Policy</a>.
+            Ce site renvoie vers des sites tiers, principalement des pages tarifaires
+            d’éditeurs. Je n’ai aucun contrôle sur leur contenu et n’en assume aucune
+            responsabilité.
           </p>
 
-          <h2>8. Applicable law</h2>
+          <h2>7. Données personnelles</h2>
           <p>
-            These terms are governed by Moroccan law. Any dispute will be submitted to
-            the competent courts of Casablanca, unless a mandatory provision provides
-            otherwise.
+            Le traitement des données personnelles est décrit dans la{' '}
+            <a href="/privacy">politique de confidentialité</a>.
+          </p>
+
+          <h2>8. Droit applicable</h2>
+          <p>
+            Les présentes conditions sont régies par le droit marocain. Tout litige sera
+            porté devant les tribunaux compétents de Casablanca, sauf disposition
+            impérative contraire.
           </p>
 
           <p style={{ marginTop: '2.5rem' }}>
             <a className="btn btn--ghost" href="/">
-              ← Back to the site
+              ← Retour au site
             </a>
           </p>
         </div>

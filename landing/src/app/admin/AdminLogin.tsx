@@ -22,12 +22,12 @@ export default function AdminLogin() {
       });
       const data = (await res.json()) as { ok: boolean; error?: string };
       if (!data.ok) {
-        setError(data.error ?? 'Login failed.');
+        setError(data.error ?? 'Échec de la connexion.');
         return;
       }
       router.refresh();
     } catch {
-      setError('Network error. Please try again.');
+      setError('Erreur réseau. Merci de réessayer.');
     } finally {
       setBusy(false);
     }
@@ -41,13 +41,13 @@ export default function AdminLogin() {
             {site.initials}
           </span>
           <span>
-            <span className="nav__name">Lead dashboard</span>
+            <span className="nav__name">Tableau de bord</span>
             <span className="nav__role">{site.shortName}</span>
           </span>
         </div>
 
         <div className="field">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Mot de passe</label>
           <input
             id="password"
             type="password"
@@ -65,11 +65,11 @@ export default function AdminLogin() {
         </div>
 
         <button type="submit" className="btn btn--primary btn--block" disabled={busy}>
-          {busy ? 'Signing in…' : 'Sign in'}
+          {busy ? 'Connexion…' : 'Se connecter'}
         </button>
 
         <a className="btn btn--quiet" href="/" style={{ justifySelf: 'center' }}>
-          ← Back to the site
+          ← Retour au site
         </a>
       </form>
     </div>

@@ -43,7 +43,7 @@ export function SectionHead({
   );
 }
 
-/** Horizontal pipeline used by every automation section. */
+/** Pipeline horizontal utilisé par toutes les sections d'automatisation. */
 export function Flow({ steps }: { steps: FlowStep[] }) {
   return (
     <>
@@ -61,13 +61,13 @@ export function Flow({ steps }: { steps: FlowStep[] }) {
       </ol>
       <p className="flow-legend">
         <span>
-          <i style={{ background: 'rgba(99,102,241,.35)' }} /> AI does the work
+          <i style={{ background: 'rgba(99,102,241,.35)' }} /> L’IA fait le travail
         </span>
         <span>
-          <i style={{ background: 'rgba(251,191,36,.35)' }} /> Human decision
+          <i style={{ background: 'rgba(251,191,36,.35)' }} /> Décision humaine
         </span>
         <span>
-          <i style={{ background: 'rgba(52,211,153,.35)' }} /> Output &amp; data
+          <i style={{ background: 'rgba(52,211,153,.35)' }} /> Résultat &amp; données
         </span>
       </p>
     </>
@@ -83,15 +83,15 @@ export function Problem() {
     <section className="section section--bordered" id="problem">
       <div className="container">
         <SectionHead
-          eyebrow="The problem"
+          eyebrow="Le problème"
           title={
             <>
-              Most marketing teams are not short of tools.
+              La plupart des équipes marketing ne manquent pas d’outils.
               <br />
-              They are short of a <span className="accent-text">system</span>.
+              Elles manquent d’un <span className="accent-text">système</span>.
             </>
           }
-          intro="Every one of these is a symptom of the same root cause: tools bought one at a time, never designed to work as a whole."
+          intro="Chacun de ces symptômes vient de la même cause : des outils achetés un par un, jamais conçus pour fonctionner ensemble."
         />
 
         <ul className="problem-grid">
@@ -104,9 +104,9 @@ export function Problem() {
         </ul>
 
         <div className="transition-bar">
-          <b>From fragmented marketing</b>
+          <b>D’un marketing fragmenté</b>
           <IconArrowRight size={20} />
-          <b className="accent-text">to intelligent marketing systems</b>
+          <b className="accent-text">à des systèmes marketing intelligents</b>
         </div>
       </div>
     </section>
@@ -122,11 +122,11 @@ export function Solution() {
     <section className="section section--panel" id="system">
       <div className="container">
         <SectionHead
-          eyebrow="The approach"
+          eyebrow="L’approche"
           title={
             <>
-              AI <span className="muted">+</span> Marketing{' '}
-              <span className="muted">+</span> Automation{' '}
+              IA <span className="muted">+</span> Marketing{' '}
+              <span className="muted">+</span> Automatisation{' '}
               <span className="muted">+</span> Data
             </>
           }
@@ -143,12 +143,12 @@ export function Solution() {
 
           <div>
             <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '1rem' }}>
-              One system, four disciplines, zero copy-paste
+              Un système, quatre disciplines, zéro copier-coller
             </h3>
             <p className="lede" style={{ marginBottom: '1.5rem' }}>
-              Strategy sets the direction. AI produces the volume. Automation moves the
-              data between tools. Analytics closes the loop and tells you what to change
-              next — then the whole thing runs again.
+              La stratégie donne la direction. L’IA produit le volume. L’automatisation
+              fait circuler les données entre les outils. L’analytics boucle la boucle et
+              vous dit quoi changer ensuite — puis tout recommence.
             </p>
             <ul className="checklist">
               {site.signature.map((line) => (
@@ -162,12 +162,12 @@ export function Solution() {
         </div>
 
         <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '0.6rem' }}>
-          The full value chain
+          La chaîne de valeur complète
         </h3>
         <p className="lede" style={{ marginBottom: '1.75rem', maxWidth: '62ch' }}>
-          Thirteen steps from a stranger to an optimised system. Every step below is
-          instrumented, automated where it should be, and reviewed by a human where it
-          must be.
+          Treize étapes, d’un inconnu jusqu’à un système optimisé. Chacune est
+          instrumentée, automatisée là où elle doit l’être, et relue par un humain là où
+          c’est indispensable.
         </p>
 
         <ol className="chain">
@@ -195,9 +195,9 @@ export function Agents() {
     <section className="section section--bordered" id="agents">
       <div className="container">
         <SectionHead
-          eyebrow="The 7 AI marketing agents"
-          title="Seven specialists, one orchestrated team"
-          intro="Not seven subscriptions — seven roles. Each one has a defined scope, defined inputs, defined outputs, and a defined moment where a human takes over."
+          eyebrow="Les 7 agents marketing IA"
+          title="Sept spécialistes, une équipe orchestrée"
+          intro="Pas sept abonnements — sept rôles. Chacun a un périmètre défini, des entrées définies, des sorties définies, et un moment précis où un humain reprend la main."
           center
         />
 
@@ -226,7 +226,7 @@ export function Agents() {
             );
           })}
 
-          {/* Closing card — the human, deliberately the 8th tile */}
+          {/* Carte de clôture — l’humain, délibérément la 8ᵉ tuile */}
           <article
             className="agent reveal"
             style={{
@@ -243,19 +243,19 @@ export function Agents() {
               </span>
             </div>
             <div>
-              <h3>The human</h3>
-              <span className="agent__role">Owner of every decision that matters</span>
+              <h3>L’humain</h3>
+              <span className="agent__role">Responsable de chaque décision qui compte</span>
             </div>
             <p style={{ color: 'var(--text-secondary)' }}>
-              The agents propose. A person decides. Brand, budget, pricing, client
-              relationships and anything with legal or reputational weight never leave
-              human hands — that is a design rule, not a limitation.
+              Les agents proposent. Une personne décide. Marque, budget, tarifs, relation
+              client et tout ce qui a un poids juridique ou réputationnel ne quittent jamais
+              les mains humaines — c’est une règle de conception, pas une limite.
             </p>
             <ul className="agent__caps">
-              <li>Brand judgement</li>
-              <li>Budget approval</li>
-              <li>Client relationships</li>
-              <li>Final say</li>
+              <li>Jugement de marque</li>
+              <li>Validation du budget</li>
+              <li>Relation client</li>
+              <li>Dernier mot</li>
             </ul>
           </article>
         </div>
@@ -310,7 +310,7 @@ export function AutomationSections() {
                         color: 'var(--text-muted)',
                       }}
                     >
-                      Tools used
+                      Outils utilisés
                     </h4>
                     <div className="stack-tools">
                       {wf.tools.map((t) => (
@@ -355,8 +355,8 @@ export function DataAnalytics() {
       <div className="container">
         <SectionHead
           eyebrow="Data &amp; Analytics"
-          title="Six sources, one dashboard, one decision at a time"
-          intro="Reporting is not a monthly ritual. It is the mechanism that tells the system what to change — which only works when every source lands in the same place."
+          title="Six sources, un dashboard, une décision à la fois"
+          intro="Le reporting n’est pas un rituel mensuel. C’est le mécanisme qui dit au système quoi changer — et il ne fonctionne que si toutes les sources atterrissent au même endroit."
         />
 
         <div className="split split--wide-right" style={{ alignItems: 'start' }}>
@@ -400,9 +400,9 @@ export function DataAnalytics() {
 
             <div className="grid grid--3" style={{ marginTop: '1.75rem' }}>
               {[
-                { name: 'Looker Studio', note: 'Free, native to GA4 and Google Ads' },
-                { name: 'Power BI', note: 'Governed models and org-wide sharing' },
-                { name: 'Sheets / Excel', note: 'Modelling and quick hand-offs' },
+                { name: 'Looker Studio', note: 'Gratuit, natif à GA4 et Google Ads' },
+                { name: 'Power BI', note: 'Modèles gouvernés et partage à l’échelle de l’organisation' },
+                { name: 'Sheets / Excel', note: 'Modélisation et transmissions rapides' },
               ].map((tool) => (
                 <div className="card" key={tool.name} style={{ padding: '16px 18px' }}>
                   <h3 style={{ fontSize: 'var(--fs-base)', marginBottom: 4 }}>
@@ -420,7 +420,7 @@ export function DataAnalytics() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Design principles (§50) — used just above the final CTA
+   Principes de conception — placés juste avant le CTA final
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export function Principles() {
@@ -428,8 +428,8 @@ export function Principles() {
     <section className="section section--panel" id="principles">
       <div className="container">
         <SectionHead
-          eyebrow="Design principles"
-          title="The rules every system I build has to satisfy"
+          eyebrow="Principes de conception"
+          title="Les règles que tout système que je construis doit respecter"
           intro={site.philosophy}
           center
         />

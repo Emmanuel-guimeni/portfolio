@@ -1,33 +1,35 @@
 import { site } from './site';
 
-/** Canonical origin. Set NEXT_PUBLIC_SITE_URL in production. */
+/** Origine canonique. Renseignez NEXT_PUBLIC_SITE_URL en production. */
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 ).replace(/\/$/, '');
 
 export const SEO = {
-  title: `${site.name} — Digital Marketing & AI Automation Specialist`,
-  /** Under 160 characters so Google does not truncate it. */
+  title: `${site.name} — Spécialiste Marketing Digital & Automatisation IA`,
+  /** Moins de 160 caractères, pour que Google ne la tronque pas. */
   description:
-    'Digital Marketing & AI Automation Specialist in Casablanca. I design intelligent marketing systems connecting AI, automation, CRM, data and growth. Request an audit.',
+    "Consultant en marketing digital et automatisation IA à Casablanca. Je conçois des systèmes marketing intelligents reliant IA, automatisation, CRM, data et croissance.",
   keywords: [
-    'Digital Marketing Consultant',
-    'AI Marketing Automation',
-    'Marketing Automation Consultant',
-    'AI Automation Specialist',
-    'Digital Marketing & AI Automation Specialist',
-    'Marketing automation Morocco',
-    'Consultant marketing digital Casablanca',
-    'CRM automation',
-    'Lead generation system',
-    'AI marketing agents',
+    'consultant marketing digital',
+    'automatisation marketing IA',
+    'consultant marketing automation',
+    'spécialiste automatisation IA',
+    'marketing digital et automatisation IA',
+    'marketing automation Maroc',
+    'consultant marketing digital Casablanca',
+    'automatisation CRM',
+    'système de génération de leads',
+    'agents marketing IA',
+    'AI marketing automation',
+    'digital marketing consultant',
   ],
   ogImage: '/og.png',
 } as const;
 
 /**
- * Schema.org graph: Person + ProfessionalService + WebSite + FAQPage.
- * Rendered once in the root layout as a single JSON-LD block.
+ * Graphe Schema.org : Person + ProfessionalService + WebSite + FAQPage.
+ * Rendu une seule fois dans le layout racine, en un seul bloc JSON-LD.
  */
 export function structuredData(faqs: { q: string; a: string }[]) {
   const person = {
@@ -49,13 +51,13 @@ export function structuredData(faqs: { q: string; a: string }[]) {
     },
     alumniOf: { '@type': 'EducationalOrganization', name: site.degree },
     knowsAbout: [
-      'Digital Marketing',
-      'Artificial Intelligence',
-      'Marketing Automation',
+      'Marketing digital',
+      'Intelligence artificielle',
+      'Marketing automation',
       'CRM',
       'SEO',
-      'Data Analytics',
-      'Growth Marketing',
+      'Data analytics',
+      'Growth marketing',
     ],
     ...(site.socials.some((s) => s.url)
       ? { sameAs: site.socials.filter((s) => s.url).map((s) => s.url) }
@@ -65,7 +67,7 @@ export function structuredData(faqs: { q: string; a: string }[]) {
   const service = {
     '@type': 'ProfessionalService',
     '@id': `${SITE_URL}/#service`,
-    name: `${site.name} — Digital Marketing & AI Automation`,
+    name: `${site.name} — Marketing digital & automatisation IA`,
     description: SEO.description,
     url: SITE_URL,
     image: `${SITE_URL}${SEO.ogImage}`,
@@ -83,14 +85,14 @@ export function structuredData(faqs: { q: string; a: string }[]) {
       '@type': 'OfferCatalog',
       name: 'Services',
       itemListElement: [
-        'Digital Marketing Audit',
-        'AI Marketing Audit',
-        'Marketing Automation Audit',
-        'AI Automation Consulting',
-        'CRM & Lead Automation',
-        'Digital Marketing Strategy',
+        'Audit Marketing Digital',
+        'Audit Marketing IA',
+        'Audit Marketing Automation',
+        'Conseil Automatisation IA',
+        'CRM & Automatisation des leads',
+        'Stratégie Marketing Digital',
         'Data & Marketing Analytics',
-        'AI Marketing Transformation',
+        'Transformation Marketing par l’IA',
       ].map((name) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name },
@@ -105,7 +107,7 @@ export function structuredData(faqs: { q: string; a: string }[]) {
     name: SEO.title,
     description: SEO.description,
     publisher: { '@id': `${SITE_URL}/#person` },
-    inLanguage: 'en',
+    inLanguage: 'fr',
   };
 
   const faqPage = {

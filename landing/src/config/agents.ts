@@ -1,4 +1,4 @@
-/** The 7 AI marketing agents — the core of the offer. */
+/** Les 7 agents marketing IA — le cœur de l'offre. */
 
 export type IconName =
   | 'strategy'
@@ -22,30 +22,30 @@ export const AGENTS: Agent[] = [
   {
     num: '01',
     name: 'AI Marketing Strategist',
-    role: 'Direction & positioning',
+    role: 'Direction & positionnement',
     summary:
-      'Turns market signals into a defensible position and a marketing plan someone can actually execute.',
+      "Transforme les signaux du marché en un positionnement défendable et en un plan marketing réellement exécutable.",
     capabilities: [
-      'Strategy',
+      'Stratégie',
       'Personas',
-      'Positioning',
-      'Market analysis',
-      'Marketing plan',
-      'Recommendations',
+      'Positionnement',
+      'Analyse de marché',
+      'Plan marketing',
+      'Recommandations',
     ],
     icon: 'strategy',
   },
   {
     num: '02',
     name: 'AI Content Manager',
-    role: 'Editorial engine',
+    role: 'Moteur éditorial',
     summary:
-      'Keeps the content pipeline full: ideas, angles, copy, calendar, and second lives for what already worked.',
+      "Alimente le pipeline de contenu en continu : idées, angles, rédaction, calendrier, et une seconde vie pour ce qui a déjà fonctionné.",
     capabilities: [
-      'Ideas',
+      'Idées',
       'Copywriting',
       'Scripts',
-      'Editorial calendar',
+      'Calendrier éditorial',
       'Newsletters',
       'Repurposing',
     ],
@@ -54,30 +54,30 @@ export const AGENTS: Agent[] = [
   {
     num: '03',
     name: 'AI Creative Director',
-    role: 'Concept & art direction',
+    role: 'Concept & direction artistique',
     summary:
-      'Holds the visual line across every campaign so the brand looks like one company, not ten freelancers.',
+      "Tient la ligne visuelle sur toutes les campagnes, pour que la marque ressemble à une entreprise et non à dix freelances.",
     capabilities: [
-      'Creative concepts',
-      'Visuals',
-      'Video',
-      'Campaigns',
-      'Art direction',
+      'Concepts créatifs',
+      'Visuels',
+      'Vidéo',
+      'Campagnes',
+      'Direction artistique',
     ],
     icon: 'creative',
   },
   {
     num: '04',
     name: 'AI Performance Manager',
-    role: 'Paid acquisition',
+    role: 'Acquisition payante',
     summary:
-      'Builds, reads and tunes paid campaigns — audiences, creatives, budget, and the decision to cut what is not working.',
+      "Construit, lit et ajuste les campagnes payantes — audiences, créas, budget, et la décision de couper ce qui ne marche pas.",
     capabilities: [
       'Meta Ads',
       'Google Ads',
       'Audiences',
-      'Campaigns',
-      'Performance analysis',
+      'Campagnes',
+      'Analyse de performance',
       'Optimisation',
     ],
     icon: 'performance',
@@ -87,27 +87,27 @@ export const AGENTS: Agent[] = [
     name: 'AI CRM Manager',
     role: 'Pipeline & nurturing',
     summary:
-      'Makes sure no lead goes cold: segmentation, scoring, sequences, and a clean handover to sales.',
+      "Fait en sorte qu'aucun lead ne refroidisse : segmentation, scoring, séquences et passage de relais propre aux commerciaux.",
     capabilities: [
       'Segmentation',
       'Lead scoring',
       'Nurturing',
-      'CRM hygiene',
-      'Sales automation',
+      'Hygiène du CRM',
+      'Automatisation commerciale',
     ],
     icon: 'crm',
   },
   {
     num: '06',
     name: 'AI SEO Manager',
-    role: 'Organic visibility',
+    role: 'Visibilité organique',
     summary:
-      'Works the long game: intent, briefs, on-page fixes and the monitoring loop that catches decay early.',
+      "Joue le temps long : intention de recherche, briefs, optimisations on-page et la boucle de suivi qui détecte le déclin tôt.",
     capabilities: [
-      'Keyword research',
-      'SEO analysis',
-      'Content briefs',
-      'On-page optimisation',
+      'Recherche de mots-clés',
+      'Analyse SEO',
+      'Briefs de contenu',
+      'Optimisation on-page',
       'Search Console',
       'Monitoring',
     ],
@@ -116,16 +116,16 @@ export const AGENTS: Agent[] = [
   {
     num: '07',
     name: 'AI Marketing Analyst',
-    role: 'Measurement & decisions',
+    role: 'Mesure & décisions',
     summary:
-      'Closes the loop. Turns GA4, CRM and ad data into a small number of decisions worth making this week.',
+      "Boucle la boucle. Transforme GA4, le CRM et les données publicitaires en un petit nombre de décisions à prendre cette semaine.",
     capabilities: [
       'GA4',
       'Dashboards',
-      'KPIs',
+      'KPI',
       'Attribution',
-      'Analysis',
-      'Recommendations',
+      'Analyse',
+      'Recommandations',
     ],
     icon: 'analytics',
   },

@@ -10,7 +10,7 @@ export default function Hero() {
     <>
       <section className="hero" id="top">
         <div className="container container--wide hero__grid">
-          {/* ── Copy ─────────────────────────────────────────────────────── */}
+          {/* ── Texte ────────────────────────────────────────────────────── */}
           <div>
             <p className="hero__badge">
               <span className="tag" style={{ border: 'none', background: 'none', padding: 0 }}>
@@ -18,22 +18,22 @@ export default function Hero() {
                 {site.location.label}
               </span>
               <span aria-hidden="true" style={{ opacity: 0.3 }}>·</span>
-              <b>Available for new projects</b>
+              <b>Disponible pour de nouveaux projets</b>
               <span className="hero__dot" aria-hidden="true" />
             </p>
 
             <h1>
-              Transform Digital Marketing Into an{' '}
-              <span className="accent-text">Intelligent Automated System</span>
+              Transformez votre marketing digital en un{' '}
+              <span className="accent-text">système intelligent et automatisé</span>
             </h1>
 
             <span className="hero__sub">{site.positioning}</span>
 
             <p className="hero__value">
-              I connect marketing strategy, artificial intelligence, automation, CRM,
-              acquisition, content and data into one system — so the repetitive work runs
-              itself, the strategic work gets sharper, and every decision is backed by
-              numbers you can actually trust.
+              Je relie stratégie marketing, intelligence artificielle, automatisation,
+              CRM, acquisition, contenu et data en un seul système — pour que le
+              répétitif tourne seul, que le stratégique gagne en précision, et que chaque
+              décision s’appuie sur des chiffres auxquels vous pouvez vraiment vous fier.
             </p>
 
             <div className="btn-row">
@@ -41,48 +41,48 @@ export default function Hero() {
                 className="btn btn--primary btn--lg"
                 href="#contact"
                 onClick={() =>
-                  track('cta_click', { location: 'hero', label: 'Request an Audit' })
+                  track('cta_click', { location: 'hero', label: 'Demander un audit' })
                 }
               >
-                Request an Audit
+                Demander un audit
                 <IconArrowRight size={17} />
               </a>
               <a
                 className="btn btn--ghost btn--lg"
                 href="#contact"
                 onClick={() =>
-                  track('cta_click', { location: 'hero', label: 'Book a Consultation' })
+                  track('cta_click', { location: 'hero', label: 'Réserver une consultation' })
                 }
               >
-                Book a Consultation
+                Réserver une consultation
               </a>
               <a
                 className="btn btn--quiet btn--lg"
                 href="#system"
                 onClick={() =>
-                  track('cta_click', { location: 'hero', label: 'Explore the System' })
+                  track('cta_click', { location: 'hero', label: 'Explorer le système' })
                 }
               >
-                Explore the System
+                Explorer le système
                 <IconArrowRight size={16} />
               </a>
             </div>
 
             <div className="hero__meta">
               <span className="tag">{site.degree}</span>
-              <span className="tag">7 AI marketing agents</span>
-              <span className="tag">Automation · CRM · Data</span>
+              <span className="tag">7 agents marketing IA</span>
+              <span className="tag">Automatisation · CRM · Data</span>
             </div>
           </div>
 
-          {/* ── Portrait + floating proof cards ──────────────────────────── */}
+          {/* ── Portrait + cartes de preuve flottantes ──────────────────── */}
           <div className="hero__portrait">
             <span className="hero__portrait-glow" aria-hidden="true" />
             <span className="hero__portrait-ring" aria-hidden="true" />
 
             <div className="hero__float hero__float--a">
               <b className="accent-text">7</b>
-              <span>AI agents</span>
+              <span>agents IA</span>
             </div>
 
             <Image
@@ -97,14 +97,14 @@ export default function Hero() {
 
             <div className="hero__float hero__float--b">
               <b>100%</b>
-              <span>Human decisions</span>
+              <span>décisions humaines</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Stats band ─────────────────────────────────────────────────── */}
-      <section className="statband" aria-label="Key figures">
+      {/* ── Bandeau de chiffres clés ──────────────────────────────────── */}
+      <section className="statband" aria-label="Chiffres clés">
         <div className="container container--wide">
           <div className="statband__grid">
             {heroStats.map((stat) => (

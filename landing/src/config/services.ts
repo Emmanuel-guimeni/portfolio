@@ -1,7 +1,8 @@
 /**
- * Services. `formValue` MUST match one of the options in the contact form
- * (see leads.ts SERVICE_OPTIONS) so that "Request this service" pre-selects
- * the right choice and the lead lands in the database correctly tagged.
+ * Services. `formValue` DOIT correspondre exactement à une option du
+ * formulaire (voir SERVICE_OPTIONS dans lib/leads.ts) pour que le bouton
+ * « Demander ce service » présélectionne le bon choix et que le lead arrive
+ * correctement qualifié en base.
  */
 
 export interface Service {
@@ -16,103 +17,103 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     id: 'digital-marketing-audit',
-    title: 'Digital Marketing Audit',
+    title: 'Audit Marketing Digital',
     description:
-      'A full read of your digital presence and performance: channels, funnel, content, tracking and where the leaks are.',
-    deliverables: ['Channel audit', 'Funnel analysis', 'Tracking review', 'Priority actions'],
-    formValue: 'Digital Marketing Audit',
+      'Une lecture complète de votre présence et de vos performances digitales : canaux, tunnel, contenu, tracking, et où sont les fuites.',
+    deliverables: ['Audit des canaux', 'Analyse du tunnel', 'Revue du tracking', 'Actions prioritaires'],
+    formValue: 'Audit Marketing Digital',
     icon: 'audit',
   },
   {
     id: 'ai-marketing-audit',
-    title: 'AI Marketing Audit',
+    title: 'Audit Marketing IA',
     description:
-      'Where AI genuinely creates value in your marketing — and, just as important, where it would only add noise.',
-    deliverables: ['Use-case mapping', 'Effort/impact matrix', 'Tooling shortlist', 'Roadmap'],
-    formValue: 'AI Marketing Audit',
+      "Là où l'IA crée réellement de la valeur dans votre marketing — et, tout aussi important, là où elle n'ajouterait que du bruit.",
+    deliverables: ['Cartographie des cas d’usage', 'Matrice effort/impact', 'Sélection d’outils', 'Feuille de route'],
+    formValue: 'Audit Marketing IA',
     icon: 'ai',
   },
   {
     id: 'marketing-automation-audit',
-    title: 'Marketing Automation Audit',
+    title: 'Audit Marketing Automation',
     description:
-      'Every repetitive process in your marketing, mapped, timed and ranked by how much automating it would return.',
-    deliverables: ['Process inventory', 'Time-cost model', 'Automation backlog', 'Quick wins'],
-    formValue: 'Marketing Automation Audit',
+      "Chaque processus répétitif de votre marketing, cartographié, chronométré et classé selon ce que son automatisation rapporterait.",
+    deliverables: ['Inventaire des processus', 'Modèle de coût-temps', 'Backlog d’automatisation', 'Gains rapides'],
+    formValue: 'Audit Marketing Automation',
     icon: 'automation',
   },
   {
     id: 'ai-automation-consulting',
-    title: 'AI Automation Consulting',
+    title: 'Conseil Automatisation IA',
     description:
-      'Design of the actual system: agents, workflows, data flows, approval gates and the humans who own each decision.',
-    deliverables: ['System architecture', 'Workflow specs', 'Prompt library', 'Governance rules'],
-    formValue: 'AI Automation Consulting',
+      "La conception du système réel : agents, workflows, flux de données, points de validation et les humains qui gardent chaque décision.",
+    deliverables: ['Architecture du système', 'Spécifications des workflows', 'Bibliothèque de prompts', 'Règles de gouvernance'],
+    formValue: 'Conseil Automatisation IA',
     icon: 'system',
   },
   {
     id: 'crm-lead-automation',
-    title: 'CRM & Lead Automation',
+    title: 'CRM & Automatisation des leads',
     description:
-      'The prospect journey, structured and automated end to end: capture, scoring, segmentation, nurturing, handover.',
-    deliverables: ['CRM structure', 'Lead scoring model', 'Nurturing sequences', 'Sales alerts'],
-    formValue: 'CRM Consulting',
+      'Le parcours prospect, structuré et automatisé de bout en bout : capture, scoring, segmentation, nurturing, passage aux ventes.',
+    deliverables: ['Structure du CRM', 'Modèle de lead scoring', 'Séquences de nurturing', 'Alertes commerciales'],
+    formValue: 'Conseil CRM',
     icon: 'crm',
   },
   {
     id: 'digital-marketing-strategy',
-    title: 'Digital Marketing Strategy',
+    title: 'Stratégie Marketing Digital',
     description:
-      'Positioning, audiences, channel mix, content plan and budget — a strategy your team can run without a translator.',
-    deliverables: ['Positioning', 'Channel plan', 'Content strategy', 'Budget model'],
-    formValue: 'Digital Marketing Strategy',
+      "Positionnement, audiences, mix de canaux, plan de contenu et budget — une stratégie que votre équipe peut exécuter sans traducteur.",
+    deliverables: ['Positionnement', 'Plan de canaux', 'Stratégie de contenu', 'Modèle budgétaire'],
+    formValue: 'Stratégie Marketing Digital',
     icon: 'strategy',
   },
   {
     id: 'data-analytics',
     title: 'Data & Marketing Analytics',
     description:
-      'A measurement plan that survives contact with reality: KPIs, clean tracking, dashboards and a reporting rhythm.',
-    deliverables: ['KPI framework', 'Tracking plan', 'Dashboards', 'Monthly reporting'],
+      'Un plan de mesure qui survit au réel : KPI, tracking propre, dashboards et un rythme de reporting tenable.',
+    deliverables: ['Cadre de KPI', 'Plan de tracking', 'Dashboards', 'Reporting mensuel'],
     formValue: 'Data & Analytics',
     icon: 'analytics',
   },
   {
     id: 'ai-marketing-transformation',
-    title: 'AI Marketing Transformation',
+    title: 'Transformation Marketing par l’IA',
     description:
-      'Progressive integration of AI into how your marketing actually works — with the team, not around it.',
-    deliverables: ['Maturity assessment', 'Phased roadmap', 'Team enablement', 'Change management'],
-    formValue: 'AI Automation Consulting',
+      "Intégration progressive de l'IA dans le fonctionnement réel de votre marketing — avec l'équipe, pas à côté d'elle.",
+    deliverables: ['Diagnostic de maturité', 'Feuille de route par phases', 'Montée en compétences', 'Conduite du changement'],
+    formValue: 'Conseil Automatisation IA',
     icon: 'transform',
   },
 ];
 
-/** How I work — the engagement sequence shown under the services. */
+/** Ma méthode — la séquence d'intervention affichée sous les services. */
 export const PROCESS = [
   {
     step: '01',
-    title: 'Discovery',
-    body: 'A structured conversation about your business, your funnel and what is actually slowing it down.',
+    title: 'Découverte',
+    body: 'Un échange structuré sur votre activité, votre tunnel et ce qui le ralentit vraiment.',
   },
   {
     step: '02',
     title: 'Audit',
-    body: 'I map the current stack, the processes, the data and the gaps — no recommendation without evidence.',
+    body: "Je cartographie la stack, les processus, les données et les manques — aucune recommandation sans preuve.",
   },
   {
     step: '03',
-    title: 'System design',
-    body: 'Architecture: which agent does what, which workflow runs when, and where a human must stay in the loop.',
+    title: 'Conception du système',
+    body: "L'architecture : quel agent fait quoi, quel workflow se déclenche quand, et où un humain doit rester dans la boucle.",
   },
   {
     step: '04',
-    title: 'Build & connect',
-    body: 'Automations, CRM, forms, sequences and tracking are implemented and connected to each other.',
+    title: 'Construction & connexion',
+    body: 'Automatisations, CRM, formulaires, séquences et tracking sont implémentés puis reliés entre eux.',
   },
   {
     step: '05',
-    title: 'Measure & optimise',
-    body: 'Dashboards go live, the system produces data, and the data drives the next iteration.',
+    title: 'Mesure & optimisation',
+    body: 'Les dashboards passent en production, le système produit de la donnée, et la donnée pilote l’itération suivante.',
   },
 ];

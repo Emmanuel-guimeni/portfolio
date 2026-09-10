@@ -21,23 +21,23 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(req: Request) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
 
   let body: { leadId?: string };
   try {
     body = (await req.json()) as { leadId?: string };
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Corps de requête JSON invalide.' }, { status: 400 });
   }
 
   if (!body.leadId) {
-    return NextResponse.json({ ok: false, error: 'leadId is required.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'leadId est obligatoire.' }, { status: 400 });
   }
 
   const lead = await getLead(body.leadId);
   if (!lead) {
-    return NextResponse.json({ ok: false, error: 'Lead not found.' }, { status: 404 });
+    return NextResponse.json({ ok: false, error: 'Lead introuvable.' }, { status: 404 });
   }
 
   const result = await notifyNewLead(lead);
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 /** GET /api/notifications — protected. Reports which channels are configured. */
 export async function GET(req: Request) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
   return NextResponse.json({
     ok: true,

@@ -2,9 +2,9 @@
 """
 Generate the raster brand assets that cannot be expressed as SVG:
 
-  public/og.png                1200x630  Open Graph / Twitter card
-  public/apple-touch-icon.png   180x180  iOS home-screen icon
-  public/favicon.ico             32x32   legacy favicon (modern browsers use favicon.svg)
+  public/og.png                1200x630  carte Open Graph / Twitter
+  public/apple-touch-icon.png   180x180  icône d'écran d'accueil iOS
+  public/favicon.ico             32x32   favicon historique (les navigateurs modernes utilisent favicon.svg)
 
 Run:  python3 scripts/generate-assets.py       (requires Pillow)
 
@@ -133,20 +133,20 @@ def build_og():
     base.paste(rounded_monogram(64), (72, 62), rounded_monogram(64))
 
     f_name = font(FONT_BOLD, 27)
-    f_h1 = font(FONT_BOLD, 54)
+    f_h1 = font(FONT_BOLD, 46)
     f_role = font(FONT_REG, 25)
     f_meta = font(FONT_REG, 20)
 
     draw.text((152, 68), "Mr GUEHEDI Emmanuel", font=f_name, fill=WHITE)
-    draw.text((152, 100), "Casablanca – Morocco", font=f_meta, fill=MUTED)
+    draw.text((152, 100), "Casablanca – Maroc", font=f_meta, fill=MUTED)
 
-    draw.text((72, 212), "Transform Digital", font=f_h1, fill=WHITE)
-    draw.text((72, 274), "Marketing Into an", font=f_h1, fill=WHITE)
-    draw.text((72, 336), "Intelligent System", font=f_h1, fill=(167, 180, 252))
+    draw.text((72, 212), "Votre marketing digital", font=f_h1, fill=WHITE)
+    draw.text((72, 274), "en un système", font=f_h1, fill=WHITE)
+    draw.text((72, 336), "intelligent et automatisé", font=f_h1, fill=(167, 180, 252))
 
     draw.text(
         (72, 424),
-        "Digital Marketing & AI Automation Specialist",
+        "Spécialiste Marketing Digital & Automatisation IA",
         font=f_role,
         fill=(182, 191, 208),
     )
@@ -155,7 +155,7 @@ def build_og():
     draw.rounded_rectangle((72, 478, 148, 483), radius=3, fill=INDIGO)
     draw.text(
         (72, 506),
-        "AI  ·  Marketing Automation  ·  CRM  ·  Data  ·  Growth",
+        "IA  ·  Marketing Automation  ·  CRM  ·  Data  ·  Growth",
         font=f_meta,
         fill=MUTED,
     )

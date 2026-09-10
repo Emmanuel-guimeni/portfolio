@@ -46,7 +46,7 @@ export async function notifyNewLead(lead: Lead): Promise<NotifyResult> {
     tasks.push(
       sendEmail({
         to: notifyTo,
-        subject: `${temperature(lead.lead_score).toUpperCase()} lead · ${lead.service_requested} · ${lead.first_name} ${lead.last_name}`,
+        subject: `Lead ${temperature(lead.lead_score).toUpperCase()} · ${lead.service_requested} · ${lead.first_name} ${lead.last_name}`,
         html: alertHtml(lead),
         replyTo: lead.email,
       })
@@ -63,7 +63,7 @@ export async function notifyNewLead(lead: Lead): Promise<NotifyResult> {
       tasks.push(
         sendEmail({
           to: lead.email,
-          subject: 'Your request has been received — GUEHEDI Emmanuel',
+          subject: 'Votre demande a bien été reçue — GUEHEDI Emmanuel',
           html: confirmationHtml(lead),
         })
           .then(() => {
@@ -189,27 +189,27 @@ const esc = (v: unknown) =>
 
 function alertHtml(lead: Lead): string {
   const temp = temperature(lead.lead_score);
-  const colour = temp === 'Hot' ? '#fb7185' : temp === 'Warm' ? '#fbbf24' : '#94a3b8';
+  const colour = temp === 'Chaud' ? '#fb7185' : temp === 'Tiède' ? '#fbbf24' : '#94a3b8';
   const row = (label: string, value: unknown) =>
     `<tr><td style="padding:6px 0;color:#7c8699;font-size:13px;width:150px">${label}</td>
        <td style="padding:6px 0;font-size:14px">${esc(value)}</td></tr>`;
 
   return wrap(`
     <p style="margin:0 0 6px;color:${colour};font-size:12px;letter-spacing:.12em;text-transform:uppercase">
-      ${temp} lead · score ${lead.lead_score}/100
+      Lead ${temp} · score ${lead.lead_score}/100
     </p>
     <h1 style="margin:0 0 18px;font-size:22px">${esc(lead.first_name)} ${esc(lead.last_name)}</h1>
     <table style="width:100%;border-collapse:collapse">
       ${row('Email', lead.email)}
-      ${row('Phone', lead.phone)}
-      ${row('Company', lead.company)}
-      ${row('Job title', lead.job_title)}
-      ${row('Country', lead.country)}
+      ${row('Téléphone', lead.phone)}
+      ${row('Entreprise', lead.company)}
+      ${row('Fonction', lead.job_title)}
+      ${row('Pays', lead.country)}
       ${row('Service', lead.service_requested)}
       ${row('Budget', lead.budget)}
       ${row('Source', lead.source)}
       ${row('UTM', [lead.utm_source, lead.utm_medium, lead.utm_campaign].filter(Boolean).join(' / '))}
-      ${row('Landing page', lead.landing_page)}
+      ${row('Page d’origine', lead.landing_page)}
     </table>
     ${
       lead.message
@@ -217,19 +217,19 @@ function alertHtml(lead: Lead): string {
         : ''
     }
     <p style="margin-top:22px">
-      <a href="mailto:${esc(lead.email)}" style="display:inline-block;padding:11px 20px;background:#4f5cf0;color:#fff;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Reply to ${esc(lead.first_name)}</a>
+      <a href="mailto:${esc(lead.email)}" style="display:inline-block;padding:11px 20px;background:#4f5cf0;color:#fff;border-radius:999px;text-decoration:none;font-size:14px;font-weight:600">Répondre à ${esc(lead.first_name)}</a>
     </p>`);
 }
 
 function confirmationHtml(lead: Lead): string {
   return wrap(`
-    <h1 style="margin:0 0 14px;font-size:22px">Thank you, ${esc(lead.first_name)}.</h1>
+    <h1 style="margin:0 0 14px;font-size:22px">Merci, ${esc(lead.first_name)}.</h1>
     <p style="color:#b6bfd0;font-size:15px;line-height:1.65">
-      I have received your request regarding <strong style="color:#e8ecf5">${esc(lead.service_requested)}</strong>
-      and I will come back to you personally, usually within one business day.
+      J’ai bien reçu votre demande concernant <strong style="color:#e8ecf5">${esc(lead.service_requested)}</strong>
+      et je reviendrai vers vous personnellement, en général sous un jour ouvré.
     </p>
     <p style="color:#b6bfd0;font-size:15px;line-height:1.65">
-      In the meantime, if anything is urgent you can reach me directly:
+      D’ici là, si quelque chose est urgent, vous pouvez me joindre directement :
     </p>
     <p style="font-size:15px">
       <a href="mailto:${site.email}" style="color:#60a5fa">${site.email}</a><br>

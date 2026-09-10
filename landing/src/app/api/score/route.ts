@@ -38,13 +38,13 @@ export async function POST(req: Request) {
   try {
     body = (await req.json()) as Record<string, unknown>;
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body.' }, { status: 400 });
+    return NextResponse.json({ ok: false, error: 'Corps de requête JSON invalide.' }, { status: 400 });
   }
 
   /* ── Bulk recalculation (protected) ─────────────────────────────────── */
   if (body.recalculate === true) {
     if (!(await isAuthorised(req))) {
-      return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+      return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
     }
     try {
       const leads = await listLeads({ limit: 1000 });
@@ -59,20 +59,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true, examined: leads.length, updated });
     } catch (error) {
       console.error('[POST /api/score recalculate]', error);
-      return NextResponse.json({ ok: false, error: 'Recalculation failed.' }, { status: 500 });
+      return NextResponse.json({ ok: false, error: 'Le recalcul a échoué.' }, { status: 500 });
     }
   }
 
   /* ── Stateless preview (public, rate limited) ───────────────────────── */
   const limited = rateLimit(`score:${clientIp(req.headers)}`, 30, 60_000);
   if (!limited.allowed) {
-    return NextResponse.json({ ok: false, error: 'Too many requests.' }, { status: 429 });
+    return NextResponse.json({ ok: false, error: 'Trop de requêtes.' }, { status: 429 });
   }
 
   const validation = validateLead({ ...body, consent: true });
   if (!validation.ok || !validation.data) {
     return NextResponse.json(
-      { ok: false, error: 'Invalid lead payload.', errors: validation.errors },
+      { ok: false, error: 'Données de lead invalides.', errors: validation.errors },
       { status: 422 },
     );
   }

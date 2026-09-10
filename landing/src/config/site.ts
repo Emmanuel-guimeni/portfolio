@@ -1,35 +1,36 @@
 /**
- * Single source of truth for identity, contact details and navigation.
- * Change a phone number or an email here and it updates everywhere on the site.
+ * Source unique de vérité pour l'identité, les coordonnées et la navigation.
+ * Modifiez un numéro ou un email ici et il change partout sur le site.
  */
 
 export const site = {
   name: 'Mr GUEHEDI Emmanuel',
   shortName: 'GUEHEDI Emmanuel',
   initials: 'GE',
-  role: 'Digital Marketing & AI Automation Specialist',
+  role: 'Spécialiste Marketing Digital & Automatisation IA',
+  roleShort: 'Marketing Digital & Automatisation IA',
   degree: 'Master en Marketing Digital & E-commerce',
   positioning:
-    'Digital Marketing • Artificial Intelligence • Marketing Automation • Data • Growth',
-  headline: 'Transform Digital Marketing Into an Intelligent Automated System',
+    'Marketing Digital • Intelligence Artificielle • Marketing Automation • Data • Growth',
+  headline: 'Transformez votre marketing digital en un système intelligent et automatisé',
   manifesto:
-    "I don't just use AI tools. I design intelligent marketing systems that connect AI, automation, data and growth.",
+    "Je ne me contente pas d'utiliser des outils d'IA. Je conçois des systèmes marketing intelligents qui relient IA, automatisation, data et croissance.",
   signature: [
-    'Automate the repetitive.',
-    'Augment the strategic.',
-    'Humanize the critical decisions.',
+    'Automatiser le répétitif.',
+    'Augmenter le stratégique.',
+    'Humaniser les décisions critiques.',
   ],
   philosophy:
-    'The future of marketing is not more tools. It is better-connected systems.',
+    "L'avenir du marketing, ce ne sont pas plus d'outils. Ce sont des systèmes mieux connectés.",
   location: {
     city: 'Casablanca',
-    country: 'Morocco',
+    country: 'Maroc',
     countryCode: 'MA',
-    label: 'Casablanca – Morocco',
+    label: 'Casablanca – Maroc',
   },
   email: 'christguimeni@gmail.com',
   phone: {
-    /** E.164, used for tel: and WhatsApp links */
+    /** Format E.164, utilisé pour les liens tel: et WhatsApp */
     e164: '+212779635685',
     display: '+212 779 63 56 85',
   },
@@ -39,18 +40,19 @@ export const site = {
       'Bonjour Emmanuel, je souhaite échanger avec vous concernant vos services de Digital Marketing & AI Automation.',
   },
   /**
-   * Social profiles. Only add an entry when you have a REAL, verified URL —
-   * never invent one. Entries with an empty `url` are not rendered.
+   * Réseaux sociaux. N'ajoutez une entrée que si vous avez une URL RÉELLE et
+   * vérifiée — n'en inventez jamais. Les entrées dont l'`url` est vide ne sont
+   * pas affichées.
    */
   socials: [
     { label: 'LinkedIn', url: '', icon: 'linkedin' as const },
   ],
 } as const;
 
-/** mailto: / tel: / wa.me links, derived so they can never drift out of sync. */
+/** Liens mailto: / tel: / wa.me, dérivés pour ne jamais se désynchroniser. */
 export const links = {
   mailto: `mailto:${site.email}?subject=${encodeURIComponent(
-    'Demande — Digital Marketing & AI Automation',
+    'Demande — Marketing Digital & Automatisation IA',
   )}`,
   tel: `tel:${site.phone.e164}`,
   whatsapp: `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(
@@ -61,29 +63,29 @@ export const links = {
 export type NavItem = { label: string; href: string };
 
 export const primaryNav: NavItem[] = [
-  { label: 'System', href: '#system' },
-  { label: 'AI Agents', href: '#agents' },
-  { label: 'Automation', href: '#automation' },
+  { label: 'Le système', href: '#system' },
+  { label: 'Agents IA', href: '#agents' },
+  { label: 'Automatisation', href: '#automation' },
   { label: 'Stack', href: '#stack' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Tarifs', href: '#pricing' },
   { label: 'Services', href: '#services' },
   { label: 'FAQ', href: '#faq' },
 ];
 
 export const footerNav: NavItem[] = [
-  { label: 'About', href: '#about' },
+  { label: 'À propos', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Automation System', href: '#system' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: "Système d'automatisation", href: '#system' },
+  { label: 'Tarifs', href: '#pricing' },
   { label: 'Contact', href: '#contact' },
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms', href: '/terms' },
+  { label: 'Politique de confidentialité', href: '/privacy' },
+  { label: "Conditions d'utilisation", href: '/terms' },
 ];
 
-/** Headline numbers shown in the band under the hero. Keep these honest. */
+/** Chiffres clés affichés dans le bandeau sous le hero. Restez honnête. */
 export const heroStats = [
-  { value: '7', label: 'AI marketing agents', sub: 'designed & orchestrated' },
-  { value: '9', label: 'Automated workflows', sub: 'content → CRM → data' },
-  { value: '20+', label: 'Tools benchmarked', sub: 'with real public pricing' },
-  { value: '4', label: 'Currencies', sub: 'USD · EUR · MAD · XAF' },
+  { value: '7', label: 'Agents marketing IA', sub: 'conçus et orchestrés' },
+  { value: '9', label: 'Workflows automatisés', sub: 'contenu → CRM → data' },
+  { value: '20+', label: 'Outils analysés', sub: 'avec leurs tarifs officiels' },
+  { value: '4', label: 'Devises', sub: 'USD · EUR · MAD · XAF' },
 ] as const;

@@ -4,13 +4,13 @@ import Nav from '@/components/Nav';
 import { links, site } from '@/config/site';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
+  title: 'Politique de confidentialité',
   description:
-    'How Mr GUEHEDI Emmanuel collects, stores, uses and protects the personal data submitted through this website.',
+    'Comment Mr GUEHEDI Emmanuel collecte, stocke, utilise et protège les données personnelles transmises via ce site.',
   robots: { index: true, follow: true },
 };
 
-const UPDATED = '9 September 2026';
+const UPDATED = '10 septembre 2026';
 
 export default function PrivacyPage() {
   return (
@@ -18,108 +18,116 @@ export default function PrivacyPage() {
       <Nav />
       <main id="main" className="section" style={{ paddingTop: 'calc(var(--nav-h) + 4rem)' }}>
         <div className="container prose">
-          <h1>Privacy Policy</h1>
-          <p className="muted">Last updated: {UPDATED}</p>
+          <h1>Politique de confidentialité</h1>
+          <p className="muted">Dernière mise à jour : {UPDATED}</p>
 
-          <h2>1. Who is responsible for your data</h2>
+          <h2>1. Qui est responsable de vos données</h2>
           <p>
-            {site.name}, {site.role}, based in {site.location.label}, is the data
-            controller for the personal data collected through this website. You can
-            reach me at <a href={links.mailto}>{site.email}</a> or{' '}
+            {site.name}, {site.role}, établi à {site.location.label}, est le responsable
+            du traitement des données personnelles collectées via ce site. Vous pouvez me
+            joindre à <a href={links.mailto}>{site.email}</a> ou au{' '}
             <a href={links.tel}>{site.phone.display}</a>.
           </p>
 
-          <h2>2. What data is collected</h2>
-          <p>Through the contact form on this site, I collect only what you submit:</p>
+          <h2>2. Quelles données sont collectées</h2>
+          <p>
+            Via le formulaire de contact de ce site, je ne collecte que ce que vous
+            transmettez :
+          </p>
           <ul>
-            <li>First name and last name</li>
-            <li>Professional email address</li>
-            <li>Phone / WhatsApp number (optional)</li>
-            <li>Country, company and job title (optional)</li>
-            <li>The service you are interested in and your budget range</li>
-            <li>The message you write</li>
+            <li>Prénom et nom</li>
+            <li>Adresse email professionnelle</li>
+            <li>Numéro de téléphone / WhatsApp (facultatif)</li>
+            <li>Pays, entreprise et fonction (facultatifs)</li>
+            <li>Le service qui vous intéresse et votre tranche de budget</li>
+            <li>Le message que vous rédigez</li>
             <li>
-              Technical context: the page you submitted from, and UTM campaign
-              parameters if you arrived from a campaign link
+              Le contexte technique : la page depuis laquelle vous avez envoyé le
+              formulaire, et les paramètres de campagne UTM si vous êtes arrivé par un
+              lien de campagne
             </li>
           </ul>
           <p>
-            A lead score is computed automatically from the fields above. It is an
-            internal prioritisation aid only; it produces no legal effect and no decision
-            is taken solely on that basis.
+            Un score de qualification est calculé automatiquement à partir des champs
+            ci-dessus. Il s’agit uniquement d’une aide interne à la priorisation : il ne
+            produit aucun effet juridique et aucune décision n’est prise sur ce seul
+            fondement.
           </p>
 
-          <h2>3. Why it is collected — and on what legal basis</h2>
+          <h2>3. Pourquoi elles sont collectées — et sur quelle base légale</h2>
           <p>
-            Your data is used exclusively to answer your request, to prepare a proposal,
-            and to follow up on our exchange. The legal basis is your explicit consent,
-            which you give by ticking the consent box before submitting the form, and
-            the steps taken at your request prior to entering into a contract.
+            Vos données servent exclusivement à répondre à votre demande, à préparer une
+            proposition et à assurer le suivi de nos échanges. La base légale est votre
+            consentement explicite, donné en cochant la case avant l’envoi du formulaire,
+            ainsi que les mesures précontractuelles prises à votre demande.
           </p>
           <p>
-            I do not sell your data, I do not rent it, and I do not share it with third
-            parties for their own marketing.
-          </p>
-
-          <h2>4. Where it is stored</h2>
-          <p>
-            Submissions are stored in a PostgreSQL database (Supabase) with access
-            restricted to me. Data may be transmitted to the following processors, each
-            used strictly to operate this site and my follow-up: the hosting provider,
-            the transactional email provider, and — where configured — a CRM or
-            automation platform used to manage the exchange.
+            Je ne vends pas vos données, je ne les loue pas, et je ne les transmets à
+            aucun tiers pour son propre marketing.
           </p>
 
-          <h2>5. How long it is kept</h2>
+          <h2>4. Où elles sont stockées</h2>
           <p>
-            Leads that do not become clients are kept for a maximum of 3 years from our
-            last contact, then deleted. Data relating to a signed engagement is kept for
-            the duration of the contract plus the legal retention periods that apply to
-            commercial and accounting records.
+            Les demandes sont enregistrées dans une base de données PostgreSQL (Supabase)
+            dont l’accès m’est réservé. Les données peuvent être transmises aux
+            sous-traitants suivants, utilisés strictement pour faire fonctionner ce site
+            et assurer mon suivi : l’hébergeur, le fournisseur d’emails transactionnels
+            et, le cas échéant, un CRM ou une plateforme d’automatisation utilisés pour
+            gérer l’échange.
           </p>
 
-          <h2>6. Your rights</h2>
+          <h2>5. Combien de temps elles sont conservées</h2>
           <p>
-            You have the right to access, rectify, erase, restrict and port your data, to
-            object to its processing, and to withdraw your consent at any time — with no
-            effect on processing carried out before the withdrawal. Write to{' '}
-            <a href={links.mailto}>{site.email}</a> and I will answer within one month.
-          </p>
-          <p>
-            In Morocco, you may also lodge a complaint with the CNDP (Commission
-            Nationale de contrôle de la protection des Données à caractère Personnel). If
-            you are in the European Union, you may lodge a complaint with your national
-            supervisory authority.
+            Les demandes qui ne débouchent pas sur une collaboration sont conservées au
+            maximum 3 ans à compter de notre dernier contact, puis supprimées. Les données
+            liées à une mission signée sont conservées pendant la durée du contrat, puis
+            selon les durées légales applicables aux documents commerciaux et comptables.
           </p>
 
-          <h2>7. Cookies and measurement</h2>
+          <h2>6. Vos droits</h2>
           <p>
-            This site loads no analytics or advertising cookie unless the corresponding
-            tag has been explicitly configured by the site owner. Where Google Analytics
-            4, Google Tag Manager, the Meta Pixel or the LinkedIn Insight Tag are active,
-            they set cookies for audience measurement and campaign attribution. A minimal
-            amount of data is also stored in your browser&rsquo;s session storage to
-            remember which campaign brought you here; it never leaves your browser until
-            you submit the form.
+            Vous disposez d’un droit d’accès, de rectification, d’effacement, de
+            limitation et de portabilité de vos données, d’un droit d’opposition au
+            traitement, et du droit de retirer votre consentement à tout moment — sans
+            effet sur les traitements réalisés avant ce retrait. Écrivez à{' '}
+            <a href={links.mailto}>{site.email}</a> et je vous répondrai sous un mois.
+          </p>
+          <p>
+            Au Maroc, vous pouvez également saisir la CNDP (Commission Nationale de
+            contrôle de la protection des Données à caractère Personnel). Si vous résidez
+            dans l’Union européenne, vous pouvez saisir l’autorité de contrôle de votre
+            pays.
           </p>
 
-          <h2>8. Security</h2>
+          <h2>7. Cookies et mesure d’audience</h2>
           <p>
-            Data is transmitted over HTTPS, validated and sanitised on the server, rate
-            limited against abuse, and protected by anti-spam controls. Administrative
-            access is authenticated and restricted. No credential or API key is ever
-            exposed in the browser.
+            Ce site ne charge aucun cookie de mesure d’audience ou de publicité tant que
+            la balise correspondante n’a pas été explicitement configurée par
+            l’éditeur du site. Lorsque Google Analytics 4, Google Tag Manager, le pixel
+            Meta ou le tag LinkedIn Insight sont actifs, ils déposent des cookies de
+            mesure d’audience et d’attribution de campagne. Une petite quantité de données
+            est également conservée dans le stockage de session de votre navigateur pour
+            mémoriser la campagne qui vous a amené ici ; elle ne quitte jamais votre
+            navigateur tant que vous n’envoyez pas le formulaire.
           </p>
 
-          <h2>9. Changes</h2>
+          <h2>8. Sécurité</h2>
           <p>
-            This policy may be updated. The date at the top of this page always reflects
-            the current version.
+            Les données transitent en HTTPS, sont validées et nettoyées côté serveur, sont
+            protégées par une limitation du débit contre les abus et par des mécanismes
+            anti-spam. L’accès d’administration est authentifié et restreint. Aucun
+            identifiant ni clé d’API n’est jamais exposé dans le navigateur.
+          </p>
+
+          <h2>9. Modifications</h2>
+          <p>
+            Cette politique peut être mise à jour. La date en haut de cette page
+            correspond toujours à la version en vigueur.
           </p>
 
           <p style={{ marginTop: '2.5rem' }}>
             <a className="btn btn--ghost" href="/">
-              ← Back to the site
+              ← Retour au site
             </a>
           </p>
         </div>

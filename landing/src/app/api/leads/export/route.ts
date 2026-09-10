@@ -21,7 +21,7 @@ const COLUMNS = [
  */
 export async function GET(req: Request) {
   if (!(await isAuthorised(req))) {
-    return NextResponse.json({ ok: false, error: 'Unauthorised' }, { status: 401 });
+    return NextResponse.json({ ok: false, error: 'Non autorisé' }, { status: 401 });
   }
 
   const p = new URL(req.url).searchParams;

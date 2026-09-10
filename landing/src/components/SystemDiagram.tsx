@@ -1,13 +1,13 @@
 /**
- * Abstract representation of the AI marketing system: four input layers feeding
- * an orchestration core, which drives four output layers.
+ * Représentation abstraite du système marketing IA : quatre couches d'entrée qui
+ * alimentent un noyau d'orchestration, lequel pilote quatre couches de sortie.
  *
- * Pure inline SVG — no images, no library, no layout shift, scales to any width
- * and stays legible on a dark background. `viewBox` + `preserveAspectRatio`
- * handle every breakpoint.
+ * SVG inline pur — aucune image, aucune librairie, aucun décalage de mise en
+ * page ; s'adapte à toute largeur et reste lisible sur fond sombre. `viewBox`
+ * gère tous les points de rupture.
  */
 
-const INPUTS = ['Strategy', 'Content', 'Traffic', 'Data'];
+const INPUTS = ['Stratégie', 'Contenu', 'Trafic', 'Data'];
 const OUTPUTS = ['Leads', 'CRM', 'Nurturing', 'Insights'];
 
 export default function SystemDiagram() {
@@ -15,7 +15,7 @@ export default function SystemDiagram() {
     <svg
       viewBox="0 0 720 420"
       role="img"
-      aria-label="Diagram: strategy, content, traffic and data feed an AI orchestration core, which produces leads, CRM records, nurturing sequences and insights."
+      aria-label="Schéma : stratégie, contenu, trafic et data alimentent un noyau d’orchestration IA, qui produit des leads, des fiches CRM, des séquences de nurturing et des insights."
       style={{ width: '100%', height: 'auto' }}
     >
       <defs>
@@ -35,10 +35,10 @@ export default function SystemDiagram() {
         </linearGradient>
       </defs>
 
-      {/* ambient glow behind the core */}
+      {/* halo d’ambiance derrière le noyau */}
       <circle cx="360" cy="210" r="170" fill="url(#sd-glow)" />
 
-      {/* connectors: inputs → core → outputs */}
+      {/* connecteurs : entrées → noyau → sorties */}
       <g stroke="url(#sd-line)" strokeWidth="1.4" fill="none">
         {INPUTS.map((_, i) => (
           <path key={`in-${i}`} d={`M188 ${64 + i * 92} C 260 ${64 + i * 92}, 268 210, 300 210`} />
@@ -48,7 +48,7 @@ export default function SystemDiagram() {
         ))}
       </g>
 
-      {/* travelling pulses — pure SVG animation, no JS, no repaint cost */}
+      {/* impulsions animées — animation SVG pure, sans JS, sans coût de repaint */}
       <g fill="#a5b4fc">
         {INPUTS.map((_, i) => (
           <circle key={`p-in-${i}`} r="3">
@@ -71,7 +71,7 @@ export default function SystemDiagram() {
         ))}
       </g>
 
-      {/* input nodes */}
+      {/* nœuds d’entrée */}
       {INPUTS.map((label, i) => (
         <g key={label} transform={`translate(28 ${64 + i * 92 - 20})`}>
           <rect
@@ -94,19 +94,19 @@ export default function SystemDiagram() {
         </g>
       ))}
 
-      {/* orchestration core */}
+      {/* noyau d’orchestration */}
       <g transform="translate(300 150)">
         <rect width="120" height="120" rx="30" fill="#0e1119" stroke="url(#sd-accent)" strokeWidth="1.6" />
         <rect x="26" y="26" width="68" height="68" rx="18" fill="url(#sd-accent)" opacity="0.16" />
         <text x="60" y="52" textAnchor="middle" fill="#f2f5fa" fontSize="15" fontWeight="600" fontFamily="system-ui, sans-serif">
-          AI
+          IA
         </text>
         <text x="60" y="72" textAnchor="middle" fill="#7c8699" fontSize="10.5" letterSpacing="1.4" fontFamily="system-ui, sans-serif">
           ORCHESTRATION
         </text>
       </g>
 
-      {/* output nodes */}
+      {/* nœuds de sortie */}
       {OUTPUTS.map((label, i) => (
         <g key={label} transform={`translate(532 ${64 + i * 92 - 20})`}>
           <rect
@@ -129,7 +129,7 @@ export default function SystemDiagram() {
         </g>
       ))}
 
-      {/* feedback loop */}
+      {/* boucle de rétroaction */}
       <path
         d="M612 340 C 612 392, 480 400, 360 400 C 240 400, 108 392, 108 340"
         fill="none"
@@ -146,7 +146,7 @@ export default function SystemDiagram() {
         letterSpacing="1.2"
         fontFamily="system-ui, sans-serif"
       >
-        MEASURE → LEARN → OPTIMISE
+        MESURER → APPRENDRE → OPTIMISER
       </text>
     </svg>
   );

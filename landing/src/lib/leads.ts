@@ -1,31 +1,36 @@
 /**
- * The lead domain model — shared by the form, the API, the scorer and the
- * admin dashboard so the three can never disagree about a field name.
+ * Modèle métier du lead — partagé par le formulaire, l'API, le scoring et le
+ * tableau de bord, pour qu'ils ne puissent jamais diverger sur un nom de champ.
  */
 
 export const SERVICE_OPTIONS = [
-  'Digital Marketing Audit',
-  'AI Marketing Audit',
-  'Marketing Automation Audit',
-  'AI Automation Consulting',
-  'CRM Consulting',
-  'SEO Consulting',
-  'Digital Marketing Strategy',
+  'Audit Marketing Digital',
+  'Audit Marketing IA',
+  'Audit Marketing Automation',
+  'Conseil Automatisation IA',
+  'Conseil CRM',
+  'Conseil SEO',
+  'Stratégie Marketing Digital',
   'Data & Analytics',
-  'Other',
+  'Autre',
 ] as const;
 export type ServiceRequested = (typeof SERVICE_OPTIONS)[number];
 
 export const BUDGET_OPTIONS = [
-  'Less than €500',
-  '€500–€1,000',
-  '€1,000–€3,000',
-  '€3,000–€5,000',
-  '€5,000+',
-  'Not defined yet',
+  'Moins de 500 €',
+  '500 € – 1 000 €',
+  '1 000 € – 3 000 €',
+  '3 000 € – 5 000 €',
+  '5 000 € et plus',
+  'Pas encore défini',
 ] as const;
 export type Budget = (typeof BUDGET_OPTIONS)[number];
 
+/**
+ * Statuts du pipeline. Ces valeurs sont stockées en base (type ENUM
+ * `lead_status` dans database/schema.sql) : elles restent donc en anglais pour
+ * ne pas casser le schéma. L'interface affiche STATUS_LABELS à la place.
+ */
 export const LEAD_STATUSES = [
   'New',
   'Contacted',
@@ -37,9 +42,20 @@ export const LEAD_STATUSES = [
 ] as const;
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
-export type LeadTemperature = 'Cold' | 'Warm' | 'Hot';
+/** Libellés français des statuts, pour le tableau de bord. */
+export const STATUS_LABELS: Record<LeadStatus, string> = {
+  New: 'Nouveau',
+  Contacted: 'Contacté',
+  Qualified: 'Qualifié',
+  Meeting: 'Rendez-vous',
+  Proposal: 'Proposition',
+  Won: 'Gagné',
+  Lost: 'Perdu',
+};
 
-/** Shape of a row in the `leads` table. Mirrors database/schema.sql exactly. */
+export type LeadTemperature = 'Froid' | 'Tiède' | 'Chaud';
+
+/** Structure d'une ligne de la table `leads`. Miroir exact de schema.sql. */
 export interface Lead {
   id: string;
   first_name: string;
@@ -65,7 +81,7 @@ export interface Lead {
   updated_at: string;
 }
 
-/** What the public form is allowed to send. Nothing else is accepted. */
+/** Ce que le formulaire public a le droit d'envoyer. Rien d'autre n'est accepté. */
 export interface LeadInput {
   first_name: string;
   last_name: string;
@@ -86,9 +102,16 @@ export interface LeadInput {
 }
 
 export function temperature(score: number): LeadTemperature {
-  if (score >= 61) return 'Hot';
-  if (score >= 31) return 'Warm';
-  return 'Cold';
+  if (score >= 61) return 'Chaud';
+  if (score >= 31) return 'Tiède';
+  return 'Froid';
+}
+
+/** Classe CSS associée à une température (score--hot / warm / cold). */
+export function temperatureClass(score: number): 'hot' | 'warm' | 'cold' {
+  if (score >= 61) return 'hot';
+  if (score >= 31) return 'warm';
+  return 'cold';
 }
 
 export function fullName(lead: Pick<Lead, 'first_name' | 'last_name'>): string {

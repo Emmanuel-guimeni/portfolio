@@ -5,7 +5,7 @@ import { track } from '@/lib/tracking';
 import { IconArrowRight, ICONS, type IconKey } from './Icons';
 import { SectionHead } from './Sections';
 
-/** Broadcast so the lead form can pre-select the right service. */
+/** Diffusé pour que le formulaire présélectionne le bon service. */
 export const SELECT_SERVICE_EVENT = 'gea:select-service';
 
 export default function Services() {
@@ -25,8 +25,8 @@ export default function Services() {
         <div className="container">
           <SectionHead
             eyebrow="Services"
-            title="My services"
-            intro="Each engagement starts with evidence and ends with something that runs. No 60-slide deck that nobody opens twice."
+            title="Mes services"
+            intro="Chaque mission commence par des faits et se termine par quelque chose qui tourne. Pas un deck de 60 slides que personne n’ouvre deux fois."
             center
           />
 
@@ -50,7 +50,7 @@ export default function Services() {
                     href="#contact"
                     onClick={() => requestService(service.formValue, service.title)}
                   >
-                    Request this service
+                    Demander ce service
                     <IconArrowRight size={15} />
                   </a>
                 </article>
@@ -63,9 +63,9 @@ export default function Services() {
       <section className="section section--panel" id="how-i-work">
         <div className="container">
           <SectionHead
-            eyebrow="How I work"
-            title="Five steps, in this order, every time"
-            intro="The sequence matters. Designing a system before auditing the existing one is how companies end up automating a broken process faster."
+            eyebrow="Ma méthode"
+            title="Cinq étapes, dans cet ordre, à chaque fois"
+            intro="L’ordre compte. Concevoir un système avant d’auditer l’existant, c’est la meilleure façon d’automatiser plus vite un processus cassé."
           />
 
           <div className="steps">
