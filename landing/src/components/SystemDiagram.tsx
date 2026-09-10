@@ -7,15 +7,16 @@
  * gère tous les points de rupture.
  */
 
-const INPUTS = ['Stratégie', 'Contenu', 'Trafic', 'Data'];
-const OUTPUTS = ['Leads', 'CRM', 'Nurturing', 'Insights'];
+import type { Dictionary } from '@/i18n/types';
 
-export default function SystemDiagram() {
+export default function SystemDiagram({ d }: { d: Dictionary['solution']['diagram'] }) {
+  const INPUTS = d.inputs;
+  const OUTPUTS = d.outputs;
   return (
     <svg
       viewBox="0 0 720 420"
       role="img"
-      aria-label="Schéma : stratégie, contenu, trafic et data alimentent un noyau d’orchestration IA, qui produit des leads, des fiches CRM, des séquences de nurturing et des insights."
+      aria-label={d.alt}
       style={{ width: '100%', height: 'auto' }}
     >
       <defs>
@@ -99,10 +100,10 @@ export default function SystemDiagram() {
         <rect width="120" height="120" rx="30" fill="#0e1119" stroke="url(#sd-accent)" strokeWidth="1.6" />
         <rect x="26" y="26" width="68" height="68" rx="18" fill="url(#sd-accent)" opacity="0.16" />
         <text x="60" y="52" textAnchor="middle" fill="#f2f5fa" fontSize="15" fontWeight="600" fontFamily="system-ui, sans-serif">
-          IA
+          {d.core}
         </text>
         <text x="60" y="72" textAnchor="middle" fill="#7c8699" fontSize="10.5" letterSpacing="1.4" fontFamily="system-ui, sans-serif">
-          ORCHESTRATION
+          {d.coreSub}
         </text>
       </g>
 
@@ -146,7 +147,7 @@ export default function SystemDiagram() {
         letterSpacing="1.2"
         fontFamily="system-ui, sans-serif"
       >
-        MESURER → APPRENDRE → OPTIMISER
+        {d.loop}
       </text>
     </svg>
   );

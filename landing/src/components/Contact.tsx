@@ -1,19 +1,21 @@
 'use client';
 
 import { links, site } from '@/config/site';
+import type { Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/types';
 import { track } from '@/lib/tracking';
 import { IconMail, IconPhone, IconPin, IconWhatsApp } from './Icons';
 import LeadForm from './LeadForm';
-import { SectionHead } from './Sections';
+import { SectionHead } from './Primitives';
 
-export default function Contact() {
+export default function Contact({ d, locale }: { d: Dictionary; locale: Locale }) {
   return (
     <section className="section section--bordered" id="contact">
       <div className="container">
         <SectionHead
-          eyebrow="Parlons-en"
-          title="Construisons votre système marketing intelligent"
-          intro="Parlez-moi de votre activité, de vos difficultés et de ce que vous voulez automatiser. Plus vous serez concret, plus ma première réponse vous sera utile."
+          eyebrow={d.contact.eyebrow}
+          title={d.contact.title}
+          intro={d.contact.intro}
         />
 
         <div className="contact-grid">
@@ -29,7 +31,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>{site.email}</b>
-                <small>M’écrire</small>
+                <small>{d.contact.emailMe}</small>
               </span>
             </a>
 
@@ -43,7 +45,7 @@ export default function Contact() {
               </span>
               <span>
                 <b>{site.phone.display}</b>
-                <small>M’appeler</small>
+                <small>{d.contact.callMe}</small>
               </span>
             </a>
 
@@ -58,8 +60,8 @@ export default function Contact() {
                 <IconWhatsApp size={18} />
               </span>
               <span>
-                <b>WhatsApp</b>
-                <small>Message direct — la réponse la plus rapide</small>
+                <b>{d.contact.whatsapp}</b>
+                <small>{d.contact.whatsappSub}</small>
               </span>
             </a>
 
@@ -68,8 +70,8 @@ export default function Contact() {
                 <IconPin size={18} />
               </span>
               <span>
-                <b>{site.location.label}</b>
-                <small>J’accompagne des clients en Afrique et en Europe</small>
+                <b>{d.site.locationLabel}</b>
+                <small>{d.contact.locationSub}</small>
               </span>
             </div>
 
@@ -78,7 +80,7 @@ export default function Contact() {
               style={{ padding: '18px 20px', marginTop: 6 }}
             >
               <h3 style={{ fontSize: 'var(--fs-base)', marginBottom: 8 }}>
-                Ce qui se passe après l’envoi
+                {d.contact.afterTitle}
               </h3>
               <ol
                 style={{
@@ -89,17 +91,14 @@ export default function Contact() {
                   counterReset: 'x',
                 }}
               >
-                <li>1 — Vos données sont validées côté serveur.</li>
-                <li>2 — Le lead est enregistré en base de données.</li>
-                <li>3 — Un score de qualification est calculé et stocké.</li>
-                <li>4 — Vous voyez une confirmation immédiate.</li>
-                <li>5 — Je suis notifié, avec tout votre contexte.</li>
-                <li>6 — Je réponds personnellement, en général sous un jour ouvré.</li>
+                {d.contact.afterSteps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
               </ol>
             </div>
           </aside>
 
-          <LeadForm />
+          <LeadForm d={d} locale={locale} />
         </div>
       </div>
     </section>

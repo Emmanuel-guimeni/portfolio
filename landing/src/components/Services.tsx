@@ -1,20 +1,20 @@
 'use client';
 
-import { PROCESS, SERVICES } from '@/config/services';
+import type { Dictionary } from '@/i18n/types';
 import { track } from '@/lib/tracking';
 import { IconArrowRight, ICONS, type IconKey } from './Icons';
-import { SectionHead } from './Sections';
+import { SectionHead } from './Primitives';
 
 /** Diffusé pour que le formulaire présélectionne le bon service. */
 export const SELECT_SERVICE_EVENT = 'gea:select-service';
 
-export default function Services() {
+export default function Services({ d }: { d: Dictionary }) {
   const requestService = (formValue: string, title: string) => {
     window.dispatchEvent(
       new CustomEvent(SELECT_SERVICE_EVENT, { detail: formValue }),
     );
     track(
-      formValue.includes('Audit') ? 'audit_request' : 'consulting_request',
+      formValue.includes('audit') ? 'audit_request' : 'consulting_request',
       { service: title, location: 'services' },
     );
   };
@@ -24,14 +24,14 @@ export default function Services() {
       <section className="section section--bordered" id="services">
         <div className="container">
           <SectionHead
-            eyebrow="Services"
-            title="Mes services"
-            intro="Chaque mission commence par des faits et se termine par quelque chose qui tourne. Pas un deck de 60 slides que personne n’ouvre deux fois."
+            eyebrow={d.services.eyebrow}
+            title={d.services.title}
+            intro={d.services.intro}
             center
           />
 
           <div className="grid grid--3">
-            {SERVICES.map((service) => {
+            {d.services.list.map((service) => {
               const Icon = ICONS[(service.icon as IconKey) ?? 'system'];
               return (
                 <article className="service reveal" key={service.id}>
@@ -50,7 +50,7 @@ export default function Services() {
                     href="#contact"
                     onClick={() => requestService(service.formValue, service.title)}
                   >
-                    Demander ce service
+                    {d.services.cta}
                     <IconArrowRight size={15} />
                   </a>
                 </article>
@@ -63,13 +63,13 @@ export default function Services() {
       <section className="section section--panel" id="how-i-work">
         <div className="container">
           <SectionHead
-            eyebrow="Ma méthode"
-            title="Cinq étapes, dans cet ordre, à chaque fois"
-            intro="L’ordre compte. Concevoir un système avant d’auditer l’existant, c’est la meilleure façon d’automatiser plus vite un processus cassé."
+            eyebrow={d.process.eyebrow}
+            title={d.process.title}
+            intro={d.process.intro}
           />
 
           <div className="steps">
-            {PROCESS.map((step) => (
+            {d.process.steps.map((step) => (
               <div className="step reveal" key={step.step}>
                 <span className="step__dot">{step.step}</span>
                 <h3>{step.title}</h3>

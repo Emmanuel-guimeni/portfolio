@@ -17,7 +17,12 @@ export const dynamic = 'force-dynamic';
  * Server component: the session is checked BEFORE any lead is fetched, so an
  * unauthenticated visitor never receives lead data in the HTML payload.
  */
-export default async function AdminPage() {
+export default async function AdminPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   if (!isAdminConfigured()) {
     return (
       <div className="login-wrap">
@@ -28,7 +33,7 @@ export default async function AdminPage() {
             <code className="mono">ADMIN_SESSION_SECRET</code> dans votre environnement,
             puis rechargez. Voir le README §5.
           </p>
-          <a className="btn btn--ghost" href="/">
+          <a className="btn btn--ghost" href={`/${locale}`}>
             ← Retour au site
           </a>
         </div>

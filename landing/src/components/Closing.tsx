@@ -1,7 +1,8 @@
 'use client';
 
-import { FAQS } from '@/config/faq';
-import { footerNav, links, site } from '@/config/site';
+import { links, site } from '@/config/site';
+import { localePath, type Locale } from '@/i18n/config';
+import type { Dictionary } from '@/i18n/types';
 import { track } from '@/lib/tracking';
 import {
   IconArrowRight,
@@ -12,23 +13,23 @@ import {
   IconPlus,
   IconWhatsApp,
 } from './Icons';
-import { SectionHead } from './Sections';
+import { SectionHead } from './Primitives';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    20 · FAQ
    ═══════════════════════════════════════════════════════════════════════════ */
 
-export function Faq() {
+export function Faq({ d }: { d: Dictionary }) {
   return (
     <section className="section section--panel" id="faq">
       <div className="container">
         <SectionHead
-          eyebrow="FAQ"
-          title="Les questions qu’on me pose avant chaque projet"
+          eyebrow={d.faq.eyebrow}
+          title={d.faq.title}
           center
         />
         <div className="faq">
-          {FAQS.map((item) => (
+          {d.faq.items.map((item) => (
             <details key={item.q}>
               <summary>
                 {item.q}
@@ -47,17 +48,14 @@ export function Faq() {
    21 · CTA FINAL
    ═══════════════════════════════════════════════════════════════════════════ */
 
-export function FinalCta() {
+export function FinalCta({ d }: { d: Dictionary }) {
   return (
     <section className="section section--bordered" id="final-cta">
       <div className="container">
         <div className="cta-banner">
           <div>
-            <h2>Prêt à construire un système marketing plus intelligent ?</h2>
-            <p>
-              Identifions ensemble ce qui peut être automatisé, ce qui doit rester humain,
-              et là où l’IA crée le plus de valeur.
-            </p>
+            <h2>{d.cta.title}</h2>
+            <p>{d.cta.body}</p>
             <div className="cta-banner__contacts">
               <a
                 href={links.mailto}
@@ -71,7 +69,7 @@ export function FinalCta() {
               >
                 {site.phone.display}
               </a>
-              <span className="muted">{site.location.label}</span>
+              <span className="muted">{d.site.locationLabel}</span>
             </div>
           </div>
 
@@ -80,20 +78,20 @@ export function FinalCta() {
               className="btn btn--primary btn--lg btn--block"
               href="#contact"
               onClick={() =>
-                track('cta_click', { location: 'final-cta', label: 'Demander un audit' })
+                track('cta_click', { location: 'final-cta', label: d.cta.audit })
               }
             >
-              Demander un audit
+              {d.cta.audit}
               <IconArrowRight size={17} />
             </a>
             <a
               className="btn btn--ghost btn--lg btn--block"
               href="#contact"
               onClick={() =>
-                track('cta_click', { location: 'final-cta', label: 'Réserver une consultation' })
+                track('cta_click', { location: 'final-cta', label: d.cta.consult })
               }
             >
-              Réserver une consultation
+              {d.cta.consult}
             </a>
             <a
               className="btn btn--ghost btn--lg btn--block"
@@ -116,7 +114,7 @@ export function FinalCta() {
    22 · PIED DE PAGE
    ═══════════════════════════════════════════════════════════════════════════ */
 
-export function Footer() {
+export function Footer({ d, locale }: { d: Dictionary; locale: Locale }) {
   const socials = site.socials.filter((s) => s.url);
 
   return (
@@ -130,11 +128,11 @@ export function Footer() {
               </span>
               <span>
                 <span className="nav__name">{site.name}</span>
-                <span className="nav__role">{site.role}</span>
+                <span className="nav__role">{d.site.role}</span>
               </span>
             </a>
-            <p>{site.positioning}</p>
-            <p style={{ marginTop: 10 }}>{site.philosophy}</p>
+            <p>{d.site.positioning}</p>
+            <p style={{ marginTop: 10 }}>{d.site.philosophy}</p>
 
             {socials.length > 0 && (
               <div className="footer__socials">
@@ -154,9 +152,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Navigation</h4>
-            <nav className="footer__links" aria-label="Pied de page">
-              {footerNav.slice(0, 5).map((item) => (
+            <h4>{d.footer.navigate}</h4>
+            <nav className="footer__links" aria-label={d.footer.navigate}>
+              {d.footer.links.slice(0, 5).map((item) => (
                 <a key={item.href} href={item.href}>
                   {item.label}
                 </a>
@@ -165,19 +163,19 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Mentions légales</h4>
-            <nav className="footer__links" aria-label="Mentions légales">
-              {footerNav.slice(5).map((item) => (
-                <a key={item.href} href={item.href}>
+            <h4>{d.footer.legal}</h4>
+            <nav className="footer__links" aria-label={d.footer.legal}>
+              {d.footer.links.slice(5).map((item) => (
+                <a key={item.href} href={localePath(locale, item.href)}>
                   {item.label}
                 </a>
               ))}
-              <a href="/admin">Tableau de bord des leads</a>
+              <a href={localePath(locale, "/admin")}>{d.footer.dashboard}</a>
             </nav>
           </div>
 
           <div>
-            <h4>Contact</h4>
+            <h4>{d.footer.contact}</h4>
             <div className="footer__links">
               <a
                 href={links.mailto}
@@ -216,7 +214,7 @@ export function Footer() {
                   size={14}
                   style={{ display: 'inline', verticalAlign: '-2px', marginRight: 8 }}
                 />
-                {site.location.label}
+                {d.site.locationLabel}
               </span>
             </div>
           </div>
@@ -224,9 +222,9 @@ export function Footer() {
 
         <div className="footer__bottom">
           <span>
-            © {new Date().getFullYear()} {site.name}. Tous droits réservés.
+            © {new Date().getFullYear()} {site.name}. {d.footer.rights}
           </span>
-          <span>{site.signature.join(' ')}</span>
+          <span>{d.site.signature.join(' ')}</span>
         </div>
       </div>
     </footer>

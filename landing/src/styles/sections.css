@@ -699,3 +699,241 @@
   border-radius: 50%;
   background: var(--grad-accent);
 }
+
+/* ===========================================================================
+   ILLUSTRATIONS DE SECTION
+   Traitement homogène : les photos de banque sont claires et saturées, le site
+   est sombre. Le cadre les assombrit, les teinte légèrement et les encadre pour
+   qu'elles appartiennent à la page.
+   =========================================================================== */
+
+.section-image {
+  margin: 0;
+}
+
+.section-image__frame {
+  position: relative;
+  aspect-ratio: var(--img-ratio, 3 / 2);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.section-image__img {
+  object-fit: cover;
+  /* Désaturation légère + assombrissement : l'image cesse de crier. */
+  filter: saturate(0.82) brightness(0.88) contrast(1.04);
+  transition: transform 600ms var(--ease), filter 400ms var(--ease);
+}
+
+.section-image:hover .section-image__img {
+  transform: scale(1.03);
+  filter: saturate(0.95) brightness(0.96) contrast(1.02);
+}
+
+/* Voile dégradé : ancre l'image dans le fond sombre et teinte les hautes
+   lumières vers l'indigo de la marque. */
+.section-image__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(6, 7, 12, 0.06) 0%, rgba(6, 7, 12, 0.55) 100%),
+    linear-gradient(135deg, rgba(59, 130, 246, 0.14), rgba(139, 92, 246, 0.14));
+  mix-blend-mode: normal;
+}
+
+.section-image figcaption {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+/* Variante « pleine largeur, discrète » pour une bande d'ambiance */
+.section-image--band .section-image__frame {
+  border-radius: var(--r-xl);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-image__img,
+  .section-image:hover .section-image__img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ===========================================================================
+   SÉLECTEUR DE LANGUE
+   =========================================================================== */
+
+.lang {
+  position: relative;
+}
+
+.lang__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-full);
+  background: var(--glass-strong);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.lang__button:hover,
+.lang__button[aria-expanded='true'] {
+  color: var(--text);
+  border-color: var(--line-accent);
+}
+
+.lang__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-end: 0;
+  z-index: 120;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  background: rgba(14, 17, 25, 0.97);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-lg);
+}
+
+.lang__menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  text-align: start;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.lang__menu button:hover {
+  background: var(--glass-strong);
+  color: var(--text);
+}
+
+.lang__menu button[aria-selected='true'] {
+  background: var(--grad-accent-soft);
+  color: var(--text);
+}
+
+.lang__menu em {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-style: normal;
+}
+
+.lang-drawer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.lang-drawer button {
+  padding: 9px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-full);
+  background: var(--glass-strong);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.lang-drawer button[aria-current='true'] {
+  background: var(--grad-accent);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ===========================================================================
+   SUPPORT DROITE-À-GAUCHE (arabe)
+   Le gros du travail est fait par les propriétés logiques utilisées partout
+   (inset-inline, margin-inline, text-align: start). Ne restent que les
+   éléments explicitement directionnels.
+   =========================================================================== */
+
+[dir='rtl'] body {
+  font-family: 'Noto Sans Arabic', var(--font-sans);
+}
+
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3,
+[dir='rtl'] h4 {
+  font-family: 'Noto Sans Arabic', var(--font-display);
+  letter-spacing: 0;
+}
+
+/* Les flèches des CTA pointent vers l'avant, donc vers la gauche en RTL. */
+[dir='rtl'] .btn svg,
+[dir='rtl'] .service__cta svg,
+[dir='rtl'] .transition-bar svg {
+  transform: scaleX(-1);
+}
+
+/* La ligne de la timeline et le décalage au survol changent de sens. */
+[dir='rtl'] .step::before {
+  background: linear-gradient(270deg, var(--line-accent), var(--line));
+}
+
+[dir='rtl'] .chain__row:hover {
+  transform: translateX(-5px);
+}
+
+[dir='rtl'] .contact-card:hover {
+  transform: translateX(-4px);
+}
+
+[dir='rtl'] .problem-cell,
+[dir='rtl'] .statband__item {
+  border-inline-end: 1px solid var(--line);
+  border-right: none;
+}
+
+/* Les nombres, prix, codes devise et dates restent lus de gauche à droite. */
+[dir='rtl'] .num,
+[dir='rtl'] .mono,
+[dir='rtl'] .tier__price,
+[dir='rtl'] .tier__alt,
+[dir='rtl'] .statband__value,
+[dir='rtl'] .agent__num,
+[dir='rtl'] .step__dot,
+[dir='rtl'] .chain__idx,
+[dir='rtl'] .flow__step i {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Le tableau tarifaire garde ses colonnes chiffrées alignées à droite. */
+[dir='rtl'] .price-table th,
+[dir='rtl'] .price-table td {
+  text-align: right;
+}
+
+[dir='rtl'] .price-table td.num,
+[dir='rtl'] .price-table th.num {
+  text-align: left;
+}
+
+[dir='rtl'] .fx-panel__head,
+[dir='rtl'] .lang__menu button {
+  text-align: right;
+}

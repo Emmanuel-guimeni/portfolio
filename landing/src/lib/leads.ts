@@ -1,30 +1,41 @@
 /**
  * Modèle métier du lead — partagé par le formulaire, l'API, le scoring et le
  * tableau de bord, pour qu'ils ne puissent jamais diverger sur un nom de champ.
+ *
+ * ⚠️ Les valeurs de ce fichier sont enregistrées en base. Elles sont donc
+ * CANONIQUES et indépendantes de la langue : un visiteur arabophone et un
+ * visiteur francophone qui demandent le même service enregistrent la même clé.
+ * Les libellés affichés vivent dans les dictionnaires (src/i18n).
  */
 
 export const SERVICE_OPTIONS = [
-  'Audit Marketing Digital',
-  'Audit Marketing IA',
-  'Audit Marketing Automation',
-  'Conseil Automatisation IA',
-  'Conseil CRM',
-  'Conseil SEO',
-  'Stratégie Marketing Digital',
-  'Data & Analytics',
-  'Autre',
+  'digital-marketing-audit',
+  'ai-marketing-audit',
+  'marketing-automation-audit',
+  'ai-automation-consulting',
+  'crm-consulting',
+  'seo-consulting',
+  'digital-marketing-strategy',
+  'data-analytics',
+  'other',
 ] as const;
 export type ServiceRequested = (typeof SERVICE_OPTIONS)[number];
 
 export const BUDGET_OPTIONS = [
-  'Moins de 500 €',
-  '500 € – 1 000 €',
-  '1 000 € – 3 000 €',
-  '3 000 € – 5 000 €',
-  '5 000 € et plus',
-  'Pas encore défini',
+  'lt-500',
+  '500-1000',
+  '1000-3000',
+  '3000-5000',
+  '5000-plus',
+  'undecided',
 ] as const;
 export type Budget = (typeof BUDGET_OPTIONS)[number];
+
+/** Codes pays ISO 3166-1 alpha-2 proposés dans le formulaire. */
+export const COUNTRY_CODES = [
+  'MA', 'CM', 'CG', 'GA', 'TD', 'CF', 'GQ', 'CI', 'SN',
+  'FR', 'BE', 'CH', 'CA', 'US', 'GB', 'OTHER',
+] as const;
 
 /**
  * Statuts du pipeline. Ces valeurs sont stockées en base (type ENUM
@@ -52,6 +63,38 @@ export const STATUS_LABELS: Record<LeadStatus, string> = {
   Won: 'Gagné',
   Lost: 'Perdu',
 };
+
+/** Libellés français des services, pour le tableau de bord et les emails. */
+export const SERVICE_LABELS: Record<ServiceRequested, string> = {
+  'digital-marketing-audit': 'Audit Marketing Digital',
+  'ai-marketing-audit': 'Audit Marketing IA',
+  'marketing-automation-audit': 'Audit Marketing Automation',
+  'ai-automation-consulting': 'Conseil Automatisation IA',
+  'crm-consulting': 'Conseil CRM',
+  'seo-consulting': 'Conseil SEO',
+  'digital-marketing-strategy': 'Stratégie Marketing Digital',
+  'data-analytics': 'Data & Analytics',
+  other: 'Autre',
+};
+
+/** Libellés français des tranches de budget. */
+export const BUDGET_LABELS: Record<Budget, string> = {
+  'lt-500': 'Moins de 500 €',
+  '500-1000': '500 € – 1 000 €',
+  '1000-3000': '1 000 € – 3 000 €',
+  '3000-5000': '3 000 € – 5 000 €',
+  '5000-plus': '5 000 € et plus',
+  undecided: 'Pas encore défini',
+};
+
+/** Traduit une clé stockée en libellé lisible ; renvoie la clé si inconnue. */
+export function serviceLabel(value: string | null | undefined): string {
+  return SERVICE_LABELS[value as ServiceRequested] ?? value ?? '—';
+}
+
+export function budgetLabel(value: string | null | undefined): string {
+  return BUDGET_LABELS[value as Budget] ?? value ?? '—';
+}
 
 export type LeadTemperature = 'Froid' | 'Tiède' | 'Chaud';
 

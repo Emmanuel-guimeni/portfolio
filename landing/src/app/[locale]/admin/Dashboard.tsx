@@ -4,12 +4,16 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   LEAD_STATUSES,
+  SERVICE_LABELS,
   SERVICE_OPTIONS,
   STATUS_LABELS,
+  budgetLabel,
+  serviceLabel,
   temperature,
   temperatureClass,
   type Lead,
   type LeadStatus,
+  type ServiceRequested,
 } from '@/lib/leads';
 
 /**
@@ -83,12 +87,12 @@ export default function Dashboard({
       fresh: filtered.filter((l) => l.status === 'New').length,
       warm: filtered.filter((l) => t(l) === 'Tiède').length,
       hot: filtered.filter((l) => t(l) === 'Chaud').length,
-      audits: filtered.filter((l) => l.service_requested.includes('Audit')).length,
+      audits: filtered.filter((l) => l.service_requested.includes('audit')).length,
       consulting: filtered.filter(
         (l) =>
-          l.service_requested.includes('Conseil') ||
-          l.service_requested.includes('Stratégie') ||
-          l.service_requested.includes('Analytics'),
+          l.service_requested.includes('consulting') ||
+          l.service_requested.includes('strategy') ||
+          l.service_requested.includes('analytics'),
       ).length,
       conversion: filtered.length ? Math.round((won / filtered.length) * 100) : 0,
     };
@@ -228,7 +232,7 @@ export default function Dashboard({
             <option value="">Tous</option>
             {SERVICE_OPTIONS.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {SERVICE_LABELS[s as ServiceRequested]}
               </option>
             ))}
           </select>
@@ -369,7 +373,7 @@ export default function Dashboard({
                     )}
                   </td>
                   <td style={{ maxWidth: 190 }}>
-                    {lead.service_requested}
+                    {serviceLabel(lead.service_requested)}
                     {lead.message && (
                       <details style={{ marginTop: 6 }}>
                         <summary
@@ -390,7 +394,7 @@ export default function Dashboard({
                       </details>
                     )}
                   </td>
-                  <td>{lead.budget ?? '—'}</td>
+                  <td>{budgetLabel(lead.budget)}</td>
                   <td>
                     <span className={`score score--${temperatureClass(lead.lead_score)}`}>
                       {lead.lead_score}

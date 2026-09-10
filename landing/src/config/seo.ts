@@ -1,3 +1,6 @@
+import type { Dictionary } from '@/i18n/types';
+import type { Locale } from '@/i18n/config';
+import { localePath } from '@/i18n/config';
 import { site } from './site';
 
 /** Origine canonique. Renseignez NEXT_PUBLIC_SITE_URL en production. */
@@ -5,41 +8,22 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 ).replace(/\/$/, '');
 
-export const SEO = {
-  title: `${site.name} — Spécialiste Marketing Digital & Automatisation IA`,
-  /** Moins de 160 caractères, pour que Google ne la tronque pas. */
-  description:
-    "Consultant en marketing digital et automatisation IA à Casablanca. Je conçois des systèmes marketing intelligents reliant IA, automatisation, CRM, data et croissance.",
-  keywords: [
-    'consultant marketing digital',
-    'automatisation marketing IA',
-    'consultant marketing automation',
-    'spécialiste automatisation IA',
-    'marketing digital et automatisation IA',
-    'marketing automation Maroc',
-    'consultant marketing digital Casablanca',
-    'automatisation CRM',
-    'système de génération de leads',
-    'agents marketing IA',
-    'AI marketing automation',
-    'digital marketing consultant',
-  ],
-  ogImage: '/og.png',
-} as const;
-
 /**
  * Graphe Schema.org : Person + ProfessionalService + WebSite + FAQPage.
- * Rendu une seule fois dans le layout racine, en un seul bloc JSON-LD.
+ * Construit dans la langue de la page, pour que Google indexe chaque version
+ * avec ses propres données structurées.
  */
-export function structuredData(faqs: { q: string; a: string }[]) {
+export function structuredData(locale: Locale, d: Dictionary) {
+  const pageUrl = `${SITE_URL}${localePath(locale)}`;
+
   const person = {
     '@type': 'Person',
     '@id': `${SITE_URL}/#person`,
     name: site.name,
     givenName: 'Emmanuel',
     familyName: 'GUEHEDI',
-    jobTitle: site.role,
-    description: site.manifesto,
+    jobTitle: d.site.role,
+    description: d.site.manifesto,
     email: `mailto:${site.email}`,
     telephone: site.phone.e164,
     url: SITE_URL,
@@ -49,16 +33,8 @@ export function structuredData(faqs: { q: string; a: string }[]) {
       addressLocality: site.location.city,
       addressCountry: site.location.countryCode,
     },
-    alumniOf: { '@type': 'EducationalOrganization', name: site.degree },
-    knowsAbout: [
-      'Marketing digital',
-      'Intelligence artificielle',
-      'Marketing automation',
-      'CRM',
-      'SEO',
-      'Data analytics',
-      'Growth marketing',
-    ],
+    alumniOf: { '@type': 'EducationalOrganization', name: d.site.degree },
+    knowsAbout: d.meta.keywords.slice(0, 7),
     ...(site.socials.some((s) => s.url)
       ? { sameAs: site.socials.filter((s) => s.url).map((s) => s.url) }
       : {}),
@@ -67,10 +43,10 @@ export function structuredData(faqs: { q: string; a: string }[]) {
   const service = {
     '@type': 'ProfessionalService',
     '@id': `${SITE_URL}/#service`,
-    name: `${site.name} — Marketing digital & automatisation IA`,
-    description: SEO.description,
-    url: SITE_URL,
-    image: `${SITE_URL}${SEO.ogImage}`,
+    name: `${site.name} — ${d.site.roleShort}`,
+    description: d.meta.description,
+    url: pageUrl,
+    image: `${SITE_URL}/og.png`,
     telephone: site.phone.e164,
     email: `mailto:${site.email}`,
     founder: { '@id': `${SITE_URL}/#person` },
@@ -83,37 +59,29 @@ export function structuredData(faqs: { q: string; a: string }[]) {
     priceRange: '$$',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Services',
-      itemListElement: [
-        'Audit Marketing Digital',
-        'Audit Marketing IA',
-        'Audit Marketing Automation',
-        'Conseil Automatisation IA',
-        'CRM & Automatisation des leads',
-        'Stratégie Marketing Digital',
-        'Data & Marketing Analytics',
-        'Transformation Marketing par l’IA',
-      ].map((name) => ({
+      name: d.services.title,
+      itemListElement: d.services.list.map((s) => ({
         '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name },
+        itemOffered: { '@type': 'Service', name: s.title, description: s.description },
       })),
     },
   };
 
   const website = {
     '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
-    url: SITE_URL,
-    name: SEO.title,
-    description: SEO.description,
+    '@id': `${SITE_URL}/#website-${locale}`,
+    url: pageUrl,
+    name: d.meta.title,
+    description: d.meta.description,
     publisher: { '@id': `${SITE_URL}/#person` },
-    inLanguage: 'fr',
+    inLanguage: d.meta.schemaLanguage,
   };
 
   const faqPage = {
     '@type': 'FAQPage',
-    '@id': `${SITE_URL}/#faq`,
-    mainEntity: faqs.map((f) => ({
+    '@id': `${pageUrl}#faq`,
+    inLanguage: d.meta.schemaLanguage,
+    mainEntity: d.faq.items.map((f) => ({
       '@type': 'Question',
       name: f.q,
       acceptedAnswer: { '@type': 'Answer', text: f.a },

@@ -12,23 +12,25 @@ import {
   type Currency,
 } from '@/config/currency';
 import { STACKS, stackLines } from '@/config/stacks';
-import { COST_TYPES, REDUNDANCY, TOOLS, type PricingModel } from '@/config/tools';
+import { COST_TYPE_ORDER, REDUNDANCY, TOOLS, type PricingModel } from '@/config/tools';
+import type { Dictionary } from '@/i18n/types';
 import { track } from '@/lib/tracking';
 import { IconArrowRight, IconCheck } from './Icons';
-import { SectionHead } from './Sections';
+import { SectionHead } from './Primitives';
 
 type Billing = 'monthly' | 'annual';
 
-const MODEL_LABEL: Record<PricingModel, { text: string; cls: string }> = {
-  free: { text: 'Gratuit', cls: 'pill--free' },
-  flat: { text: 'Forfait', cls: 'pill--flat' },
-  'per-user': { text: 'Par utilisateur', cls: 'pill--seat' },
-  usage: { text: 'À la consommation', cls: 'pill--usage' },
-  'contact-sales': { text: 'Sur devis', cls: 'pill--sales' },
-  'media-spend': { text: 'Budget média', cls: 'pill--media' },
+const MODEL_CLASS: Record<PricingModel, string> = {
+  free: 'pill--free',
+  flat: 'pill--flat',
+  'per-user': 'pill--seat',
+  usage: 'pill--usage',
+  'contact-sales': 'pill--sales',
+  'media-spend': 'pill--media',
 };
 
-export default function Pricing() {
+export default function Pricing({ d }: { d: Dictionary }) {
+  const t = d.pricing;
   const [currency, setCurrency] = useState<Currency>('EUR');
   const [billing, setBilling] = useState<Billing>('monthly');
   const [fx, setFx] = useState<Record<Currency, number>>({ ...FX_DEFAULT });
@@ -96,15 +98,15 @@ export default function Pricing() {
     <section className="section section--panel" id="pricing">
       <div className="container container--wide">
         <SectionHead
-          eyebrow="Tarifs &amp; coût réel"
-          title="Combien coûte réellement un système marketing piloté par l’IA ?"
-          intro="Des prix officiels, réels et sourcés — convertis en direct en USD, EUR, MAD et XAF. Changez de devise, de cycle de facturation, ou modifiez vous-même les taux de change."
+          eyebrow={t.eyebrow}
+          title={t.title}
+          intro={t.intro}
           center
         />
 
         {/* ── Barre d'outils : devise + facturation ─────────────────────── */}
         <div className="pricing-toolbar">
-          <div className="seg" role="group" aria-label="Devise d’affichage">
+          <div className="seg" role="group" aria-label={t.currencyGroup}>
             {CURRENCIES.map((code) => (
               <button
                 key={code}
@@ -114,27 +116,27 @@ export default function Pricing() {
                   setCurrency(code);
                   track('pricing_currency_change', { currency: code });
                 }}
-                title={CURRENCY_META[code].name}
+                title={t.currencyNames[code]}
               >
                 {code}
               </button>
             ))}
           </div>
 
-          <div className="seg" role="group" aria-label="Cycle de facturation">
+          <div className="seg" role="group" aria-label={t.billingGroup}>
             <button
               type="button"
               aria-pressed={billing === 'monthly'}
               onClick={() => setBilling('monthly')}
             >
-              Mensuel
+              {t.monthly}
             </button>
             <button
               type="button"
               aria-pressed={billing === 'annual'}
               onClick={() => setBilling('annual')}
             >
-              Annuel
+              {t.annual}
             </button>
           </div>
         </div>
@@ -148,12 +150,12 @@ export default function Pricing() {
             onClick={() => setFxOpen((v) => !v)}
           >
             <span>
-              <b>Taux de change</b>
+              <b>{t.fxTitle}</b>
               <small>
-                Base USD · mis à jour le {FX_META.date} · {FX_META.source} · {FX_META.pegNote}
+                {t.fxBase} · {t.fxUpdated} {FX_META.date} · {t.fxSource} · {t.fxPegNote}
               </small>
             </span>
-            <span className="tag">{fxOpen ? 'Masquer les taux' : 'Modifier les taux'}</span>
+            <span className="tag">{fxOpen ? t.fxHide : t.fxEdit}</span>
           </button>
 
           {fxOpen && (
@@ -161,7 +163,7 @@ export default function Pricing() {
               {CURRENCIES.map((code) => (
                 <div className="fx-field" key={code}>
                   <label htmlFor={`fx-${code}`}>
-                    1 USD = {code}
+                    {t.fxRateLabel} {code}
                   </label>
                   <input
                     id={`fx-${code}`}
@@ -180,14 +182,11 @@ export default function Pricing() {
                 </div>
               ))}
               <p className="fx-note">
-                Tous les montants de cette page sont calculés à partir de ces taux — rien
-                n’est codé en dur. Le XAF est le franc CFA d’Afrique centrale (zone CEMAC),
-                arrimé à 1&nbsp;EUR&nbsp;=&nbsp;{EUR_XAF_PEG}&nbsp;XAF ; c’est une devise
-                différente du XOF (Afrique de l’Ouest). Source&nbsp;:{' '}
+                {t.fxNote[0]}{' '}
                 <a href={FX_META.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  taux interbancaires en direct
+                  {t.fxSourceLink}
                 </a>
-                . À revérifier avant tout chiffrage client.
+                {t.fxNote[1]}
               </p>
             </div>
           )}
@@ -197,38 +196,40 @@ export default function Pricing() {
         <div className="grid grid--3" style={{ alignItems: 'stretch' }}>
           {STACKS.map((stack) => {
             const lines = stackLines(stack);
-            const t = totals[stack.id];
-            const perMonth = billing === 'monthly' ? t.monthly : t.annualMonthly;
+            const perMonth =
+              billing === 'monthly'
+                ? totals[stack.id].monthly
+                : totals[stack.id].annualMonthly;
 
             return (
               <article
                 className={`tier${stack.featured ? ' tier--featured' : ''}`}
                 key={stack.id}
               >
-                {stack.featured && <span className="tier__flag">Le plus courant</span>}
+                {stack.featured && <span className="tier__flag">{t.mostCommon}</span>}
 
                 <div>
-                  <span className="tier__name">{stack.name}</span>
+                  <span className="tier__name">{t.stacks[stack.id].name}</span>
                   <p className="tier__for" style={{ marginTop: 6 }}>
-                    {stack.tagline}
+                    {t.stacks[stack.id].tagline}
                   </p>
                 </div>
 
                 <div>
                   <div className="tier__price">
                     {formatMoney(perMonth, currency)}
-                    <small>/ mois</small>
+                    <small>{t.perMonth}</small>
                   </div>
                   <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 6 }}>
                     {billing === 'annual'
-                      ? `Facturé annuellement — ${formatMoney(t.annualTotal, currency)}/an${
-                          t.savings > 0.5
-                            ? `, soit ${formatMoney(t.savings, currency)} d’économie`
-                            : ' — pas de remise annuelle sur ces offres'
+                      ? `${t.billedAnnually} ${formatMoney(totals[stack.id].annualTotal, currency)}${
+                          totals[stack.id].savings > 0.5
+                            ? ` — ${formatMoney(totals[stack.id].savings, currency)} ${t.saving}`
+                            : ` — ${t.noAnnualDiscount}`
                         }`
-                      : `${formatMoney(t.monthly * 12, currency)}/an au tarif mensuel`}
-                    {t.unpriced > 0
-                      ? ` · +${t.unpriced} ligne${t.unpriced > 1 ? 's' : ''} à la consommation ou média en sus`
+                      : `${formatMoney(totals[stack.id].monthly * 12, currency)} — ${t.atMonthlyRate}`}
+                    {totals[stack.id].unpriced > 0
+                      ? ` · +${totals[stack.id].unpriced} ${t.extraUsageLines}`
                       : ''}
                   </p>
                 </div>
@@ -236,13 +237,13 @@ export default function Pricing() {
                 <div className="tier__alt">
                   {CURRENCIES.filter((c) => c !== currency).map((c) => (
                     <span key={c}>
-                      {c} {formatMoney(convert(perMonth, currency, c, fx), c)} / mois
+                      {c} {formatMoney(convert(perMonth, currency, c, fx), c)} {t.perMonth}
                     </span>
                   ))}
                 </div>
 
                 <ul className="agent__caps">
-                  {stack.audience.map((a) => (
+                  {t.stacks[stack.id].audience.map((a) => (
                     <li key={a}>{a}</li>
                   ))}
                 </ul>
@@ -253,11 +254,11 @@ export default function Pricing() {
                       <span>
                         {line.tool.name}
                         <br />
-                        <em>{line.tool.plan}</em>
+                        <em>{d.tools[line.tool.id].plan}</em>
                       </span>
                       <b>
                         {line.monthly === null && line.annualMonthly === null
-                          ? MODEL_LABEL[line.tool.model].text
+                          ? t.models[line.tool.model]
                           : show(
                               billing === 'monthly'
                                 ? (line.monthly ?? line.annualMonthly)
@@ -271,14 +272,16 @@ export default function Pricing() {
 
                 <div className="tier__totals">
                   <div>
-                    <span>Coût mensuel</span>
+                    <span>{t.monthlyCost}</span>
                     <b>{formatMoney(perMonth, currency)}</b>
                   </div>
                   <div>
-                    <span>Coût annuel</span>
+                    <span>{t.annualCost}</span>
                     <b>
                       {formatMoney(
-                        billing === 'monthly' ? t.monthly * 12 : t.annualTotal,
+                        billing === 'monthly'
+                          ? totals[stack.id].monthly * 12
+                          : totals[stack.id].annualTotal,
                         currency,
                       )}
                     </b>
@@ -287,19 +290,20 @@ export default function Pricing() {
 
                 <p className="muted" style={{ fontSize: 'var(--fs-xs)' }}>
                   <strong style={{ color: 'var(--text-secondary)' }}>
-                    Non inclus :
+{t.notIncluded}
                   </strong>{' '}
-                  {stack.implementationNote} {stack.mediaBudgetNote}
+                  {t.stacks[stack.id].implementationNote}{' '}
+                  {t.stacks[stack.id].mediaBudgetNote}
                 </p>
 
                 <a
                   className={`btn ${stack.featured ? 'btn--primary' : 'btn--ghost'} btn--block`}
                   href="#contact"
                   onClick={() =>
-                    track('cta_click', { location: 'pricing', label: stack.name })
+                    track('cta_click', { location: 'pricing', label: stack.id })
                   }
                 >
-                  Construire cette stack avec moi
+                  {t.buildThisStack}
                   <IconArrowRight size={16} />
                 </a>
               </article>
@@ -310,20 +314,17 @@ export default function Pricing() {
         {/* ── Simulateur de coût total de possession ────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '0.6rem' }}>
-            Coût total de possession (TCO)
+            {t.tcoTitle}
           </h3>
           <p className="lede" style={{ marginBottom: '1.75rem', maxWidth: '68ch' }}>
-            Une ligne logiciel ne fait pas un budget. Huit postes de coût composent le
-            chiffre réel — et les quatre les plus souvent oubliés sont la consommation API,
-            le budget publicitaire, la mise en place et la maintenance. Ajustez-les
-            ci-dessous.
+            {t.tcoIntro}
           </p>
 
           <div className="cost-types" style={{ marginBottom: '1.75rem' }}>
-            {COST_TYPES.map((type) => (
-              <div className="cost-type" key={type.id}>
-                <b>{type.label}</b>
-                <small>{type.description}</small>
+            {COST_TYPE_ORDER.map((id) => (
+              <div className="cost-type" key={id}>
+                <b>{t.costTypes[id].label}</b>
+                <small>{t.costTypes[id].description}</small>
               </div>
             ))}
           </div>
@@ -332,7 +333,7 @@ export default function Pricing() {
             <div className="fx-panel">
               <div className="fx-panel__body" style={{ borderTop: 'none', paddingTop: 18 }}>
                 <div className="fx-field" style={{ gridColumn: '1 / -1' }}>
-                  <label htmlFor="tco-stack">Stack de référence</label>
+                  <label htmlFor="tco-stack">{t.referenceStack}</label>
                   <select
                     id="tco-stack"
                     value={tcoStack}
@@ -345,18 +346,18 @@ export default function Pricing() {
                       color: 'var(--text)',
                     }}
                   >
-                    {STACKS.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
+                    {STACKS.map((stack) => (
+                      <option key={stack.id} value={stack.id}>
+                        {t.stacks[stack.id].name}
                       </option>
                     ))}
                   </select>
                 </div>
                 {[
-                  { id: 'api', label: `API / consommation (${currency}/mois)`, value: apiBudget, set: setApiBudget },
-                  { id: 'media', label: `Budget média (${currency}/mois)`, value: mediaBudget, set: setMediaBudget },
-                  { id: 'impl', label: `Mise en place (${currency}, ponctuel)`, value: implementation, set: setImplementation },
-                  { id: 'maint', label: `Maintenance (${currency}/mois)`, value: maintenance, set: setMaintenance },
+                  { id: 'api', label: `${t.tcoApi} (${currency}/${t.monthly.toLowerCase()})`, value: apiBudget, set: setApiBudget },
+                  { id: 'media', label: `${t.tcoMedia} (${currency})`, value: mediaBudget, set: setMediaBudget },
+                  { id: 'impl', label: `${t.tcoImplementation} (${currency})`, value: implementation, set: setImplementation },
+                  { id: 'maint', label: `${t.tcoMaintenance} (${currency})`, value: maintenance, set: setMaintenance },
                 ].map((f) => (
                   <div className="fx-field" key={f.id}>
                     <label htmlFor={`tco-${f.id}`}>{f.label}</label>
@@ -375,36 +376,36 @@ export default function Pricing() {
 
             <div className="tco">
               <div className="tco__row">
-                <span>Logiciels + abonnements IA ({billing === 'monthly' ? 'mensuel' : 'annuel'})</span>
+                <span>{t.tcoSoftware} ({billing === 'monthly' ? t.monthly : t.annual})</span>
                 <b>{formatMoney(softwareMonthly, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Coût API / consommation</span>
+                <span>{t.tcoApiRow}</span>
                 <b>{formatMoney(apiBudget, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Budget média publicitaire</span>
+                <span>{t.tcoMediaRow}</span>
                 <b>{formatMoney(mediaBudget, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Mise en place (lissée sur 12 mois)</span>
+                <span>{t.tcoImplementationRow}</span>
                 <b>{formatMoney(implementation / 12, currency)}</b>
               </div>
               <div className="tco__row">
-                <span>Maintenance</span>
+                <span>{t.tcoMaintenanceRow}</span>
                 <b>{formatMoney(maintenance, currency)}</b>
               </div>
               <div className="tco__row tco__row--total">
-                <span>Total par mois</span>
+                <span>{t.tcoTotalMonthly}</span>
                 <b>{formatMoney(tcoMonthly, currency)}</b>
               </div>
               <div className="tco__row tco__row--total">
-                <span>Total première année</span>
+                <span>{t.tcoTotalYearOne}</span>
                 <b>{formatMoney(tcoMonthly * 12, currency)}</b>
               </div>
               <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 6 }}>
                 {CURRENCIES.filter((c) => c !== currency)
-                  .map((c) => `${c} ${formatMoney(convert(tcoMonthly, currency, c, fx), c)}/mois`)
+                  .map((c) => `${c} ${formatMoney(convert(tcoMonthly, currency, c, fx), c)}`)
                   .join('  ·  ')}
               </p>
             </div>
@@ -414,21 +415,18 @@ export default function Pricing() {
         {/* ── Contre l'accumulation d'outils ───────────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <div className="transition-bar" style={{ marginTop: 0, marginBottom: '1.75rem' }}>
-            <b>Vous n’avez pas besoin de tous les outils. Vous avez besoin du bon système.</b>
+            <b>{t.bloatBanner}</b>
           </div>
           <p className="lede" style={{ marginBottom: '1.75rem', maxWidth: '68ch' }}>
-            Stack minimale nécessaire → efficacité opérationnelle maximale. Ci-dessous, le
-            score de redondance : à quel point chaque paire d’outils se recouvre, et ce qui
-            peut être fusionné sans risque. Chaque outil supprimé, c’est un abonnement en
-            moins, une intégration en moins, et une chose de moins qui casse à 2h du matin.
+            {t.bloatIntro}
           </p>
 
           <div className="redundancy">
             {REDUNDANCY.map((r) => (
-              <div className="redundancy__row" key={r.group}>
+              <div className="redundancy__row" key={r.id}>
                 <div>
-                  <b>{r.group}</b>
-                  <p>{r.overlap}</p>
+                  <b>{t.redundancy[r.id].group}</b>
+                  <p>{t.redundancy[r.id].overlap}</p>
                 </div>
                 <div>
                   <div
@@ -436,10 +434,10 @@ export default function Pricing() {
                   >
                     <i style={{ width: `${r.score}%` }} />
                   </div>
-                  <p style={{ marginTop: 7 }}>{r.verdict}</p>
+                  <p style={{ marginTop: 7 }}>{t.redundancy[r.id].verdict}</p>
                 </div>
                 <span className="num" style={{ fontWeight: 700 }}>
-                  {r.score}% de recouvrement
+                  {r.score}% {t.overlap}
                 </span>
               </div>
             ))}
@@ -449,39 +447,36 @@ export default function Pricing() {
         {/* ── Tableau tarifaire complet ─────────────────────────────────── */}
         <div style={{ marginTop: 'clamp(3rem, 6vw, 4.5rem)' }}>
           <h3 style={{ fontSize: 'var(--fs-xl)', marginBottom: '0.6rem' }}>
-            Chaque outil, chaque offre, quatre devises
+            {t.tableTitle}
           </h3>
           <p className="lede" style={{ marginBottom: '1.5rem', maxWidth: '68ch' }}>
-            Les prix sont les tarifs officiels publiés par l’éditeur, dans sa propre devise
-            de facturation ; les trois autres colonnes sont converties avec les taux
-            ci-dessus. Lorsqu’un prix n’est pas publié, la ligne le dit plutôt que de
-            deviner.
+            {t.tableIntro}
           </p>
 
           <div className="table-wrap">
             <table className="price-table">
               <caption className="sr-only">
-                Tarifs officiels de chaque outil de la stack, en facturation mensuelle et
-                annuelle, en USD, EUR, MAD et XAF.
+                {t.tableCaption}
               </caption>
               <thead>
                 <tr>
-                  <th scope="col">Outil</th>
-                  <th scope="col">Catégorie</th>
-                  <th scope="col">Offre</th>
-                  <th scope="col">Modèle</th>
-                  <th scope="col" className="num">Mensuel</th>
-                  <th scope="col" className="num">Annuel / mois</th>
-                  <th scope="col" className="num">Total annuel</th>
-                  <th scope="col" className="num">Économie / an</th>
-                  <th scope="col">Utilisateurs</th>
-                  <th scope="col">Limites &amp; coûts variables</th>
-                  <th scope="col">Vérifié le</th>
+                  <th scope="col">{t.columns.tool}</th>
+                  <th scope="col">{t.columns.category}</th>
+                  <th scope="col">{t.columns.plan}</th>
+                  <th scope="col">{t.columns.model}</th>
+                  <th scope="col" className="num">{t.columns.monthly}</th>
+                  <th scope="col" className="num">{t.columns.annualPerMonth}</th>
+                  <th scope="col" className="num">{t.columns.annualTotal}</th>
+                  <th scope="col" className="num">{t.columns.savingPerYear}</th>
+                  <th scope="col">{t.columns.users}</th>
+                  <th scope="col">{t.columns.limits}</th>
+                  <th scope="col">{t.columns.verified}</th>
                 </tr>
               </thead>
               <tbody>
                 {TOOLS.map((tool) => {
-                  const label = MODEL_LABEL[tool.model];
+                  const copy = d.tools[tool.id];
+                  const modelLabel = t.models[tool.model];
                   const annualTotal =
                     tool.annualMonthly !== null ? tool.annualMonthly * 12 : null;
                   const saving =
@@ -490,30 +485,30 @@ export default function Pricing() {
                       : null;
 
                   return (
-                    <tr key={tool.id + tool.plan}>
+                    <tr key={tool.id}>
                       <th scope="row" className="tool-name">
                         {tool.name}
-                        <small>{tool.functionality}</small>
+                        <small>{copy.functionality}</small>
                         <a href={tool.source} target="_blank" rel="noopener noreferrer">
-                          Tarif officiel ↗
+                          {t.officialPricing}
                         </a>
                       </th>
-                      <td>{tool.category}</td>
-                      <td>{tool.plan}</td>
+                      <td>{d.stack.categories[tool.category]}</td>
+                      <td>{copy.plan}</td>
                       <td>
-                        <span className={`pill ${label.cls}`}>{label.text}</span>
+                        <span className={`pill ${MODEL_CLASS[tool.model]}`}>{modelLabel}</span>
                         {tool.confidence === 'indicative' && (
                           <>
                             <br />
                             <span className="pill pill--sales" style={{ marginTop: 5 }}>
-                              À vérifier
+                              {t.verifyBadge}
                             </span>
                           </>
                         )}
                       </td>
                       <td className="num">
                         {tool.monthly === null ? (
-                          <span className="muted">Non publié</span>
+                          <span className="muted">{t.notPublished}</span>
                         ) : (
                           show(tool.monthly, tool.currency)
                         )}
@@ -535,13 +530,13 @@ export default function Pricing() {
                           <span className="muted">—</span>
                         )}
                       </td>
-                      <td style={{ minWidth: 130 }}>{tool.users}</td>
+                      <td style={{ minWidth: 130 }}>{copy.users}</td>
                       <td style={{ minWidth: 260, color: 'var(--text-muted)' }}>
-                        {tool.limits}
-                        {tool.variableCost ? ` · ${tool.variableCost}` : ''}
-                        {tool.apiCost ? ` · API : ${tool.apiCost}` : ''}
-                        {tool.extraCost ? ` · ${tool.extraCost}` : ''}
-                        {tool.note ? ` · ${tool.note}` : ''}
+                        {copy.limits}
+                        {copy.variableCost ? ` · ${copy.variableCost}` : ''}
+                        {copy.apiCost ? ` · API : ${copy.apiCost}` : ''}
+                        {copy.extraCost ? ` · ${copy.extraCost}` : ''}
+                        {copy.note ? ` · ${copy.note}` : ''}
                       </td>
                       <td className="num muted">{tool.verifiedOn}</td>
                     </tr>
@@ -553,11 +548,7 @@ export default function Pricing() {
 
           <p className="muted" style={{ fontSize: 'var(--fs-xs)', marginTop: 14 }}>
             <IconCheck size={13} style={{ display: 'inline', verticalAlign: '-2px' }} />{' '}
-            La devise de facturation d’origine est le USD pour toutes les lignes ci-dessus ;
-            MAD, EUR et XAF sont des conversions. Les lignes marquées <em>À vérifier</em>
-            varient selon la région, le volume de contacts ou la négociation — confirmez
-            toujours sur la page tarifaire de l’éditeur avant de chiffrer. Les éditeurs
-            changent leurs prix sans préavis.
+            {t.tableFootnote}
           </p>
         </div>
       </div>

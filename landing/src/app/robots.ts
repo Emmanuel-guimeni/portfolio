@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/config/seo';
+import { LOCALES } from '@/i18n/config';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,8 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // The dashboard and the API are private: keep them out of the index.
-        disallow: ['/admin', '/api/'],
+        // Le tableau de bord et l'API sont privés : hors de l'index.
+        disallow: ['/api/', ...LOCALES.map((l) => `/${l.code}/admin`)],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

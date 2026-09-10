@@ -24,38 +24,58 @@ const FREE_EMAIL_DOMAINS = new Set([
   'wanadoo.fr', 'sfr.fr', 'menara.ma',
 ]);
 
-/** Tranches de budget et points correspondants (clés = BUDGET_OPTIONS). */
+/**
+ * Tranches de budget et points correspondants.
+ * Les clés sont les valeurs CANONIQUES de BUDGET_OPTIONS, pas des libellés :
+ * le scoring fonctionne donc à l'identique quelle que soit la langue du
+ * visiteur.
+ */
 const BUDGET_POINTS: Record<string, number> = {
-  'Moins de 500 €': 0,
-  '500 € – 1 000 €': 5,
-  '1 000 € – 3 000 €': 10,
-  '3 000 € – 5 000 €': 15,
-  '5 000 € et plus': 20,
-  'Pas encore défini': 0,
+  'lt-500': 0,
+  '500-1000': 5,
+  '1000-3000': 10,
+  '3000-5000': 15,
+  '5000-plus': 20,
+  undecided: 0,
 };
 
-/** Services qui signalent une demande d'audit (clés = SERVICE_OPTIONS). */
+/** Services qui signalent une demande d'audit (clés canoniques). */
 const AUDIT_SERVICES = [
-  'Audit Marketing Digital',
-  'Audit Marketing IA',
-  'Audit Marketing Automation',
+  'digital-marketing-audit',
+  'ai-marketing-audit',
+  'marketing-automation-audit',
 ];
 
-/** Services qui signalent une mission de conseil (clés = SERVICE_OPTIONS). */
+/** Services qui signalent une mission de conseil (clés canoniques). */
 const CONSULTING_SERVICES = [
-  'Conseil Automatisation IA',
-  'Conseil CRM',
-  'Conseil SEO',
-  'Stratégie Marketing Digital',
-  'Data & Analytics',
+  'ai-automation-consulting',
+  'crm-consulting',
+  'seo-consulting',
+  'digital-marketing-strategy',
+  'data-analytics',
 ];
 
-/** Mots du message libre qui indiquent un vrai projet d'automatisation. */
+/**
+ * Mots du message libre qui indiquent un vrai projet d'automatisation.
+ * Le message est rédigé dans la langue du visiteur : la liste couvre donc le
+ * français, l'anglais, l'espagnol et l'arabe, plus les noms d'outils qui sont
+ * les mêmes partout.
+ */
 const AUTOMATION_KEYWORDS = [
-  'automat', 'automatis', 'workflow', 'crm', 'lead', 'scoring', 'nurtur',
-  'integration', 'intégration', 'api', 'zapier', 'make', 'n8n', 'hubspot',
-  'pipeline', 'système', 'systeme', 'system', 'ia ', ' ai ', 'agent',
-  'chatbot', 'tunnel', 'prospection', 'relance', 'segmentation',
+  // Noms d'outils et termes techniques, identiques dans toutes les langues
+  'zapier', 'make', 'n8n', 'hubspot', 'brevo', 'crm', 'api', 'workflow',
+  'pipeline', 'chatbot', 'scoring', 'segmentation', 'lead',
+  // Français
+  'automat', 'automatis', 'intégration', 'système', 'systeme', 'tunnel',
+  'prospection', 'relance', 'agent', 'ia ',
+  // Anglais
+  'automation', 'integration', 'system', ' ai ', 'nurtur', 'funnel',
+  'follow-up', 'onboarding',
+  // Espagnol
+  'automatiz', 'integración', 'integracion', 'sistema', 'embudo',
+  'seguimiento', 'prospección', 'prospeccion',
+  // Arabe
+  'أتمتة', 'نظام', 'تكامل', 'ذكاء', 'تسويق', 'عملاء',
 ];
 
 export interface ScoreRule {
