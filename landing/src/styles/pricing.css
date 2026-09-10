@@ -1,0 +1,476 @@
+/* ===========================================================================
+   PRICING · TCO · CURRENCY / FX
+   =========================================================================== */
+
+.pricing-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  background: var(--bg-elevated);
+}
+
+.seg button {
+  padding: 8px 16px;
+  border-radius: var(--r-full);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--grad-accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(79, 92, 240, 0.35);
+}
+
+.fx-panel {
+  margin-bottom: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.fx-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 15px 18px;
+  text-align: left;
+}
+
+.fx-panel__head b {
+  font-size: var(--fs-base);
+}
+
+.fx-panel__head small {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.fx-panel__body {
+  display: grid;
+  gap: 14px;
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+}
+
+.fx-field {
+  display: grid;
+  gap: 6px;
+}
+
+.fx-field label {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fx-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+
+.fx-field input:focus {
+  border-color: var(--blue);
+  outline: none;
+}
+
+.fx-note {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* ── Tier cards ──────────────────────────────────────────────────────────── */
+
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  background: var(--grad-surface), var(--surface);
+}
+
+.tier--featured {
+  border-color: var(--line-accent);
+  box-shadow: var(--glow-blue);
+}
+
+.tier__flag {
+  position: absolute;
+  top: -12px;
+  left: 26px;
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  background: var(--grad-accent);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tier__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+}
+
+.tier__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.tier__price small {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.tier__alt {
+  display: grid;
+  gap: 3px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+.tier__for {
+  color: var(--text-secondary);
+  font-size: var(--fs-base);
+}
+
+.tier__tools {
+  display: grid;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.tier__tool {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding-bottom: 9px;
+  border-bottom: 1px dashed var(--line);
+  font-size: var(--fs-sm);
+}
+
+.tier__tool span {
+  color: var(--text-secondary);
+}
+
+.tier__tool em {
+  color: var(--text-faint);
+  font-size: var(--fs-xs);
+  font-style: normal;
+}
+
+.tier__tool b {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tier__totals {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line-accent);
+  border-radius: var(--r-md);
+  background: var(--grad-accent-soft);
+}
+
+.tier__totals div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--fs-sm);
+}
+
+.tier__totals b {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Full tool pricing table ─────────────────────────────────────────────── */
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  -webkit-overflow-scrolling: touch;
+}
+
+table.price-table {
+  width: 100%;
+  min-width: 1180px;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.price-table th,
+.price-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.price-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.price-table tbody tr:hover {
+  background: var(--glass);
+}
+
+.price-table td.num,
+.price-table th.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.price-table .tool-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.price-table .tool-name a {
+  color: var(--blue-bright);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+
+.price-table .tool-name small {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+}
+
+.pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: var(--r-full);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.pill--free {
+  background: rgba(52, 211, 153, 0.14);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #6ee7b7;
+}
+
+.pill--usage {
+  background: rgba(251, 191, 36, 0.13);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fcd34d;
+}
+
+.pill--seat {
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.28);
+  color: #67e8f9;
+}
+
+.pill--sales {
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.28);
+  color: #cbd5e1;
+}
+
+.pill--flat {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.32);
+  color: #a5b4fc;
+}
+
+.pill--media {
+  background: rgba(251, 113, 133, 0.13);
+  border-color: rgba(251, 113, 133, 0.3);
+  color: #fda4af;
+}
+
+/* ── Cost-type legend & TCO ──────────────────────────────────────────────── */
+
+.cost-types {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+}
+
+.cost-type {
+  display: grid;
+  gap: 5px;
+  padding: 15px 17px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+
+.cost-type b {
+  font-size: var(--fs-sm);
+}
+
+.cost-type small {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.tco {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--line-accent);
+  border-radius: var(--r-lg);
+  background: var(--grad-accent-soft), var(--surface);
+}
+
+.tco__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--line-strong);
+  font-size: var(--fs-sm);
+}
+
+.tco__row--total {
+  border-bottom: none;
+  padding-top: 6px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+
+/* ── Tool redundancy score ───────────────────────────────────────────────── */
+
+.redundancy {
+  display: grid;
+  gap: 10px;
+}
+
+.redundancy__row {
+  display: grid;
+  grid-template-columns: minmax(140px, 1.1fr) 2fr minmax(90px, auto);
+  gap: 14px;
+  align-items: center;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+.redundancy__row b {
+  font-size: var(--fs-sm);
+}
+
+.redundancy__row p {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.meter {
+  position: relative;
+  height: 7px;
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.meter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  display: block;
+  border-radius: inherit;
+  background: var(--grad-accent);
+}
+
+.meter--high i {
+  background: linear-gradient(90deg, #fb7185, #f43f5e);
+}
+
+.meter--mid i {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.meter--low i {
+  background: linear-gradient(90deg, #34d399, #10b981);
+}
+
+@media (max-width: 720px) {
+  .redundancy__row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

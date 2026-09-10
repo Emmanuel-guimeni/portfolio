@@ -1,0 +1,98 @@
+/* ===========================================================================
+   DESIGN TOKENS
+   Premium · Futuristic · Minimal · Corporate SaaS / AI consulting
+   Palette: black · graphite · white · electric blue · indigo · violet
+   =========================================================================== */
+
+:root {
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
+  --bg: #06070c;
+  --bg-elevated: #0a0c14;
+  --surface: #0e1119;
+  --surface-2: #131725;
+  --surface-3: #191e30;
+  --graphite: #1c2130;
+
+  /* ── Ink ────────────────────────────────────────────────────────────────── */
+  --text: #f2f5fa;
+  --text-secondary: #b6bfd0;
+  --text-muted: #7c8699;
+  --text-faint: #59627a;
+
+  /* ── Accents ────────────────────────────────────────────────────────────── */
+  --blue: #3b82f6;
+  --blue-bright: #60a5fa;
+  --indigo: #6366f1;
+  --violet: #8b5cf6;
+  --cyan: #22d3ee;
+  --mint: #34d399;
+  --amber: #fbbf24;
+  --rose: #fb7185;
+
+  /* ── Lines & glass ──────────────────────────────────────────────────────── */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --line-accent: rgba(99, 102, 241, 0.35);
+  --glass: rgba(255, 255, 255, 0.025);
+  --glass-strong: rgba(255, 255, 255, 0.05);
+
+  /* ── Gradients ──────────────────────────────────────────────────────────── */
+  --grad-accent: linear-gradient(135deg, #3b82f6 0%, #6366f1 45%, #8b5cf6 100%);
+  --grad-accent-soft: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.16) 0%,
+    rgba(139, 92, 246, 0.16) 100%
+  );
+  --grad-text: linear-gradient(120deg, #ffffff 0%, #cbd5ff 40%, #8b5cf6 100%);
+  --grad-surface: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    rgba(255, 255, 255, 0.012) 100%
+  );
+
+  /* ── Shadows ────────────────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+  --glow-blue: 0 0 0 1px rgba(99, 102, 241, 0.25), 0 18px 50px rgba(59, 130, 246, 0.2);
+
+  /* ── Radii ──────────────────────────────────────────────────────────────── */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-full: 999px;
+
+  /* ── Typography ─────────────────────────────────────────────────────────── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Sora', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  /* Fluid type scale — clamp() keeps everything readable from 320px to 1600px */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1rem;
+  --fs-lg: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  --fs-xl: clamp(1.35rem, 1.2rem + 0.7vw, 1.75rem);
+  --fs-2xl: clamp(1.7rem, 1.4rem + 1.4vw, 2.5rem);
+  --fs-3xl: clamp(2.1rem, 1.6rem + 2.4vw, 3.4rem);
+  --fs-4xl: clamp(2.35rem, 1.65rem + 3vw, 3.9rem);
+
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  --container: 1200px;
+  --container-wide: 1320px;
+  --gutter: clamp(1.15rem, 4vw, 2.5rem);
+  --section-y: clamp(4.5rem, 8vw, 8rem);
+  --nav-h: 72px;
+
+  /* ── Motion ─────────────────────────────────────────────────────────────── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 260ms;
+
+  color-scheme: dark;
+}
